@@ -55,7 +55,7 @@ export default async function StatsCards() {
   ];
 
   return (
-    <div className="w-full pt-8 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+    <div className="w-full pt-4 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
       {cardsData.map((card) => (
         <StatsCard
           key={card.title}
@@ -82,7 +82,9 @@ function StatsCard({
     <Card className={className}>
       <CardHeader className="flex justify-between items-center">
         <div>
-          <CardDescription className="text-lg">{title}</CardDescription>
+          <CardDescription className="text-lg text-slate-100">
+            {title}
+          </CardDescription>
           <CardTitle className="text-2xl font-semibold">
             {loading ? (
               <Skeleton

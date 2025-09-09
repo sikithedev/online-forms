@@ -25,6 +25,8 @@ model Form {
   visits      Int           @default(0)
   shareUrl    String        @default(uuid())
   Submissions Submissions[]
+
+  @@unique([name, userId])
 }
 
 model Submissions {

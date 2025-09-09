@@ -2,6 +2,8 @@
 
 import { currentUser } from "@clerk/nextjs/server";
 import { PrismaClient } from "../generated/prisma";
+import * as z from "zod";
+import { formSchema } from "@/schemas/form";
 
 const prisma = new PrismaClient();
 
@@ -38,4 +40,31 @@ export async function getFormStats() {
     submissionRate,
     bounceRate,
   };
+}
+
+export async function createForm(data: z.infer<typeof formSchema>) {
+  const result = formSchema.safeParse(data);
+  if (!result.success) {
+    throw new Error("Form not valid");
+  }
+
+  const user = await currentUser();
+  if (!user) {
+    throw new UserNotFoundError();
+  }
+
+  const { name, description } = data;
+  const form = await prisma.form.create({
+    data: {
+      userId: user.id,
+      name,
+      description,
+    },
+  });
+
+  if (!form) {
+    throw new Error("Something went wrong, please try again later");
+  }
+
+  return form.id;
 }
