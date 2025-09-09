@@ -68,3 +68,24 @@ export async function createForm(data: z.infer<typeof formSchema>) {
 
   return form.id;
 }
+
+export async function getForms() {
+  const user = await currentUser();
+
+  if (!user) {
+    throw new UserNotFoundError();
+  }
+
+  const forms = await prisma.form.findMany({
+    where: { userId: user.id },
+    orderBy: { createdAt: "desc" },
+    include: {
+      _count: { select: { submissions: true } },
+    },
+  });
+
+  return forms.map((form) => ({
+    ...form,
+    submissions: form._count.submissions,
+  }));
+}

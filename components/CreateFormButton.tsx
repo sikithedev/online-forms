@@ -23,12 +23,15 @@ import {
   FormMessage,
 } from "./ui/form";
 import { Textarea } from "./ui/textarea";
-import { LoaderCircle } from "lucide-react";
+import { FilePlus, LoaderCircle } from "lucide-react";
 import { toast } from "sonner";
 import { formSchema } from "@/schemas/form";
 import { createForm } from "@/app/actions/forms";
+import { useRouter } from "next/router";
 
 export default function CreateFormButton() {
+  const router = useRouter();
+
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -41,7 +44,7 @@ export default function CreateFormButton() {
     try {
       const formId = await createForm(values);
       toast.success("Form created successfully");
-      console.log(formId);
+      router.push(`/builder/${formId}`);
     } catch (error) {
       if (error instanceof Error) {
         toast.error(error.message);
@@ -54,7 +57,13 @@ export default function CreateFormButton() {
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <Button variant="outline">Create new form</Button>
+        <Button
+          variant="secondary"
+          className="bg-background border border-slate-700 border-dashed h-48 flex flex-col justify-center items-center gap-4 hover:cursor-pointer hover:border-slate-500 hover:text-white"
+        >
+          <FilePlus className="size-7" />
+          Create new form
+        </Button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
