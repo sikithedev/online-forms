@@ -27,7 +27,7 @@ import { FilePlus, LoaderCircle } from "lucide-react";
 import { toast } from "sonner";
 import { formSchema } from "@/schemas/form";
 import { createForm } from "@/app/actions/forms";
-import { useRouter } from "next/router";
+import { useRouter } from "next/navigation";
 
 export default function CreateFormButton() {
   const router = useRouter();

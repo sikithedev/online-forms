@@ -58,15 +58,15 @@ function FormCard({ form }: FormCardProps) {
       <CardContent>{form.description || "No description"}</CardContent>
       <CardFooter>
         {form.published ? (
-          <Button asChild className="w-full gap-2">
-            <Link href={`/forms/${form.id}`}>
-              View submissions <MoveRight />
-            </Link>
+          <Button asChild className="w-full">
+            <MoveRight />
+            View submissions
+            <Link href={`/forms/${form.id}`}></Link>
           </Button>
         ) : (
-          <Button asChild variant="secondary" className="w-full gap-2">
+          <Button asChild variant="secondary" className="w-full">
             <Link href={`/builder/${form.id}`}>
-              Edit form <FilePen />
+              <FilePen /> Edit form
             </Link>
           </Button>
         )}
