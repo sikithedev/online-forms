@@ -6,6 +6,7 @@ import PreviewFormButton from "./PreviewFormButton";
 import SaveFormButton from "./SaveFormButton";
 import PublishFormButton from "./PublishFormButton";
 import { Separator } from "./ui/separator";
+import Designer from "./Designer";
 
 type FormBuilderProps = {
   form: Form;
@@ -29,6 +30,9 @@ export default function FormBuilder({ form }: FormBuilderProps) {
           )}
         </div>
       </nav>
+      <div className="w-full h-[200px] flex grow justify-center items-center relative overflow-y-auto bg-[url(/builder/graph-paper.svg)] dark:bg-[url(/builder/graph-paper-dark.svg)]">
+        <Designer />
+      </div>
     </main>
   );
 }
