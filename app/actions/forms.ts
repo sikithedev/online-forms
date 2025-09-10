@@ -89,3 +89,18 @@ export async function getForms() {
     submissions: form._count.submissions,
   }));
 }
+
+export async function getFormById(id: number) {
+  const user = await currentUser();
+
+  if (!user) {
+    throw new UserNotFoundError();
+  }
+
+  return await prisma.form.findUnique({
+    where: {
+      id,
+      userId: user.id,
+    },
+  });
+}
