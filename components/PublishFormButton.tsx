@@ -1,5 +1,6 @@
 import React from "react";
+import { Button } from "./ui/button";
 
 export default function PublishFormButton() {
-  return <div>PublishFormButton</div>;
+  return <Button>Publish</Button>;
 }
