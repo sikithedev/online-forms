@@ -21,7 +21,9 @@ export const TextFieldFormElement: FormElement = {
     label: "Text Field",
     icon: TextCursor,
   },
-  designerComponent: () => <div>Designer Component</div>,
+  designerComponent: () => (
+    <div className="text-primary">Designer Component</div>
+  ),
   formComponent: () => <div>Form Component</div>,
   propertiesComponent: () => <div>Properties Component</div>,
 };

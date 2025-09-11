@@ -26,7 +26,7 @@ export default function SidebarButton({ formElement }: SidebarButtonProps) {
       variant="outline"
       className={cn(
         "h-24 flex flex-col gap-2 cursor-grab",
-        isDragging && "ring-2 ring-primary"
+        isDragging && "border-3"
       )}
     >
       <Icon className="size-6 text-primary" />

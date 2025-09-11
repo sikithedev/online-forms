@@ -14,7 +14,7 @@ export type FormElement = {
   propertiesComponent: React.FC;
 };
 
-type FormElementInstance = {
+export type FormElementInstance = {
   id: string;
   type: FormElementType;
   additionalAttributes?: Record<string, any>;
