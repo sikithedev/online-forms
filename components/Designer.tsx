@@ -2,7 +2,7 @@
 
 import React, { useState } from "react";
 import DesignerSidebar from "./DesignerSidebar";
-import { useDndMonitor, useDroppable } from "@dnd-kit/core";
+import { useDndMonitor, useDraggable, useDroppable } from "@dnd-kit/core";
 import { cn, generateId } from "@/lib/utils";
 import useDesigner from "@/hooks/useDesigner";
 import {
@@ -45,12 +45,9 @@ export default function Designer() {
       <div className="w-full p-4">
         <div
           ref={setNodeRef}
-          className={cn(
-            "max-w-[920px] h-full m-auto bg-background rounded-xl flex flex-col flex-1 justify-start items-center overflow-y-auto",
-            isOver && "ring-2 ring-primary/20"
-          )}
+          className="max-w-[920px] h-full m-auto bg-background rounded-xl flex flex-col flex-1 justify-start items-center overflow-y-auto"
         >
-          {isOver && (
+          {isOver && elements.length === 0 && (
             <div className="w-full p-2">
               <div className="h-[120px] rounded-md bg-primary/20"></div>
             </div>
@@ -101,11 +98,24 @@ function DesignerElement({ element, index }: DesignerElementProps) {
       isBottomHalfDesignerElement: true,
     },
   });
+  const draggable = useDraggable({
+    id: element.id + "-drag-handler",
+    data: {
+      type: element.type,
+      elementId: element.id,
+      isDesignerElement: true,
+    },
+  });
+
+  if (draggable.isDragging) return null;
 
   const DesignerComponent = formElements[element.type].designerComponent;
 
   return (
     <div
+      ref={draggable.setNodeRef}
+      {...draggable.listeners}
+      {...draggable.attributes}
       onMouseEnter={() => setIsMouseOver(true)}
       onMouseLeave={() => setIsMouseOver(false)}
       className="relative flex flex-col text-foreground hover:cursor-pointer rounded-md ring-1 ring-accent ring-inset"
@@ -136,6 +146,9 @@ function DesignerElement({ element, index }: DesignerElementProps) {
           </div>
         </>
       )}
+      {topHalf.isOver && (
+        <div className="absolute -top-2 w-full h-2 rounded-md bg-primary/20"></div>
+      )}
       <div
         className={cn(
           "w-full flex items-center rounded-md p-4 pointer-events-none bg-accent/40",
@@ -144,6 +157,9 @@ function DesignerElement({ element, index }: DesignerElementProps) {
       >
         <DesignerComponent elementInstance={element} />
       </div>
+      {bottomHalf.isOver && (
+        <div className="absolute -bottom-2 w-full h-2 rounded-md bg-primary/20"></div>
+      )}
     </div>
   );
 }
