@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 import DesignerSidebar from "./DesignerSidebar";
 import { useDndMonitor, useDroppable } from "@dnd-kit/core";
 import { cn, generateId } from "@/lib/utils";
@@ -10,6 +10,8 @@ import {
   formElements,
   FormElementType,
 } from "./FormElements";
+import { Button } from "./ui/button";
+import { Trash2 } from "lucide-react";
 
 export default function Designer() {
   const { elements, addElement } = useDesigner();
@@ -80,8 +82,9 @@ type DesignerElementProps = {
 };
 
 function DesignerElement({ element, index }: DesignerElementProps) {
-  const DesignerComponent = formElements[element.type].designerComponent;
+  const { removeElement } = useDesigner();
 
+  const [isMouseOver, setIsMouseOver] = useState(false);
   const topHalf = useDroppable({
     id: element.id + "-top",
     data: {
@@ -90,7 +93,6 @@ function DesignerElement({ element, index }: DesignerElementProps) {
       isTopHalfDesignerElement: true,
     },
   });
-
   const bottomHalf = useDroppable({
     id: element.id + "-bottom",
     data: {
@@ -100,8 +102,14 @@ function DesignerElement({ element, index }: DesignerElementProps) {
     },
   });
 
+  const DesignerComponent = formElements[element.type].designerComponent;
+
   return (
-    <div className="relative flex flex-col text-foreground hover:cursor-pointer rounded-md ring-1 ring-accent ring-inset">
+    <div
+      onMouseEnter={() => setIsMouseOver(true)}
+      onMouseLeave={() => setIsMouseOver(false)}
+      className="relative flex flex-col text-foreground hover:cursor-pointer rounded-md ring-1 ring-accent ring-inset"
+    >
       <div
         ref={topHalf.setNodeRef}
         className="absolute w-full h-1/2 rounded-t-md"
@@ -110,7 +118,30 @@ function DesignerElement({ element, index }: DesignerElementProps) {
         ref={bottomHalf.setNodeRef}
         className="absolute bottom-0 w-full h-1/2 rounded-b-md"
       ></div>
-      <div className="w-full flex items-center rounded-md p-4 pointer-events-none bg-accent/40">
+      {isMouseOver && (
+        <>
+          <div className="absolute top-1/2 left-1/2 -translate-1/2 animate-pulse">
+            <p className="text-muted-foreground text-sm text-center">
+              Click to show properties or drag to move
+            </p>
+          </div>
+          <div className="absolute right-0 p-2">
+            <Button
+              onClick={() => removeElement(element.id)}
+              variant="destructive"
+              className="cursor-pointer"
+            >
+              <Trash2 />
+            </Button>
+          </div>
+        </>
+      )}
+      <div
+        className={cn(
+          "w-full flex items-center rounded-md p-4 pointer-events-none bg-accent/40",
+          isMouseOver && "opacity-30"
+        )}
+      >
         <DesignerComponent elementInstance={element} />
       </div>
     </div>
