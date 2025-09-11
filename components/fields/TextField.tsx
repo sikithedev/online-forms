@@ -8,15 +8,38 @@ import {
 } from "../FormElements";
 import { Label } from "../ui/label";
 import { Input } from "../ui/input";
+import * as z from "zod";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useEffect } from "react";
+import useDesigner from "@/hooks/useDesigner";
+import {
+  Form,
+  FormControl,
+  FormDescription,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "../ui/form";
+import { Switch } from "../ui/switch";
+import { Separator } from "../ui/separator";
 
 const type: FormElementType = "TextField";
 
 const additionalAttributes = {
   label: "Text field",
-  helperText: "Helper text",
   required: false,
   placeholder: "Value here...",
+  helperText: "Helper text",
 };
+
+const propertiesSchema = z.object({
+  label: z.string().min(4).max(32),
+  required: z.boolean(),
+  placeholder: z.string().max(64),
+  helperText: z.string().max(128),
+});
 
 export const TextFieldFormElement: FormElement = {
   type,
@@ -31,7 +54,7 @@ export const TextFieldFormElement: FormElement = {
   },
   designerComponent: DesignerComponent,
   formComponent: () => <div>Form Component</div>,
-  propertiesComponent: () => <div>Properties Component</div>,
+  propertiesComponent: PropertiesComponent,
 };
 
 type CustomInstance = FormElementInstance & {
@@ -57,5 +80,127 @@ function DesignerComponent({
         <p className="text-muted-foreground text-sm">{helperText}</p>
       )}
     </div>
+  );
+}
+
+function PropertiesComponent({
+  elementInstance,
+}: {
+  elementInstance: FormElementInstance;
+}) {
+  const element = elementInstance as CustomInstance;
+  const { updateElement } = useDesigner();
+  const form = useForm<z.infer<typeof propertiesSchema>>({
+    resolver: zodResolver(propertiesSchema),
+    mode: "onBlur",
+    defaultValues: { ...element.additionalAttributes },
+  });
+
+  useEffect(() => {
+    form.reset(element.additionalAttributes);
+  }, [element, form]);
+
+  function applyChanges(values: z.infer<typeof propertiesSchema>) {
+    updateElement(element.id, { ...element, additionalAttributes: values });
+  }
+
+  return (
+    <Form {...form}>
+      <form
+        onSubmit={(e) => e.preventDefault()}
+        onBlur={form.handleSubmit(applyChanges)}
+        className="space-y-3"
+      >
+        <FormField
+          control={form.control}
+          name="label"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Label</FormLabel>
+              <FormControl>
+                <Input
+                  {...field}
+                  onKeyDown={(e) => {
+                    if (e.key === "Enter") e.currentTarget.blur();
+                  }}
+                />
+              </FormControl>
+              <FormDescription>
+                The label shown above the input field.
+              </FormDescription>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <Separator />
+        <FormField
+          control={form.control}
+          name="required"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Required</FormLabel>
+              <FormControl>
+                <Switch
+                  checked={field.value}
+                  onCheckedChange={(checked) => {
+                    field.onChange(checked);
+
+                    if (document.activeElement instanceof HTMLElement) {
+                      document.activeElement.blur();
+                    }
+                  }}
+                />
+              </FormControl>
+              <FormDescription>Whether the field is required.</FormDescription>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <Separator />
+        <FormField
+          control={form.control}
+          name="placeholder"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Placeholder</FormLabel>
+              <FormControl>
+                <Input
+                  {...field}
+                  onKeyDown={(e) => {
+                    if (e.key === "Enter") e.currentTarget.blur();
+                  }}
+                />
+              </FormControl>
+              <FormDescription>
+                The placeholder text shown inside the input.
+              </FormDescription>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <Separator />
+        <FormField
+          control={form.control}
+          name="helperText"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Helper text</FormLabel>
+              <FormControl>
+                <Input
+                  {...field}
+                  onKeyDown={(e) => {
+                    if (e.key === "Enter") e.currentTarget.blur();
+                  }}
+                />
+              </FormControl>
+              <FormDescription>
+                Additional text shown below the input.
+              </FormDescription>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+      </form>
+    </Form>
   );
 }

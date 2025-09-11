@@ -14,7 +14,8 @@ import { Button } from "./ui/button";
 import { Trash2 } from "lucide-react";
 
 export default function Designer() {
-  const { elements, addElement } = useDesigner();
+  const { elements, addElement, selectedElement, setSelectedElement } =
+    useDesigner();
   const { setNodeRef, isOver } = useDroppable({
     id: "designer-drop-area",
     data: {
@@ -42,7 +43,7 @@ export default function Designer() {
 
   return (
     <div className="w-full h-full flex">
-      <div className="w-full p-4">
+      <div onClick={() => setSelectedElement(null)} className="w-full p-4">
         <div
           ref={setNodeRef}
           className="max-w-[920px] h-full m-auto bg-background rounded-xl flex flex-col flex-1 justify-start items-center overflow-y-auto"
@@ -58,12 +59,8 @@ export default function Designer() {
             </p>
           )}
           <div className="w-full flex flex-col gap-2 p-4">
-            {elements.map((element, index) => (
-              <DesignerElement
-                key={element.id}
-                element={element}
-                index={index}
-              />
+            {elements.map((element) => (
+              <DesignerElement key={element.id} element={element} />
             ))}
           </div>
         </div>
@@ -75,11 +72,10 @@ export default function Designer() {
 
 type DesignerElementProps = {
   element: FormElementInstance;
-  index: number;
 };
 
-function DesignerElement({ element, index }: DesignerElementProps) {
-  const { removeElement } = useDesigner();
+function DesignerElement({ element }: DesignerElementProps) {
+  const { removeElement, selectedElement, setSelectedElement } = useDesigner();
 
   const [isMouseOver, setIsMouseOver] = useState(false);
   const topHalf = useDroppable({
@@ -118,6 +114,10 @@ function DesignerElement({ element, index }: DesignerElementProps) {
       {...draggable.attributes}
       onMouseEnter={() => setIsMouseOver(true)}
       onMouseLeave={() => setIsMouseOver(false)}
+      onClick={(e) => {
+        e.stopPropagation();
+        setSelectedElement(element);
+      }}
       className="relative flex flex-col text-foreground hover:cursor-pointer rounded-md ring-1 ring-accent ring-inset"
     >
       <div
@@ -137,7 +137,10 @@ function DesignerElement({ element, index }: DesignerElementProps) {
           </div>
           <div className="absolute right-0 p-2">
             <Button
-              onClick={() => removeElement(element.id)}
+              onClick={(e) => {
+                e.stopPropagation();
+                removeElement(element.id);
+              }}
               variant="destructive"
               className="cursor-pointer"
             >
