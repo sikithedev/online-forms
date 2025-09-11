@@ -58,9 +58,13 @@ export default function Designer() {
               Drop here
             </p>
           )}
-          <div className="w-full flex flex-col gap-2 p-4 text-background">
-            {elements.map((element) => (
-              <DesignerElement key={element.id} element={element} />
+          <div className="w-full flex flex-col gap-2 p-4">
+            {elements.map((element, index) => (
+              <DesignerElement
+                key={element.id}
+                element={element}
+                index={index}
+              />
             ))}
           </div>
         </div>
@@ -70,8 +74,45 @@ export default function Designer() {
   );
 }
 
-function DesignerElement({ element }: { element: FormElementInstance }) {
+type DesignerElementProps = {
+  element: FormElementInstance;
+  index: number;
+};
+
+function DesignerElement({ element, index }: DesignerElementProps) {
   const DesignerComponent = formElements[element.type].designerComponent;
 
-  return <DesignerComponent />;
+  const topHalf = useDroppable({
+    id: element.id + "-top",
+    data: {
+      type: element.type,
+      elementId: element.id,
+      isTopHalfDesignerElement: true,
+    },
+  });
+
+  const bottomHalf = useDroppable({
+    id: element.id + "-bottom",
+    data: {
+      type: element.type,
+      elementId: element.id,
+      isBottomHalfDesignerElement: true,
+    },
+  });
+
+  return (
+    <div className="relative flex flex-col text-foreground hover:cursor-pointer rounded-md ring-1 ring-accent ring-inset">
+      <div
+        ref={topHalf.setNodeRef}
+        className="absolute w-full h-1/2 rounded-t-md"
+      ></div>
+      <div
+        ref={bottomHalf.setNodeRef}
+        className="absolute bottom-0 w-full h-1/2 rounded-b-md"
+      ></div>
+      <div className="w-full flex items-center rounded-md p-4 pointer-events-none bg-accent/40">
+        <DesignerComponent elementInstance={element} />
+      </div>
+    </div>
+  );
 }
