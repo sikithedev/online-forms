@@ -7,7 +7,13 @@ import SaveFormButton from "./SaveFormButton";
 import PublishFormButton from "./PublishFormButton";
 import { Separator } from "./ui/separator";
 import Designer from "./Designer";
-import { DndContext } from "@dnd-kit/core";
+import {
+  DndContext,
+  MouseSensor,
+  TouchSensor,
+  useSensor,
+  useSensors,
+} from "@dnd-kit/core";
 import DragOverlayWrapper from "./DragOverlayWrapper";
 import DesignerContextProvider from "./contexts/DesignerContext";
 
@@ -16,6 +22,19 @@ type FormBuilderProps = {
 };
 
 export default function FormBuilder({ form }: FormBuilderProps) {
+  const mouseSensor = useSensor(MouseSensor, {
+    activationConstraint: {
+      distance: 10,
+    },
+  });
+  const touchSensor = useSensor(TouchSensor, {
+    activationConstraint: {
+      delay: 300,
+      tolerance: 5,
+    },
+  });
+  const sensors = useSensors(mouseSensor, touchSensor);
+
   return (
     <main className="w-full flex flex-col">
       <nav className="flex justify-between items-center gap-3 border-b p-4">
@@ -35,7 +54,7 @@ export default function FormBuilder({ form }: FormBuilderProps) {
       </nav>
       <div className="w-full flex grow justify-center items-center relative overflow-y-auto bg-[url(/builder/graph-paper.svg)] dark:bg-[url(/builder/graph-paper-dark.svg)]">
         <DesignerContextProvider>
-          <DndContext>
+          <DndContext sensors={sensors}>
             <Designer />
             <DragOverlayWrapper />
           </DndContext>
