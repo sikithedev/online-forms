@@ -2,7 +2,12 @@
 
 import React, { useState } from "react";
 import DesignerSidebar from "./DesignerSidebar";
-import { useDndMonitor, useDraggable, useDroppable } from "@dnd-kit/core";
+import {
+  DragEndEvent,
+  useDndMonitor,
+  useDraggable,
+  useDroppable,
+} from "@dnd-kit/core";
 import { cn, generateId } from "@/lib/utils";
 import useDesigner from "@/hooks/useDesigner";
 import {
@@ -12,113 +17,93 @@ import {
 } from "./FormElements";
 import { Button } from "./ui/button";
 import { Trash2 } from "lucide-react";
+import { DesignerContext } from "./contexts/DesignerContext";
+
+function handleDragEnd(
+  event: DragEndEvent,
+  elements: FormElementInstance[],
+  addElement: DesignerContext["addElement"],
+  removeElement: DesignerContext["removeElement"]
+) {
+  const { active, over } = event;
+  if (!active || !over) return;
+
+  const activeData = active.data?.current || {};
+  const overData = over.data?.current || {};
+
+  // Sidebar button dropped
+  if (activeData.isDesignerButtonElement) {
+    const type = active.data?.current?.type as FormElementType;
+    const newElement = formElements[type].construct(generateId());
+
+    // Dropped on designer area
+    if (overData.isDesignerDropArea) {
+      addElement(elements.length, newElement);
+      return;
+    }
+
+    // Dropped on top/bottom of designer element
+    if (
+      overData.isTopHalfDesignerElement ||
+      overData.isBottomHalfDesignerElement
+    ) {
+      const overIdx = elements.findIndex((el) => el.id === overData.elementId);
+      if (overIdx === -1) return;
+
+      const insertIdx = overData.isTopHalfDesignerElement
+        ? overIdx
+        : overIdx + 1;
+      addElement(insertIdx, newElement);
+      return;
+    }
+  }
+
+  // Designer element moved
+  if (activeData.isDesignerElement) {
+    const activeIdx = elements.findIndex(
+      (el) => el.id === activeData.elementId
+    );
+    if (activeIdx === -1) return;
+
+    const activeElement = { ...elements[activeIdx] };
+
+    // Moved to end (designer drop area)
+    if (overData.isDesignerDropArea) {
+      removeElement(activeElement.id);
+      addElement(elements.length, activeElement);
+      return;
+    }
+
+    // Moved over another designer element
+    if (
+      overData.isTopHalfDesignerElement ||
+      overData.isBottomHalfDesignerElement
+    ) {
+      const overIdx = elements.findIndex((el) => el.id === overData.elementId);
+      if (overIdx === -1 || activeIdx === overIdx) return;
+
+      removeElement(activeElement.id);
+      const insertIdx = overData.isTopHalfDesignerElement
+        ? overIdx
+        : overIdx + 1;
+      addElement(insertIdx, activeElement);
+      return;
+    }
+  }
+}
 
 export default function Designer() {
-  const {
-    elements,
-    addElement,
-    selectedElement,
-    setSelectedElement,
-    removeElement,
-  } = useDesigner();
+  const { elements, addElement, setSelectedElement, removeElement } =
+    useDesigner();
+
   const { setNodeRef, isOver } = useDroppable({
     id: "designer-drop-area",
-    data: {
-      isDesignerDropArea: true,
-    },
+    data: { isDesignerDropArea: true },
   });
 
   useDndMonitor({
-    onDragEnd: (event) => {
-      const { active, over } = event;
-      if (!active || !over) return;
-
-      const isDesignerButtonElement =
-        active.data?.current?.isDesignerButtonElement;
-      const isDesignerDropArea = over.data?.current?.isDesignerDropArea;
-
-      // If dropped a sidebar button over the designer drop area
-      if (isDesignerButtonElement && isDesignerDropArea) {
-        const type = active.data?.current?.type as FormElementType;
-
-        const newElement = formElements[type].construct(generateId());
-
-        addElement(elements.length, newElement);
-        return;
-      }
-
-      const isTopHalfDesignerElement =
-        over.data?.current?.isTopHalfDesignerElement;
-      const isBottomHalfDesignerElement =
-        over.data?.current?.isBottomHalfDesignerElement;
-
-      // If dropped a designer element over another designer element
-      if (
-        isDesignerButtonElement &&
-        (isTopHalfDesignerElement || isBottomHalfDesignerElement)
-      ) {
-        const type = active.data?.current?.type as FormElementType;
-
-        const newElement = formElements[type].construct(generateId());
-
-        const overElementIndex = elements.findIndex(
-          (el) => el.id === over.data?.current?.elementId
-        );
-        if (overElementIndex === -1) return;
-
-        const insertIndex = isTopHalfDesignerElement
-          ? overElementIndex
-          : overElementIndex + 1;
-
-        addElement(insertIndex, newElement);
-        return;
-      }
-
-      const isDesignerElement = active.data?.current?.isDesignerElement;
-
-      // If moved a designer element over another designer element
-      if (
-        isDesignerElement &&
-        (isTopHalfDesignerElement || isBottomHalfDesignerElement)
-      ) {
-        const activeElementId = active.data?.current?.elementId;
-        const overElementId = over.data?.current?.elementId;
-
-        const activeElementIndex = elements.findIndex(
-          (el) => el.id === activeElementId
-        );
-        const overElementIndex = elements.findIndex(
-          (el) => el.id === overElementId
-        );
-
-        if (activeElementIndex === -1 || overElementIndex === -1) return;
-        if (activeElementIndex === overElementIndex) return;
-
-        const activeElement = { ...elements[activeElementIndex] };
-        removeElement(activeElementId);
-
-        const insertIndex = isTopHalfDesignerElement
-          ? overElementIndex
-          : overElementIndex + 1;
-
-        addElement(insertIndex, activeElement);
-        return;
-      }
-
-      // If moved a designer element over the designer drop area (to the end)
-      if (isDesignerElement && isDesignerDropArea) {
-        const activeElementId = active.data?.current?.elementId;
-        const activeElementIndex = elements.findIndex(
-          (el) => el.id === activeElementId
-        );
-        if (activeElementIndex === -1) return;
-
-        const activeElement = { ...elements[activeElementIndex] };
-        removeElement(activeElementId);
-        addElement(elements.length, activeElement);
-        return;
-      }
-    },
+    onDragEnd: (event) =>
+      handleDragEnd(event, elements, addElement, removeElement),
   });
 
   return (
@@ -128,21 +113,23 @@ export default function Designer() {
           ref={setNodeRef}
           className="max-w-[920px] h-full m-auto bg-background rounded-xl flex flex-col flex-1 justify-start items-center overflow-y-auto"
         >
-          {isOver && elements.length === 0 && (
-            <div className="w-full p-2">
-              <div className="h-[120px] rounded-md bg-primary/20"></div>
+          {elements.length === 0 ? (
+            isOver ? (
+              <div className="w-full p-2">
+                <div className="h-[120px] rounded-md bg-primary/20"></div>
+              </div>
+            ) : (
+              <p className="flex grow items-center font-bold text-xl text-muted-foreground">
+                Drop here
+              </p>
+            )
+          ) : (
+            <div className="w-full flex flex-col gap-2 p-4">
+              {elements.map((element) => (
+                <DesignerElement key={element.id} element={element} />
+              ))}
             </div>
           )}
-          {!isOver && elements.length === 0 && (
-            <p className="flex grow items-center font-bold text-xl text-muted-foreground">
-              Drop here
-            </p>
-          )}
-          <div className="w-full flex flex-col gap-2 p-4">
-            {elements.map((element) => (
-              <DesignerElement key={element.id} element={element} />
-            ))}
-          </div>
         </div>
       </div>
       <DesignerSidebar />
@@ -150,14 +137,10 @@ export default function Designer() {
   );
 }
 
-type DesignerElementProps = {
-  element: FormElementInstance;
-};
-
-function DesignerElement({ element }: DesignerElementProps) {
+function DesignerElement({ element }: { element: FormElementInstance }) {
   const { removeElement, selectedElement, setSelectedElement } = useDesigner();
-
   const [isMouseOver, setIsMouseOver] = useState(false);
+
   const topHalf = useDroppable({
     id: element.id + "-top",
     data: {
@@ -203,11 +186,12 @@ function DesignerElement({ element }: DesignerElementProps) {
       <div
         ref={topHalf.setNodeRef}
         className="absolute w-full h-1/2 rounded-t-md"
-      ></div>
+      />
       <div
         ref={bottomHalf.setNodeRef}
         className="absolute bottom-0 w-full h-1/2 rounded-b-md"
-      ></div>
+      />
+
       {isMouseOver && (
         <>
           <div className="absolute top-1/2 left-1/2 -translate-1/2 animate-pulse">
@@ -229,9 +213,11 @@ function DesignerElement({ element }: DesignerElementProps) {
           </div>
         </>
       )}
+
       {topHalf.isOver && (
         <div className="absolute -top-2 w-full h-2 rounded-md bg-primary/20"></div>
       )}
+
       <div
         className={cn(
           "w-full flex items-center rounded-md p-4 pointer-events-none bg-accent/40",
@@ -240,6 +226,7 @@ function DesignerElement({ element }: DesignerElementProps) {
       >
         <DesignerComponent elementInstance={element} />
       </div>
+
       {bottomHalf.isOver && (
         <div className="absolute -bottom-2 w-full h-2 rounded-md bg-primary/20"></div>
       )}

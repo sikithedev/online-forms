@@ -9,7 +9,7 @@ import {
 } from "react";
 import { FormElementInstance } from "../FormElements";
 
-type DesignerContext = {
+export type DesignerContext = {
   elements: FormElementInstance[];
   addElement: (index: number, element: FormElementInstance) => void;
   updateElement: (id: string, element: FormElementInstance) => void;
