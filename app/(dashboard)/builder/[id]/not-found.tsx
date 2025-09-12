@@ -1,21 +1,14 @@
-"use client";
-
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
-import React, { useEffect } from "react";
 
-export default function Error({ error }: { error: Error }) {
-  useEffect(() => {
-    console.error(error);
-  }, [error]);
-
+export default function NotFound() {
   return (
     <div className="w-full h-full flex flex-col justify-center items-center gap-5 p-8">
       <div className="text-center space-y-2">
-        <h2 className="text-2xl font-bold">Something Went Wrong</h2>
+        <h2 className="text-2xl font-bold">Form Not Found</h2>
         <p className="text-muted-foreground text-center w-md">
-          An unexpected error occurred while loading this page. Please try again
-          later or return to the home page.
+          The form you are looking for does not exist or an unexpected error
+          occurred.
         </p>
       </div>
       <Button asChild>

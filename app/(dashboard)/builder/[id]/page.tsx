@@ -1,5 +1,6 @@
 import { getFormById } from "@/app/actions/forms";
 import FormBuilder from "@/components/FormBuilder";
+import { notFound } from "next/navigation";
 import React from "react";
 
 export default async function Builder(props: {
@@ -9,7 +10,7 @@ export default async function Builder(props: {
   const form = await getFormById(Number(id));
 
   if (!form) {
-    throw new Error("Form not found");
+    notFound();
   }
 
   return <FormBuilder form={form} />;

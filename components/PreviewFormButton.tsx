@@ -27,11 +27,19 @@ export default function PreviewFormButton() {
           </DialogDescription>
         </DialogHeader>
         <div className="grid gap-4 overflow-y-auto max-h-[400px]">
-          {elements.map((element) => {
-            const FormComponent = formElements[element.type].formComponent;
+          {elements.length === 0 ? (
+            <p className="text-muted-foreground text-center">
+              No fields have been added yet. Use the sidebar to add form fields.
+            </p>
+          ) : (
+            elements.map((element) => {
+              const FormComponent = formElements[element.type].formComponent;
 
-            return <FormComponent key={element.id} elementInstance={element} />;
-          })}
+              return (
+                <FormComponent key={element.id} elementInstance={element} />
+              );
+            })
+          )}
         </div>
       </DialogContent>
     </Dialog>
