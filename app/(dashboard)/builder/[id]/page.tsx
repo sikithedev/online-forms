@@ -1,4 +1,5 @@
 import { getFormById } from "@/app/actions/forms";
+import DesignerContextProvider from "@/components/contexts/DesignerContext";
 import FormBuilder from "@/components/FormBuilder";
 import { notFound } from "next/navigation";
 import React from "react";
@@ -13,5 +14,9 @@ export default async function Builder(props: {
     notFound();
   }
 
-  return <FormBuilder form={form} />;
+  return (
+    <DesignerContextProvider>
+      <FormBuilder form={form} />
+    </DesignerContextProvider>
+  );
 }
