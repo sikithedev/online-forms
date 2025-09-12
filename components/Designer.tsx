@@ -14,8 +14,13 @@ import { Button } from "./ui/button";
 import { Trash2 } from "lucide-react";
 
 export default function Designer() {
-  const { elements, addElement, selectedElement, setSelectedElement } =
-    useDesigner();
+  const {
+    elements,
+    addElement,
+    selectedElement,
+    setSelectedElement,
+    removeElement,
+  } = useDesigner();
   const { setNodeRef, isOver } = useDroppable({
     id: "designer-drop-area",
     data: {
@@ -30,13 +35,88 @@ export default function Designer() {
 
       const isDesignerButtonElement =
         active.data?.current?.isDesignerButtonElement;
+      const isDesignerDropArea = over.data?.current?.isDesignerDropArea;
 
-      if (isDesignerButtonElement) {
+      // If dropped a sidebar button over the designer drop area
+      if (isDesignerButtonElement && isDesignerDropArea) {
         const type = active.data?.current?.type as FormElementType;
 
         const newElement = formElements[type].construct(generateId());
 
-        addElement(0, newElement);
+        addElement(elements.length, newElement);
+        return;
+      }
+
+      const isTopHalfDesignerElement =
+        over.data?.current?.isTopHalfDesignerElement;
+      const isBottomHalfDesignerElement =
+        over.data?.current?.isBottomHalfDesignerElement;
+
+      // If dropped a designer element over another designer element
+      if (
+        isDesignerButtonElement &&
+        (isTopHalfDesignerElement || isBottomHalfDesignerElement)
+      ) {
+        const type = active.data?.current?.type as FormElementType;
+
+        const newElement = formElements[type].construct(generateId());
+
+        const overElementIndex = elements.findIndex(
+          (el) => el.id === over.data?.current?.elementId
+        );
+        if (overElementIndex === -1) return;
+
+        const insertIndex = isTopHalfDesignerElement
+          ? overElementIndex
+          : overElementIndex + 1;
+
+        addElement(insertIndex, newElement);
+        return;
+      }
+
+      const isDesignerElement = active.data?.current?.isDesignerElement;
+
+      // If moved a designer element over another designer element
+      if (
+        isDesignerElement &&
+        (isTopHalfDesignerElement || isBottomHalfDesignerElement)
+      ) {
+        const activeElementId = active.data?.current?.elementId;
+        const overElementId = over.data?.current?.elementId;
+
+        const activeElementIndex = elements.findIndex(
+          (el) => el.id === activeElementId
+        );
+        const overElementIndex = elements.findIndex(
+          (el) => el.id === overElementId
+        );
+
+        if (activeElementIndex === -1 || overElementIndex === -1) return;
+        if (activeElementIndex === overElementIndex) return;
+
+        const activeElement = { ...elements[activeElementIndex] };
+        removeElement(activeElementId);
+
+        const insertIndex = isTopHalfDesignerElement
+          ? overElementIndex
+          : overElementIndex + 1;
+
+        addElement(insertIndex, activeElement);
+        return;
+      }
+
+      // If moved a designer element over the designer drop area (to the end)
+      if (isDesignerElement && isDesignerDropArea) {
+        const activeElementId = active.data?.current?.elementId;
+        const activeElementIndex = elements.findIndex(
+          (el) => el.id === activeElementId
+        );
+        if (activeElementIndex === -1) return;
+
+        const activeElement = { ...elements[activeElementIndex] };
+        removeElement(activeElementId);
+        addElement(elements.length, activeElement);
+        return;
       }
     },
   });

@@ -138,19 +138,21 @@ function PropertiesComponent({
           name="required"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Required</FormLabel>
-              <FormControl>
-                <Switch
-                  checked={field.value}
-                  onCheckedChange={(checked) => {
-                    field.onChange(checked);
+              <div className="flex gap-2 items-center">
+                <FormLabel>Required</FormLabel>
+                <FormControl>
+                  <Switch
+                    checked={field.value}
+                    onCheckedChange={(checked) => {
+                      field.onChange(checked);
 
-                    if (document.activeElement instanceof HTMLElement) {
-                      document.activeElement.blur();
-                    }
-                  }}
-                />
-              </FormControl>
+                      if (document.activeElement instanceof HTMLElement) {
+                        document.activeElement.blur();
+                      }
+                    }}
+                  />
+                </FormControl>
+              </div>
               <FormDescription>Whether the field is required.</FormDescription>
               <FormMessage />
             </FormItem>
