@@ -138,7 +138,7 @@ export default function Designer() {
 }
 
 function DesignerElement({ element }: { element: FormElementInstance }) {
-  const { removeElement, selectedElement, setSelectedElement } = useDesigner();
+  const { removeElement, setSelectedElement } = useDesigner();
   const [isMouseOver, setIsMouseOver] = useState(false);
 
   const topHalf = useDroppable({
@@ -203,6 +203,7 @@ function DesignerElement({ element }: { element: FormElementInstance }) {
             <Button
               onClick={(e) => {
                 e.stopPropagation();
+                setSelectedElement(null);
                 removeElement(element.id);
               }}
               variant="destructive"

@@ -6,9 +6,9 @@ export default function Logo() {
   return (
     <Link
       href="/"
-      className="font-bold inline-flex items-center justify-center gap-2 "
+      className="font-bold inline-flex items-center justify-center gap-2"
     >
-      <FileStack /> OnlineForms
+      <FileStack size={20} /> OnlineForms
     </Link>
   );
 }

@@ -1,5 +1,3 @@
-"use client";
-
 import { DesignerContext } from "@/components/contexts/DesignerContext";
 import { useContext } from "react";
 

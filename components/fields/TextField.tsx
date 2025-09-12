@@ -53,7 +53,7 @@ export const TextFieldFormElement: FormElement = {
     icon: TextCursor,
   },
   designerComponent: DesignerComponent,
-  formComponent: () => <div>Form Component</div>,
+  formComponent: FormComponent,
   propertiesComponent: PropertiesComponent,
 };
 
@@ -61,11 +61,11 @@ type CustomInstance = FormElementInstance & {
   additionalAttributes: typeof additionalAttributes;
 };
 
-function DesignerComponent({
-  elementInstance,
-}: {
+type ComponentProps = {
   elementInstance: FormElementInstance;
-}) {
+};
+
+function DesignerComponent({ elementInstance }: ComponentProps) {
   const { label, required, placeholder, helperText } = (
     elementInstance as CustomInstance
   ).additionalAttributes;
@@ -83,11 +83,25 @@ function DesignerComponent({
   );
 }
 
-function PropertiesComponent({
-  elementInstance,
-}: {
-  elementInstance: FormElementInstance;
-}) {
+function FormComponent({ elementInstance }: ComponentProps) {
+  const { label, required, placeholder, helperText } = (
+    elementInstance as CustomInstance
+  ).additionalAttributes;
+
+  return (
+    <div className="w-full flex flex-col gap-2">
+      <Label>
+        {label} {required && "*"}
+      </Label>
+      <Input placeholder={placeholder} />
+      {helperText && (
+        <p className="text-muted-foreground text-sm">{helperText}</p>
+      )}
+    </div>
+  );
+}
+
+function PropertiesComponent({ elementInstance }: ComponentProps) {
   const element = elementInstance as CustomInstance;
   const { updateElement } = useDesigner();
   const form = useForm<z.infer<typeof propertiesSchema>>({
@@ -99,6 +113,10 @@ function PropertiesComponent({
   useEffect(() => {
     form.reset(element.additionalAttributes);
   }, [element, form]);
+
+  function handleEnterBlur(e: React.KeyboardEvent<HTMLInputElement>) {
+    if (e.key === "Enter") e.currentTarget.blur();
+  }
 
   function applyChanges(values: z.infer<typeof propertiesSchema>) {
     updateElement(element.id, { ...element, additionalAttributes: values });
@@ -118,12 +136,7 @@ function PropertiesComponent({
             <FormItem>
               <FormLabel>Label</FormLabel>
               <FormControl>
-                <Input
-                  {...field}
-                  onKeyDown={(e) => {
-                    if (e.key === "Enter") e.currentTarget.blur();
-                  }}
-                />
+                <Input {...field} onKeyDown={handleEnterBlur} />
               </FormControl>
               <FormDescription>
                 The label shown above the input field.
@@ -145,7 +158,6 @@ function PropertiesComponent({
                     checked={field.value}
                     onCheckedChange={(checked) => {
                       field.onChange(checked);
-
                       if (document.activeElement instanceof HTMLElement) {
                         document.activeElement.blur();
                       }
@@ -166,12 +178,7 @@ function PropertiesComponent({
             <FormItem>
               <FormLabel>Placeholder</FormLabel>
               <FormControl>
-                <Input
-                  {...field}
-                  onKeyDown={(e) => {
-                    if (e.key === "Enter") e.currentTarget.blur();
-                  }}
-                />
+                <Input {...field} onKeyDown={handleEnterBlur} />
               </FormControl>
               <FormDescription>
                 The placeholder text shown inside the input.
@@ -188,12 +195,7 @@ function PropertiesComponent({
             <FormItem>
               <FormLabel>Helper text</FormLabel>
               <FormControl>
-                <Input
-                  {...field}
-                  onKeyDown={(e) => {
-                    if (e.key === "Enter") e.currentTarget.blur();
-                  }}
-                />
+                <Input {...field} onKeyDown={handleEnterBlur} />
               </FormControl>
               <FormDescription>
                 Additional text shown below the input.
