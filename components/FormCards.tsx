@@ -33,7 +33,7 @@ export default async function FormCards() {
 
 function FormCard({ form }: FormCardProps) {
   return (
-    <Card className="h-48">
+    <Card>
       <CardHeader>
         <CardTitle className="truncate">{form.name}</CardTitle>
         <CardDescription>
@@ -59,9 +59,9 @@ function FormCard({ form }: FormCardProps) {
       <CardFooter>
         {form.published ? (
           <Button asChild className="w-full">
-            <MoveRight />
-            View submissions
-            <Link href={`/forms/${form.id}`}></Link>
+            <Link href={`/forms/${form.id}`}>
+              <MoveRight /> View submissions
+            </Link>
           </Button>
         ) : (
           <Button asChild variant="secondary" className="w-full">

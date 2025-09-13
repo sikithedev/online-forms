@@ -11,7 +11,12 @@ import { DndContext } from "@dnd-kit/core";
 import DragOverlayWrapper from "./DragOverlayWrapper";
 import useDndSensors from "@/hooks/useDndSensors";
 import useDesigner from "@/hooks/useDesigner";
-import { LoaderCircle } from "lucide-react";
+import { LoaderCircle, MoveLeft, ReceiptText } from "lucide-react";
+import { Input } from "./ui/input";
+import { Button } from "./ui/button";
+import { toast } from "sonner";
+import Link from "next/link";
+import Confetti from "react-confetti";
 
 type FormBuilderProps = {
   form: Form;
@@ -23,7 +28,10 @@ export default function FormBuilder({ form }: FormBuilderProps) {
   const sensors = useDndSensors();
   const id = useId();
 
+  const shareUrl = `${window.location.origin}/submit/${form.shareUrl}`;
+
   useEffect(() => {
+    if (!loading) return;
     const elements = JSON.parse(form.content);
     setElements(elements);
     setLoading(false);
@@ -37,6 +45,49 @@ export default function FormBuilder({ form }: FormBuilderProps) {
     );
   }
 
+  if (form.published) {
+    return (
+      <>
+        <Confetti recycle={false} />
+        <div className="h-full w-full flex flex-col items-center justify-center">
+          <div className="max-w-md">
+            <h1 className="text-center text-4xl font-bold text-primary border-b pb-2 mb-10">
+              Form Published
+            </h1>
+            <h2 className="text-2xl">Share this form</h2>
+            <h3 className="text-xl text-muted-foreground border-b pb-10">
+              Anyone with the link can view and submit the form
+            </h3>
+            <div className="w-full flex flex-col items-center gap-2 border-b pb-4 my-4">
+              <Input className="w-full" readOnly value={shareUrl} />
+              <Button
+                className="w-full mt-2"
+                onClick={() => {
+                  navigator.clipboard.writeText(shareUrl);
+                  toast.success("Link copied to clipboard");
+                }}
+              >
+                Copy link
+              </Button>
+            </div>
+            <div className="flex justify-between">
+              <Button variant="link" asChild>
+                <Link href="/" className="gap-2">
+                  <MoveLeft /> Back to home
+                </Link>
+              </Button>
+              <Button variant="link" asChild>
+                <Link href={`/forms/${form.id}`} className="gap-2">
+                  <ReceiptText /> View details
+                </Link>
+              </Button>
+            </div>
+          </div>
+        </div>
+      </>
+    );
+  }
+
   return (
     <main className="w-full flex flex-col">
       <nav className="flex justify-between items-center gap-3 border-b p-2">
@@ -44,12 +95,12 @@ export default function FormBuilder({ form }: FormBuilderProps) {
           <span className="text-muted-foreground">Form:</span> {form.name}
         </h2>
         <div className="flex items-center gap-2 h-full">
-          <PreviewFormButton />
+          <PreviewFormButton published={form.published} />
           {!form.published && (
             <>
               <Separator orientation="vertical" />
               <SaveFormButton id={form.id} />
-              <PublishFormButton />
+              <PublishFormButton id={form.id} />
             </>
           )}
         </div>
