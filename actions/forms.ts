@@ -90,7 +90,6 @@ export async function getFormSubmissions(id: number) {
       formId: id,
       form: { userId: user.id },
     },
-    orderBy: { createdAt: "desc" },
   });
 }
 
@@ -134,5 +133,16 @@ export async function getFormContentByUrl(formUrl: string) {
     data: { visits: { increment: 1 } },
     where: { shareUrl: formUrl, published: true },
     select: { content: true },
+  });
+}
+
+export async function submitForm(formUrl: string, content: string) {
+  return await prisma.form.update({
+    data: {
+      submissions: {
+        create: { content },
+      },
+    },
+    where: { shareUrl: formUrl, published: true },
   });
 }

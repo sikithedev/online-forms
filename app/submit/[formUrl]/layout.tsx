@@ -11,7 +11,7 @@ export default function Layout({ children }: { children: ReactNode }) {
           <ModeToggle />
         </div>
       </nav>
-      <main className="flex grow w-full px-4">{children}</main>
+      <main className="flex flex-col grow w-full px-4">{children}</main>
     </div>
   );
 }

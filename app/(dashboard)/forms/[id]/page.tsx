@@ -36,13 +36,13 @@ export default async function Details(props: {
     },
     {
       title: "Submission rate",
-      value: `${submissionRate}%`,
+      value: `${submissionRate.toFixed(2)}%`,
       description: "Visits that result in form submissions",
       icon: <BookDashed className="text-green-500" />,
     },
     {
       title: "Bounce rate",
-      value: `${bounceRate}%`,
+      value: `${bounceRate.toFixed(2)}%`,
       description: "Visits that don't result in form submissions",
       icon: <BookDashed className="text-red-500" />,
     },
@@ -74,9 +74,9 @@ export default async function Details(props: {
         ))}
       </div>
 
-      <div className="pt-10">
+      <div className="py-8">
         <h1 className="text-2xl font-bold my-4">Submissions</h1>
-        <SubmissionsTable submissions={submissions} />
+        <SubmissionsTable form={form} submissions={submissions} />
       </div>
     </div>
   );

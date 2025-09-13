@@ -1,9 +1,11 @@
 "use client";
 
-import React, { use, useRef } from "react";
+import React, { useRef, useState, useTransition } from "react";
 import { FormElementInstance, formElements } from "./FormElements";
 import { Button } from "./ui/button";
 import { toast } from "sonner";
+import { Loader2 } from "lucide-react";
+import { submitForm } from "@/actions/forms";
 
 type FormSubmitProps = {
   formUrl: string;
@@ -13,7 +15,9 @@ type FormSubmitProps = {
 export default function FormSubmit({ formUrl, content }: FormSubmitProps) {
   const values = useRef<{ [key: string]: string }>({});
   const errors = useRef<{ [key: string]: boolean }>({});
-  const [, setRerender] = React.useState(0); // State to force re-render
+  const [, setRerender] = useState(0); // State to force re-render
+  const [submitted, setSubmitted] = useState(false);
+  const [isPending, startTransition] = useTransition();
 
   function validateForm() {
     let isValid = true;
@@ -33,13 +37,32 @@ export default function FormSubmit({ formUrl, content }: FormSubmitProps) {
     values.current[key] = value;
   }
 
-  function handleClick() {
+  async function handleClick() {
     if (!validateForm()) {
       setRerender((prev) => prev + 1); // Force re-render to show errors
       toast.error("Please fix the errors in the form.");
+      return;
     }
 
-    console.log("Submitting form to", formUrl, values.current);
+    try {
+      const content = JSON.stringify(values.current);
+      await submitForm(formUrl, content);
+      setSubmitted(true);
+      toast.success("Form submitted successfully!");
+    } catch (error) {
+      toast.error("Failed to submit the form. Please try again.");
+    }
+  }
+
+  if (submitted) {
+    return (
+      <div className="w-full flex justify-center items-center p-8">
+        <div className="w-full max-w-md flex flex-col gap-4 p-8 border rounded-md">
+          <h2 className="text-2xl font-bold">Thank you!</h2>
+          <p>Your response has been recorded.</p>
+        </div>
+      </div>
+    );
   }
 
   return (
@@ -58,8 +81,12 @@ export default function FormSubmit({ formUrl, content }: FormSubmitProps) {
             />
           );
         })}
-        <Button onClick={handleClick} className="mt-4">
-          Submit
+        <Button
+          onClick={() => startTransition(handleClick)}
+          disabled={isPending}
+          className="mt-4"
+        >
+          {isPending ? <Loader2 className="animate-spin" /> : "Submit"}
         </Button>
       </div>
     </div>
