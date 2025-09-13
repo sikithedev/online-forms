@@ -1,4 +1,4 @@
-import { getForms } from "@/app/actions/forms";
+import { getForms } from "@/actions/forms";
 import { Form } from "@/app/generated/prisma";
 import {
   Card,

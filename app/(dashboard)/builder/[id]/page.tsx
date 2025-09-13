@@ -1,4 +1,4 @@
-import { getFormById } from "@/app/actions/forms";
+import { getFormById } from "@/actions/forms";
 import DesignerContextProvider from "@/components/contexts/DesignerContext";
 import FormBuilder from "@/components/FormBuilder";
 import { notFound } from "next/navigation";

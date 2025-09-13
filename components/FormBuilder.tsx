@@ -12,11 +12,10 @@ import DragOverlayWrapper from "./DragOverlayWrapper";
 import useDndSensors from "@/hooks/useDndSensors";
 import useDesigner from "@/hooks/useDesigner";
 import { LoaderCircle, MoveLeft, ReceiptText } from "lucide-react";
-import { Input } from "./ui/input";
 import { Button } from "./ui/button";
-import { toast } from "sonner";
 import Link from "next/link";
 import Confetti from "react-confetti";
+import FormLinkShare from "./FormLinkShare";
 
 type FormBuilderProps = {
   form: Form;
@@ -55,20 +54,11 @@ export default function FormBuilder({ form }: FormBuilderProps) {
               Form Published
             </h1>
             <h2 className="text-2xl">Share this form</h2>
-            <h3 className="text-xl text-muted-foreground border-b pb-10">
+            <h3 className="text-xl text-muted-foreground">
               Anyone with the link can view and submit the form
             </h3>
-            <div className="w-full flex flex-col items-center gap-2 border-b pb-4 my-4">
-              <Input className="w-full" readOnly value={shareUrl} />
-              <Button
-                className="w-full mt-2"
-                onClick={() => {
-                  navigator.clipboard.writeText(shareUrl);
-                  toast.success("Link copied to clipboard");
-                }}
-              >
-                Copy link
-              </Button>
+            <div className="w-full border-b pb-4 my-4">
+              <FormLinkShare shareUrl={form.shareUrl} />
             </div>
             <div className="flex justify-between">
               <Button variant="link" asChild>

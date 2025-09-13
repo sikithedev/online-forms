@@ -13,7 +13,7 @@ import {
 } from "./ui/alert-dialog";
 import { Loader2 } from "lucide-react";
 import { toast } from "sonner";
-import { publishFormById } from "@/app/actions/forms";
+import { publishFormById } from "@/actions/forms";
 import { useRouter } from "next/navigation";
 
 type PublishFormButtonProps = {

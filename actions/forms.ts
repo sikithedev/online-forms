@@ -82,6 +82,18 @@ export async function getForms() {
   }));
 }
 
+export async function getFormSubmissions(id: number) {
+  const user = await getUserOrThrow();
+
+  return await prisma.submissions.findMany({
+    where: {
+      formId: id,
+      form: { userId: user.id },
+    },
+    orderBy: { createdAt: "desc" },
+  });
+}
+
 export async function getFormById(id: number) {
   const user = await getUserOrThrow();
 
@@ -114,5 +126,13 @@ export async function publishFormById(id: number) {
       userId: user.id,
     },
     data: { published: true },
+  });
+}
+
+export async function getFormContentByUrl(formUrl: string) {
+  return await prisma.form.update({
+    data: { visits: { increment: 1 } },
+    where: { shareUrl: formUrl, published: true },
+    select: { content: true },
   });
 }

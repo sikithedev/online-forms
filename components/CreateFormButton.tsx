@@ -26,7 +26,7 @@ import { Textarea } from "./ui/textarea";
 import { FilePlus, LoaderCircle } from "lucide-react";
 import { toast } from "sonner";
 import { formSchema } from "@/schemas/form";
-import { createForm } from "@/app/actions/forms";
+import { createForm } from "@/actions/forms";
 import { useRouter } from "next/navigation";
 
 export default function CreateFormButton() {

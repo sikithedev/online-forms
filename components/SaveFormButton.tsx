@@ -1,7 +1,7 @@
 import React, { useTransition } from "react";
 import { Button } from "./ui/button";
 import useDesigner from "@/hooks/useDesigner";
-import { updateFormContent } from "@/app/actions/forms";
+import { updateFormContent } from "@/actions/forms";
 import { toast } from "sonner";
 import { Loader2 } from "lucide-react";
 

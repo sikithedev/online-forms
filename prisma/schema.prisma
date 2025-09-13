@@ -23,7 +23,7 @@ model Form {
   description String        @default("")
   content     String        @default("[]")
   visits      Int           @default(0)
-  shareUrl    String        @default(uuid())
+  shareUrl    String        @unique @default(uuid())
   submissions Submissions[]
 
   @@unique([name, userId])

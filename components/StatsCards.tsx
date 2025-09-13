@@ -7,14 +7,9 @@ import {
   CardHeader,
   CardTitle,
 } from "./ui/card";
-import { getFormStats } from "@/app/actions/forms";
+import { getFormStats } from "@/actions/forms";
 import { BookDashed } from "lucide-react";
 import { Skeleton } from "./ui/skeleton";
-
-type StatsCardsProps = {
-  data?: Awaited<ReturnType<typeof getFormStats>>;
-  loading: boolean;
-};
 
 type StatsCardProps = {
   title: string;
@@ -70,7 +65,7 @@ export default async function StatsCards() {
   );
 }
 
-function StatsCard({
+export function StatsCard({
   title,
   value,
   description,
