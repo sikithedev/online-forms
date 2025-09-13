@@ -5,13 +5,14 @@ import {
   FormElement,
   FormElementInstance,
   FormElementType,
+  SubmitHandler,
 } from "../FormElements";
 import { Label } from "../ui/label";
 import { Input } from "../ui/input";
 import * as z from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import useDesigner from "@/hooks/useDesigner";
 import {
   Form,
@@ -24,14 +25,15 @@ import {
 } from "../ui/form";
 import { Switch } from "../ui/switch";
 import { Separator } from "../ui/separator";
+import { cn } from "@/lib/utils";
 
 const type: FormElementType = "TextField";
 
 const additionalAttributes = {
   label: "Text field",
   required: false,
-  placeholder: "Value here...",
-  helperText: "Helper text",
+  placeholder: "Enter a value...",
+  helperText: "Provide additional information if needed.",
 };
 
 const propertiesSchema = z.object({
@@ -55,17 +57,24 @@ export const TextFieldFormElement: FormElement = {
   designerComponent: DesignerComponent,
   formComponent: FormComponent,
   propertiesComponent: PropertiesComponent,
+  validate: (element, currentValue) => {
+    const { required } = (element as CustomInstance).additionalAttributes;
+    if (required) {
+      return currentValue.trim().length > 0;
+    }
+    return true;
+  },
 };
 
 type CustomInstance = FormElementInstance & {
   additionalAttributes: typeof additionalAttributes;
 };
 
-type ComponentProps = {
+function DesignerComponent({
+  elementInstance,
+}: {
   elementInstance: FormElementInstance;
-};
-
-function DesignerComponent({ elementInstance }: ComponentProps) {
+}) {
   const { label, required, placeholder, helperText } = (
     elementInstance as CustomInstance
   ).additionalAttributes;
@@ -83,17 +92,49 @@ function DesignerComponent({ elementInstance }: ComponentProps) {
   );
 }
 
-function FormComponent({ elementInstance }: ComponentProps) {
+function FormComponent({
+  elementInstance,
+  onSubmit,
+  defaultValue,
+  isInvalid,
+}: {
+  elementInstance: FormElementInstance;
+  onSubmit?: SubmitHandler;
+  defaultValue?: string;
+  isInvalid?: boolean;
+}) {
+  const [value, setValue] = useState(defaultValue || "");
+  const [error, setError] = useState(false);
   const { label, required, placeholder, helperText } = (
     elementInstance as CustomInstance
   ).additionalAttributes;
+
+  useEffect(() => {
+    setError(isInvalid || false);
+  }, [isInvalid]);
+
+  function handleBlur() {
+    if (!onSubmit) return;
+
+    const valid = TextFieldFormElement.validate(elementInstance, value);
+    setError(!valid);
+    if (!valid) return;
+
+    onSubmit(elementInstance.id, value);
+  }
 
   return (
     <div className="w-full flex flex-col gap-2">
       <Label>
         {label} {required && "*"}
       </Label>
-      <Input placeholder={placeholder} />
+      <Input
+        placeholder={placeholder}
+        onChange={(e) => setValue(e.target.value)}
+        onBlur={handleBlur}
+        value={value}
+        className={cn(error && "border-destructive focus:border-destructive")}
+      />
       {helperText && (
         <p className="text-muted-foreground text-sm">{helperText}</p>
       )}
@@ -101,7 +142,11 @@ function FormComponent({ elementInstance }: ComponentProps) {
   );
 }
 
-function PropertiesComponent({ elementInstance }: ComponentProps) {
+function PropertiesComponent({
+  elementInstance,
+}: {
+  elementInstance: FormElementInstance;
+}) {
   const element = elementInstance as CustomInstance;
   const { updateElement } = useDesigner();
   const form = useForm<z.infer<typeof propertiesSchema>>({

@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Button } from "./ui/button";
 import { Input } from "./ui/input";
 import { ClipboardCopy } from "lucide-react";
@@ -11,7 +11,11 @@ type FormLinkShareProps = {
 };
 
 export default function FormLinkShare({ shareUrl }: FormLinkShareProps) {
-  const shareLink = `${window.location.origin}/submit/${shareUrl}`;
+  const [shareLink, setShareLink] = useState("");
+
+  useEffect(() => {
+    setShareLink(`${window.location.origin}/submit/${shareUrl}`);
+  }, [shareUrl]);
 
   function handleClick() {
     navigator.clipboard.writeText(shareLink);

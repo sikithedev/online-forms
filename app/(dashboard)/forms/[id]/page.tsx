@@ -19,7 +19,7 @@ export default async function Details(props: {
   const { visits } = form;
   const submissions = await getFormSubmissions(Number(id));
   const submissionRate = visits > 0 ? (submissions.length / visits) * 100 : 0;
-  const bounceRate = 100 - submissionRate;
+  const bounceRate = visits > 0 ? 100 - submissionRate : 0;
 
   const cardsData = [
     {

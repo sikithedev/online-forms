@@ -23,11 +23,11 @@ export default async function FormCards() {
   const forms = await getForms();
 
   return (
-    <div>
+    <>
       {forms.map((form) => (
         <FormCard key={form.id} form={form} />
       ))}
-    </div>
+    </>
   );
 }
 
@@ -40,22 +40,25 @@ function FormCard({ form }: FormCardProps) {
           {formatDistance(form.createdAt, new Date(), {
             addSuffix: true,
           })}
-          {form.published && (
-            <span className="flex items-center gap-2 text-muted-foreground">
-              <span>Visits: {form.visits.toLocaleString()}</span>
-              <span>Submissions: {form.submissions.toLocaleString()}</span>
-            </span>
-          )}
         </CardDescription>
-        <CardAction>
+        <CardAction className="flex flex-col items-end gap-2">
           {form.published ? (
-            <Badge>Published</Badge>
+            <>
+              <Badge>Published</Badge>
+
+              <span className="text-muted-foreground text-xs">
+                Visits: {form.visits.toLocaleString()} • Submissions:{" "}
+                {form.submissions.toLocaleString()}
+              </span>
+            </>
           ) : (
             <Badge variant="secondary">Draft</Badge>
           )}
         </CardAction>
       </CardHeader>
-      <CardContent>{form.description || "No description"}</CardContent>
+      <CardContent className="grow">
+        {form.description || "No description"}
+      </CardContent>
       <CardFooter>
         {form.published ? (
           <Button asChild className="w-full">

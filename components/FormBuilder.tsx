@@ -27,8 +27,6 @@ export default function FormBuilder({ form }: FormBuilderProps) {
   const sensors = useDndSensors();
   const id = useId();
 
-  const shareUrl = `${window.location.origin}/submit/${form.shareUrl}`;
-
   useEffect(() => {
     if (!loading) return;
     const elements = JSON.parse(form.content);
