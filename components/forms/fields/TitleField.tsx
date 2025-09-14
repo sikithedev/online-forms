@@ -27,10 +27,6 @@ import {
 const type: FormElementType = "TitleField";
 const category: FormElementCategory = "layout";
 
-const additionalAttributes = {
-  title: "Text here...",
-};
-
 const propertiesSchema = z.object({
   title: z
     .string()
@@ -42,13 +38,17 @@ const propertiesSchema = z.object({
     }),
 });
 
+const defaultAttributes = {
+  title: "Text here...",
+};
+
 export const TitleFieldFormElement: FormElement = {
   type,
   category,
   construct: (id) => ({
     id,
     type,
-    additionalAttributes,
+    additionalAttributes: defaultAttributes,
   }),
   designerButtonElement: {
     label: "Title Field",
@@ -61,7 +61,7 @@ export const TitleFieldFormElement: FormElement = {
 };
 
 type CustomInstance = FormElementInstance & {
-  additionalAttributes: typeof additionalAttributes;
+  additionalAttributes: typeof defaultAttributes;
 };
 
 function DesignerComponent({

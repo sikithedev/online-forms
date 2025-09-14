@@ -27,10 +27,6 @@ import {
 const type: FormElementType = "SubtitleField";
 const category: FormElementCategory = "layout";
 
-const additionalAttributes = {
-  subtitle: "Text here...",
-};
-
 const propertiesSchema = z.object({
   subtitle: z
     .string()
@@ -42,13 +38,17 @@ const propertiesSchema = z.object({
     }),
 });
 
+const defaultAttributes = {
+  subtitle: "Text here...",
+};
+
 export const SubtitleFieldFormElement: FormElement = {
   type,
   category,
   construct: (id) => ({
     id,
     type,
-    additionalAttributes,
+    additionalAttributes: defaultAttributes,
   }),
   designerButtonElement: {
     label: "Subtitle Field",
@@ -61,7 +61,7 @@ export const SubtitleFieldFormElement: FormElement = {
 };
 
 type CustomInstance = FormElementInstance & {
-  additionalAttributes: typeof additionalAttributes;
+  additionalAttributes: typeof defaultAttributes;
 };
 
 function DesignerComponent({

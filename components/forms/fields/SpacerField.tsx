@@ -8,7 +8,6 @@ import {
   FormElementType,
 } from "../formElements";
 import { Label } from "../../ui/label";
-import { Textarea } from "@/components/ui/textarea";
 import * as z from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -23,26 +22,30 @@ import {
   FormLabel,
   FormMessage,
 } from "../../ui/form";
+import { Slider } from "@/components/ui/slider";
 
-const type: FormElementType = "ParagraphField";
+const type: FormElementType = "SpacerField";
 const category: FormElementCategory = "layout";
 
+const minHeight = 5;
+const maxHeight = 200;
+
 const propertiesSchema = z.object({
-  text: z
-    .string()
-    .min(4, {
-      message: "Paragraph must be at least 4 characters.",
+  height: z
+    .number()
+    .min(minHeight, {
+      message: `Height must be at least ${minHeight} pixels.`,
     })
-    .max(512, {
-      message: "Paragraph must be at most 512 characters.",
+    .max(maxHeight, {
+      message: `Height must be at most ${maxHeight} pixels.`,
     }),
 });
 
 const defaultAttributes = {
-  text: "Text here...",
+  height: 20,
 };
 
-export const ParagraphFieldFormElement: FormElement = {
+export const SpacerFieldFormElement: FormElement = {
   type,
   category,
   construct: (id) => ({
@@ -51,7 +54,7 @@ export const ParagraphFieldFormElement: FormElement = {
     additionalAttributes: defaultAttributes,
   }),
   designerButtonElement: {
-    label: "Paragraph Field",
+    label: "Spacer Field",
     icon: TextCursor,
   },
   designerComponent: DesignerComponent,
@@ -69,12 +72,12 @@ function DesignerComponent({
 }: {
   elementInstance: FormElementInstance;
 }) {
-  const { text } = (elementInstance as CustomInstance).additionalAttributes;
+  const { height } = (elementInstance as CustomInstance).additionalAttributes;
 
   return (
     <div className="w-full flex flex-col gap-2">
-      <Label className="text-muted-foreground">Paragraph field</Label>
-      <p>{text}</p>
+      <Label className="text-muted-foreground">Spacer field</Label>
+      <p className="text-muted-foreground">Height: {height}px</p>
     </div>
   );
 }
@@ -84,9 +87,9 @@ function FormComponent({
 }: {
   elementInstance: FormElementInstance;
 }) {
-  const { text } = (elementInstance as CustomInstance).additionalAttributes;
+  const { height } = (elementInstance as CustomInstance).additionalAttributes;
 
-  return <p>{text}</p>;
+  return <div style={{ height: `${height}px` }}></div>;
 }
 
 function PropertiesComponent({
@@ -106,10 +109,6 @@ function PropertiesComponent({
     form.reset(element.additionalAttributes);
   }, [element, form]);
 
-  function handleEnterBlur(e: React.KeyboardEvent<HTMLTextAreaElement>) {
-    if (e.key === "Enter") e.currentTarget.blur();
-  }
-
   function applyChanges(values: z.infer<typeof propertiesSchema>) {
     updateElement(element.id, { ...element, additionalAttributes: values });
   }
@@ -123,16 +122,19 @@ function PropertiesComponent({
       >
         <FormField
           control={form.control}
-          name="text"
+          name="height"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Paragraph</FormLabel>
+              <FormLabel>Height: {form.watch("height")}px</FormLabel>
               <FormControl>
-                <Textarea rows={5} {...field} onKeyDown={handleEnterBlur} />
+                <Slider
+                  defaultValue={[field.value]}
+                  min={minHeight}
+                  max={maxHeight}
+                  onValueChange={([value]) => field.onChange(value)}
+                />
               </FormControl>
-              <FormDescription>
-                This text will be displayed as a paragraph in the form.
-              </FormDescription>
+              <FormDescription>Height of the spacer in pixels</FormDescription>
               <FormMessage />
             </FormItem>
           )}
