@@ -8,7 +8,7 @@ import {
   FormElementType,
 } from "../formElements";
 import { Label } from "../../ui/label";
-import { Input } from "../../ui/input";
+import { Textarea } from "@/components/ui/textarea";
 import * as z from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -24,25 +24,25 @@ import {
   FormMessage,
 } from "../../ui/form";
 
-const type: FormElementType = "TitleField";
+const type: FormElementType = "ParagraphField";
 const category: FormElementCategory = "layout";
 
 const additionalAttributes = {
-  title: "Text here...",
+  text: "Text here...",
 };
 
 const propertiesSchema = z.object({
-  title: z
+  text: z
     .string()
     .min(4, {
-      message: "Title must be at least 4 characters.",
+      message: "Paragraph must be at least 4 characters.",
     })
-    .max(64, {
-      message: "Title must be at most 64 characters.",
+    .max(512, {
+      message: "Paragraph must be at most 512 characters.",
     }),
 });
 
-export const TitleFieldFormElement: FormElement = {
+export const ParagraphFieldFormElement: FormElement = {
   type,
   category,
   construct: (id) => ({
@@ -51,7 +51,7 @@ export const TitleFieldFormElement: FormElement = {
     additionalAttributes,
   }),
   designerButtonElement: {
-    label: "Title Field",
+    label: "Paragraph Field",
     icon: TextCursor,
   },
   designerComponent: DesignerComponent,
@@ -69,12 +69,12 @@ function DesignerComponent({
 }: {
   elementInstance: FormElementInstance;
 }) {
-  const { title } = (elementInstance as CustomInstance).additionalAttributes;
+  const { text } = (elementInstance as CustomInstance).additionalAttributes;
 
   return (
     <div className="w-full flex flex-col gap-2">
-      <Label className="text-muted-foreground">Title field</Label>
-      <p className="text-xl">{title}</p>
+      <Label className="text-muted-foreground">Paragraph field</Label>
+      <p>{text}</p>
     </div>
   );
 }
@@ -84,9 +84,9 @@ function FormComponent({
 }: {
   elementInstance: FormElementInstance;
 }) {
-  const { title } = (elementInstance as CustomInstance).additionalAttributes;
+  const { text } = (elementInstance as CustomInstance).additionalAttributes;
 
-  return <h1 className="text-xl">{title}</h1>;
+  return <p>{text}</p>;
 }
 
 function PropertiesComponent({
@@ -106,7 +106,7 @@ function PropertiesComponent({
     form.reset(element.additionalAttributes);
   }, [element, form]);
 
-  function handleEnterBlur(e: React.KeyboardEvent<HTMLInputElement>) {
+  function handleEnterBlur(e: React.KeyboardEvent<HTMLTextAreaElement>) {
     if (e.key === "Enter") e.currentTarget.blur();
   }
 
@@ -123,15 +123,15 @@ function PropertiesComponent({
       >
         <FormField
           control={form.control}
-          name="title"
+          name="text"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Title</FormLabel>
+              <FormLabel>Paragraph</FormLabel>
               <FormControl>
-                <Input {...field} onKeyDown={handleEnterBlur} />
+                <Textarea rows={5} {...field} onKeyDown={handleEnterBlur} />
               </FormControl>
               <FormDescription>
-                This text will be displayed as a title in the form.
+                This text will be displayed as a paragraph in the form.
               </FormDescription>
               <FormMessage />
             </FormItem>

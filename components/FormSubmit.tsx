@@ -78,6 +78,7 @@ export default function FormSubmit({ formUrl, content }: FormSubmitProps) {
               onSubmit={onSubmit}
               defaultValue={values.current[element.id]}
               isInvalid={errors.current[element.id]}
+              className="break-words"
             />
           );
         })}

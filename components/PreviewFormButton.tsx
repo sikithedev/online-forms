@@ -34,7 +34,7 @@ export default function PreviewFormButton({
               : "You can review how your form will look before publising it."}
           </DialogDescription>
         </DialogHeader>
-        <div className="grid gap-4 overflow-y-auto max-h-[400px]">
+        <div className="max-h-[400px] grid grid-cols-1 gap-4 overflow-y-auto">
           {elements.length === 0 ? (
             <p className="text-muted-foreground text-center">
               No fields have been added yet. Use the sidebar to add form fields.
@@ -44,7 +44,11 @@ export default function PreviewFormButton({
               const FormComponent = formElements[element.type].formComponent;
 
               return (
-                <FormComponent key={element.id} elementInstance={element} />
+                <FormComponent
+                  key={element.id}
+                  elementInstance={element}
+                  className="break-words"
+                />
               );
             })
           )}

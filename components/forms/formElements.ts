@@ -1,12 +1,20 @@
+import { ParagraphFieldFormElement } from "./fields/ParagraphField";
+import { SubtitleFieldFormElement } from "./fields/SubtitleField";
 import { TextFieldFormElement } from "./fields/TextField";
 import { TitleFieldFormElement } from "./fields/TitleField";
 
-export type FormElementType = "TextField" | "TitleField";
+export type FormElementType =
+  | "TextField"
+  | "TitleField"
+  | "SubtitleField"
+  | "ParagraphField";
+export type FormElementCategory = "input" | "layout";
 
 export type SubmitHandler = (key: string, value: string) => void;
 
 export type FormElement = {
   type: FormElementType;
+  category: FormElementCategory;
   construct: (id: string) => FormElementInstance;
   designerButtonElement: {
     label: string;
@@ -20,6 +28,7 @@ export type FormElement = {
     onSubmit?: SubmitHandler;
     defaultValue?: string;
     isInvalid?: boolean;
+    className?: string;
   }>;
   propertiesComponent: React.FC<{
     elementInstance: FormElementInstance;
@@ -33,11 +42,11 @@ export type FormElementInstance = {
   additionalAttributes?: Record<string, any>;
 };
 
-type FormElements = {
-  [key in FormElementType]: FormElement;
-};
+type FormElements = Record<FormElementType, FormElement>;
 
 export const formElements: FormElements = {
   TextField: TextFieldFormElement,
   TitleField: TitleFieldFormElement,
+  SubtitleField: SubtitleFieldFormElement,
+  ParagraphField: ParagraphFieldFormElement,
 };

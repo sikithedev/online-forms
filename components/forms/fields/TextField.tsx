@@ -3,6 +3,7 @@
 import { TextCursor } from "lucide-react";
 import {
   FormElement,
+  FormElementCategory,
   FormElementInstance,
   FormElementType,
   SubmitHandler,
@@ -28,23 +29,36 @@ import { Separator } from "../../ui/separator";
 import { cn } from "@/lib/utils";
 
 const type: FormElementType = "TextField";
+const category: FormElementCategory = "input";
 
 const propertiesSchema = z.object({
-  label: z.string().min(4).max(64),
+  label: z
+    .string()
+    .min(4, {
+      message: "Label must be at least 4 characters.",
+    })
+    .max(64, {
+      message: "Label must be at most 64 characters.",
+    }),
   required: z.boolean(),
-  placeholder: z.string().max(64),
-  helperText: z.string().max(128),
+  placeholder: z.string().max(64, {
+    message: "Placeholder must be at most 64 characters.",
+  }),
+  helperText: z.string().max(128, {
+    message: "Helper text must be at most 128 characters.",
+  }),
 });
 
 const defaultAttributes = {
   label: "Text field",
   required: false,
   placeholder: "Enter a value...",
-  helperText: "Provide additional information if needed.",
+  helperText: "Additional information about this field.",
 };
 
 export const TextFieldFormElement: FormElement = {
   type,
+  category,
   construct: (id) => ({
     id,
     type,
@@ -94,11 +108,13 @@ function FormComponent({
   onSubmit,
   defaultValue,
   isInvalid,
+  className,
 }: {
   elementInstance: FormElementInstance;
   onSubmit?: SubmitHandler;
   defaultValue?: string;
   isInvalid?: boolean;
+  className?: string;
 }) {
   const [value, setValue] = useState(defaultValue || "");
   const [error, setError] = useState(false);
@@ -121,7 +137,7 @@ function FormComponent({
   }
 
   return (
-    <div className="w-full flex flex-col gap-2">
+    <div className={cn("w-full flex flex-col gap-2", className)}>
       <Label>
         {label} {required && "*"}
       </Label>
