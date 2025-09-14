@@ -1,5 +1,5 @@
 import { getFormContentByUrl } from "@/actions/forms";
-import { FormElementInstance } from "@/components/FormElements";
+import { FormElementInstance } from "@/components/forms/formElements";
 import FormSubmit from "@/components/FormSubmit";
 import { notFound } from "next/navigation";
 import React from "react";

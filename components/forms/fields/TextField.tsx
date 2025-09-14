@@ -6,9 +6,9 @@ import {
   FormElementInstance,
   FormElementType,
   SubmitHandler,
-} from "../FormElements";
-import { Label } from "../ui/label";
-import { Input } from "../ui/input";
+} from "../formElements";
+import { Label } from "../../ui/label";
+import { Input } from "../../ui/input";
 import * as z from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -22,33 +22,33 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "../ui/form";
-import { Switch } from "../ui/switch";
-import { Separator } from "../ui/separator";
+} from "../../ui/form";
+import { Switch } from "../../ui/switch";
+import { Separator } from "../../ui/separator";
 import { cn } from "@/lib/utils";
 
 const type: FormElementType = "TextField";
 
-const additionalAttributes = {
+const propertiesSchema = z.object({
+  label: z.string().min(4).max(64),
+  required: z.boolean(),
+  placeholder: z.string().max(64),
+  helperText: z.string().max(128),
+});
+
+const defaultAttributes = {
   label: "Text field",
   required: false,
   placeholder: "Enter a value...",
   helperText: "Provide additional information if needed.",
 };
 
-const propertiesSchema = z.object({
-  label: z.string().min(4).max(32),
-  required: z.boolean(),
-  placeholder: z.string().max(64),
-  helperText: z.string().max(128),
-});
-
 export const TextFieldFormElement: FormElement = {
   type,
   construct: (id) => ({
     id,
     type,
-    additionalAttributes,
+    additionalAttributes: defaultAttributes,
   }),
   designerButtonElement: {
     label: "Text Field",
@@ -59,15 +59,12 @@ export const TextFieldFormElement: FormElement = {
   propertiesComponent: PropertiesComponent,
   validate: (element, currentValue) => {
     const { required } = (element as CustomInstance).additionalAttributes;
-    if (required) {
-      return currentValue.trim().length > 0;
-    }
-    return true;
+    return required ? currentValue.trim().length > 0 : true;
   },
 };
 
 type CustomInstance = FormElementInstance & {
-  additionalAttributes: typeof additionalAttributes;
+  additionalAttributes: typeof defaultAttributes;
 };
 
 function DesignerComponent({

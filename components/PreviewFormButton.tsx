@@ -9,7 +9,7 @@ import {
   DialogTrigger,
 } from "./ui/dialog";
 import useDesigner from "@/hooks/useDesigner";
-import { formElements } from "./FormElements";
+import { formElements } from "./forms/formElements";
 
 type PreviewFormButtonProps = {
   published: boolean;

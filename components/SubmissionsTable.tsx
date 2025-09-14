@@ -9,7 +9,7 @@ import {
   TableRow,
 } from "./ui/table";
 import { Form } from "@/app/generated/prisma";
-import { FormElementInstance, FormElementType } from "./FormElements";
+import { FormElementInstance, FormElementType } from "./forms/formElements";
 import { formatDistance } from "date-fns";
 
 type SubmissionsTableProps = {

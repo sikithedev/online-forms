@@ -1,6 +1,6 @@
 import useDesigner from "@/hooks/useDesigner";
 import React from "react";
-import { formElements } from "./FormElements";
+import { formElements } from "./forms/formElements";
 import { Button } from "./ui/button";
 import { X } from "lucide-react";
 

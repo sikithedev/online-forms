@@ -7,7 +7,7 @@ import {
   SetStateAction,
   useState,
 } from "react";
-import { FormElementInstance } from "../FormElements";
+import { FormElementInstance } from "../forms/formElements";
 
 export type DesignerContext = {
   elements: FormElementInstance[];

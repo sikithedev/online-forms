@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useRef, useState, useTransition } from "react";
-import { FormElementInstance, formElements } from "./FormElements";
+import { FormElementInstance, formElements } from "./forms/formElements";
 import { Button } from "./ui/button";
 import { toast } from "sonner";
 import { Loader2 } from "lucide-react";

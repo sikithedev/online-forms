@@ -14,7 +14,7 @@ import {
   FormElementInstance,
   formElements,
   FormElementType,
-} from "./FormElements";
+} from "./forms/formElements";
 import { Button } from "./ui/button";
 import { Trash2 } from "lucide-react";
 import { DesignerContext } from "./contexts/DesignerContext";
