@@ -57,12 +57,8 @@ export default function CreateFormButton() {
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <Button
-          variant="secondary"
-          className="bg-background border border-slate-700 border-dashed h-48 flex flex-col justify-center items-center gap-4 hover:cursor-pointer hover:border-slate-500 hover:text-white"
-        >
-          <FilePlus className="size-7" />
-          Create new form
+        <Button>
+          <FilePlus /> Create new form
         </Button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-[425px]">

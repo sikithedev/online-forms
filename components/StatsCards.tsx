@@ -37,13 +37,13 @@ export default async function StatsCards() {
     },
     {
       title: "Submission rate",
-      value: `${stats?.submissionRate}%`,
+      value: `${stats?.submissionRate.toFixed(2)}%`,
       description: "Visits that result in form submissions",
       icon: <BookDashed className="text-green-500" />,
     },
     {
       title: "Bounce rate",
-      value: `${stats?.bounceRate}%`,
+      value: `${stats?.bounceRate.toFixed(2)}%`,
       description: "Visits that don't result in form submissions",
       icon: <BookDashed className="text-red-500" />,
     },
