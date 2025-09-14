@@ -116,7 +116,7 @@ export async function updateFormContent(id: number, content: string) {
   });
 }
 
-export async function publishFormById(id: number) {
+export async function publishFormById(id: number, content: string) {
   const user = await getUserOrThrow();
 
   return await prisma.form.update({
@@ -124,7 +124,10 @@ export async function publishFormById(id: number) {
       id,
       userId: user.id,
     },
-    data: { published: true },
+    data: {
+      content,
+      published: true,
+    },
   });
 }
 

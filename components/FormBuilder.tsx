@@ -78,22 +78,24 @@ export default function FormBuilder({ form }: FormBuilderProps) {
 
   return (
     <main className="w-full flex flex-col break-words">
-      <nav className="flex justify-between items-center gap-3 border-b p-2">
-        <h2 className="truncate">
-          <span className="text-muted-foreground">Form:</span> {form.name}
-        </h2>
-        <div className="flex items-center gap-2 h-full">
-          <PreviewFormButton published={form.published} />
-          {!form.published && (
-            <>
-              <Separator orientation="vertical" />
-              <SaveFormButton id={form.id} />
-              <PublishFormButton id={form.id} />
-            </>
-          )}
+      <nav className="border-b p-2">
+        <div className="container mx-auto flex justify-between items-center h-full">
+          <h2 className="truncate">
+            <span className="text-muted-foreground">Form:</span> {form.name}
+          </h2>
+          <div className="flex items-center gap-2 h-full">
+            <PreviewFormButton published={form.published} />
+            {!form.published && (
+              <>
+                <Separator orientation="vertical" />
+                <SaveFormButton id={form.id} />
+                <PublishFormButton id={form.id} />
+              </>
+            )}
+          </div>
         </div>
       </nav>
-      <div className="w-full flex grow justify-center items-center relative overflow-y-auto bg-[url(/builder/graph-paper.svg)] dark:bg-[url(/builder/graph-paper-dark.svg)]">
+      <div className="w-full flex grow justify-center items-center relative overflow-y-auto bg-accent">
         <DndContext sensors={sensors} id={id}>
           <Designer />
           <DragOverlayWrapper />

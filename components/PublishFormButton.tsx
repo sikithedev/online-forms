@@ -15,6 +15,7 @@ import { Loader2 } from "lucide-react";
 import { toast } from "sonner";
 import { publishFormById } from "@/actions/forms";
 import { useRouter } from "next/navigation";
+import useDesigner from "@/hooks/useDesigner";
 
 type PublishFormButtonProps = {
   id: number;
@@ -22,11 +23,13 @@ type PublishFormButtonProps = {
 
 export default function PublishFormButton({ id }: PublishFormButtonProps) {
   const router = useRouter();
+  const { elements } = useDesigner();
   const [isPending, startTransition] = useTransition();
 
   async function publishForm() {
     try {
-      await publishFormById(id);
+      const content = JSON.stringify(elements);
+      await publishFormById(id, content);
       toast.success("Form published successfully");
       router.refresh();
     } catch (error) {

@@ -15,8 +15,8 @@ export default function SaveFormButton({ id }: SaveFormButtonProps) {
 
   async function saveFormContent() {
     try {
-      const jsonElements = JSON.stringify(elements);
-      await updateFormContent(id, jsonElements);
+      const content = JSON.stringify(elements);
+      await updateFormContent(id, content);
       toast.success("Form saved successfully");
     } catch (error) {
       toast.error("Failed to save form. Please try again.");

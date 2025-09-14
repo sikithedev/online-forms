@@ -111,7 +111,7 @@ export default function Designer() {
       <div onClick={() => setSelectedElement(null)} className="w-full p-4">
         <div
           ref={setNodeRef}
-          className="max-w-[920px] h-full m-auto bg-background rounded-xl flex flex-col flex-1 justify-start items-center overflow-y-auto"
+          className="max-w-2xl h-full mx-auto bg-background rounded-xl flex flex-col justify-start items-center overflow-y-auto"
         >
           {elements.length === 0 ? (
             isOver ? (
