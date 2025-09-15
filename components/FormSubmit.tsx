@@ -56,9 +56,9 @@ export default function FormSubmit({ formUrl, content }: FormSubmitProps) {
 
   if (submitted) {
     return (
-      <div className="w-full flex justify-center items-center p-8">
-        <div className="w-full max-w-md flex flex-col gap-4 p-8 border rounded-md">
-          <h2 className="text-2xl font-bold">Thank you!</h2>
+      <div className="w-full h-full flex justify-center items-center p-4 text-center">
+        <div className="w-full max-w-md space-y-4 p-8 border rounded-md">
+          <h2 className="text-3xl font-bold">Thank you!</h2>
           <p>Your response has been recorded.</p>
         </div>
       </div>
@@ -66,8 +66,8 @@ export default function FormSubmit({ formUrl, content }: FormSubmitProps) {
   }
 
   return (
-    <div className="w-full flex justify-center items-center p-8">
-      <div className="w-full max-w-[620px] flex flex-col gap-4 p-8 border rounded-md overflow-y-auto">
+    <div className="w-full flex justify-center items-center py-4">
+      <div className="w-full max-w-[600px] flex flex-col gap-4 p-8 border rounded-md overflow-y-auto">
         {content.map((element) => {
           const FormElement = formElements[element.type].formComponent;
 
@@ -85,7 +85,7 @@ export default function FormSubmit({ formUrl, content }: FormSubmitProps) {
         <Button
           onClick={() => startTransition(handleClick)}
           disabled={isPending}
-          className="mt-4"
+          className="ml-auto"
         >
           {isPending ? <Loader2 className="animate-spin" /> : "Submit"}
         </Button>
