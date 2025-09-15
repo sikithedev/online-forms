@@ -22,17 +22,19 @@ type FormBuilderProps = {
 };
 
 export default function FormBuilder({ form }: FormBuilderProps) {
-  const { setElements } = useDesigner();
+  const { setElements, setSelectedElement } = useDesigner();
   const [loading, setLoading] = useState(true);
   const sensors = useDndSensors();
   const id = useId();
 
   useEffect(() => {
     if (!loading) return;
+
     const elements = JSON.parse(form.content);
     setElements(elements);
+    setSelectedElement(null);
     setLoading(false);
-  }, [form, setElements]);
+  }, [form, setElements, setSelectedElement, loading]);
 
   if (loading) {
     return (

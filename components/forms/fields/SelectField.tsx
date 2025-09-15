@@ -269,6 +269,7 @@ function PropertiesComponent({
                         document.activeElement.blur();
                       }
                     }}
+                    disabled={form.watch("options").length === 0}
                   />
                 </FormControl>
               </div>
