@@ -12,7 +12,7 @@ export default async function Details(props: {
   params: Promise<{ id: string }>;
 }) {
   const { id } = await props.params;
-  const form = await getFormById(Number(id));
+  const form = await getFormById(Number(id), { published: true });
   if (!form) {
     notFound();
   }

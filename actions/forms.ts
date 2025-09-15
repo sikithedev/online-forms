@@ -93,13 +93,17 @@ export async function getFormSubmissions(id: number) {
   });
 }
 
-export async function getFormById(id: number) {
+export async function getFormById(
+  id: number,
+  options?: { published?: boolean }
+) {
   const user = await getUserOrThrow();
 
   return await prisma.form.findUnique({
     where: {
       id,
       userId: user.id,
+      published: options?.published,
     },
   });
 }
