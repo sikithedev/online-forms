@@ -1,6 +1,7 @@
 import { DateFieldFormElement } from "./fields/DateField";
 import { NumberFieldFormElement } from "./fields/NumberField";
 import { ParagraphFieldFormElement } from "./fields/ParagraphField";
+import { SelectFieldFormElement } from "./fields/SelectField";
 import { SeparatorFieldFormElement } from "./fields/SeparatorField";
 import { SpacerFieldFormElement } from "./fields/SpacerField";
 import { SubtitleFieldFormElement } from "./fields/SubtitleField";
@@ -13,6 +14,7 @@ export type FormElementType =
   | "NumberField"
   | "TextareaField"
   | "DateField"
+  | "SelectField"
   | "TitleField"
   | "SubtitleField"
   | "ParagraphField"
@@ -59,6 +61,7 @@ export const formElements: FormElements = {
   NumberField: NumberFieldFormElement,
   TextareaField: TextareaFieldFormElement,
   DateField: DateFieldFormElement,
+  SelectField: SelectFieldFormElement,
   TitleField: TitleFieldFormElement,
   SubtitleField: SubtitleFieldFormElement,
   ParagraphField: ParagraphFieldFormElement,

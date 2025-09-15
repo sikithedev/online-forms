@@ -2,6 +2,7 @@ import { getFormById, getFormSubmissions } from "@/actions/forms";
 import FormLinkShare from "@/components/FormLinkShare";
 import { StatsCard } from "@/components/StatsCards";
 import SubmissionsTable from "@/components/SubmissionsTable";
+import { Separator } from "@/components/ui/separator";
 import ViewFormButton from "@/components/ViewFormButton";
 import { BookDashed } from "lucide-react";
 import { notFound } from "next/navigation";
@@ -49,15 +50,15 @@ export default async function Details(props: {
   ];
 
   return (
-    <div className="container">
-      <div className="border-b border-muted py-10">
-        <div className="flex justify-between">
-          <h1 className="text-4xl font-bold truncate">{form.name}</h1>
-          <ViewFormButton shareUrl={form.shareUrl} />
-        </div>
+    <div className="container mx-auto px-4">
+      <div className="border-b border-muted py-4 flex justify-between items-center">
+        <h1 className="text-2xl font-bold truncate">
+          <span className="text-muted-foreground">Form:</span> {form.name}
+        </h1>
+        <ViewFormButton shareUrl={form.shareUrl} />
       </div>
       <div className="border-b border-muted py-4">
-        <div className="flex justify-between items-center gap-2">
+        <div className="ml-auto">
           <FormLinkShare shareUrl={form.shareUrl} />
         </div>
       </div>

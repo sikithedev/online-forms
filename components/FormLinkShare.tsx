@@ -23,7 +23,7 @@ export default function FormLinkShare({ shareUrl }: FormLinkShareProps) {
   }
 
   return (
-    <div className="flex grow items-center gap-4">
+    <div className="flex grow items-center gap-2">
       <Input readOnly value={shareLink} />
       <Button onClick={handleClick}>
         <ClipboardCopy /> Copy link

@@ -1,6 +1,6 @@
 "use client";
 
-import { TextCursor } from "lucide-react";
+import { Plus, TextCursor, X } from "lucide-react";
 import {
   FormElement,
   FormElementCategory,
@@ -27,17 +27,16 @@ import {
 import { Switch } from "../../ui/switch";
 import { Separator } from "../../ui/separator";
 import { cn } from "@/lib/utils";
-import { Button } from "@/components/ui/button";
-import { Calendar as CalendarIcon } from "lucide-react";
 import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/components/ui/popover";
-import { Calendar } from "@/components/ui/calendar";
-import { format } from "date-fns";
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { Button } from "@/components/ui/button";
 
-const type: FormElementType = "DateField";
+const type: FormElementType = "SelectField";
 const category: FormElementCategory = "input";
 
 const propertiesSchema = z.object({
@@ -50,18 +49,24 @@ const propertiesSchema = z.object({
       message: "Label must be at most 64 characters.",
     }),
   required: z.boolean(),
+  placeholder: z.string().max(64, {
+    message: "Placeholder must be at most 64 characters.",
+  }),
   helperText: z.string().max(128, {
     message: "Helper text must be at most 128 characters.",
   }),
+  options: z.array(z.string()),
 });
 
 const defaultAttributes = {
-  label: "Date field",
+  label: "Select field",
   required: false,
-  helperText: "Additional information about this field",
+  placeholder: "Select an option",
+  helperText: "Additional information about this field.",
+  options: [],
 };
 
-export const DateFieldFormElement: FormElement = {
+export const SelectFieldFormElement: FormElement = {
   type,
   category,
   construct: (id) => ({
@@ -70,7 +75,7 @@ export const DateFieldFormElement: FormElement = {
     additionalAttributes: defaultAttributes,
   }),
   designerButtonElement: {
-    label: "Date Field",
+    label: "Select Field",
     icon: TextCursor,
   },
   designerComponent: DesignerComponent,
@@ -91,22 +96,20 @@ function DesignerComponent({
 }: {
   elementInstance: FormElementInstance;
 }) {
-  const { label, required, helperText } = (elementInstance as CustomInstance)
-    .additionalAttributes;
+  const { label, required, placeholder, helperText } = (
+    elementInstance as CustomInstance
+  ).additionalAttributes;
 
   return (
     <div className="w-full flex flex-col gap-2">
       <Label>
         {label} {required && "*"}
       </Label>
-      <Button
-        variant="outline"
-        disabled
-        className="w-52 justify-between font-normal text-muted-foreground"
-      >
-        Select date
-        <CalendarIcon />
-      </Button>
+      <Select>
+        <SelectTrigger disabled className="w-52">
+          <SelectValue placeholder={placeholder} />
+        </SelectTrigger>
+      </Select>
       {helperText && (
         <p className="text-muted-foreground text-sm">{helperText}</p>
       )}
@@ -127,26 +130,22 @@ function FormComponent({
   isInvalid?: boolean;
   className?: string;
 }) {
-  const [open, setOpen] = useState(false);
-  const [date, setDate] = useState<Date | undefined>(
-    defaultValue ? new Date(defaultValue) : undefined
-  );
+  const [value, setValue] = useState(defaultValue || "");
   const [error, setError] = useState(false);
-  const { label, required, helperText } = (elementInstance as CustomInstance)
-    .additionalAttributes;
+  const { label, required, placeholder, helperText, options } = (
+    elementInstance as CustomInstance
+  ).additionalAttributes;
 
   useEffect(() => {
     setError(isInvalid || false);
   }, [isInvalid]);
 
-  function handleSelect(date: Date | undefined) {
-    setDate(date);
-    setOpen(false);
+  function handleValueChange(value: string) {
+    setValue(value);
 
     if (!onSubmit) return;
 
-    const value = date?.toUTCString() || "";
-    const valid = DateFieldFormElement.validate(elementInstance, value);
+    const valid = SelectFieldFormElement.validate(elementInstance, value);
     setError(!valid);
     if (!valid) return;
 
@@ -158,23 +157,23 @@ function FormComponent({
       <Label>
         {label} {required && "*"}
       </Label>
-      <Popover open={open} onOpenChange={setOpen}>
-        <PopoverTrigger asChild>
-          <Button
-            variant="outline"
-            className={cn(
-              "w-52 justify-between font-normal text-muted-foreground",
-              error && "!border-destructive !focus:border-destructive"
-            )}
-          >
-            {date ? format(date, "PPP") : <span>Select date</span>}
-            <CalendarIcon />
-          </Button>
-        </PopoverTrigger>
-        <PopoverContent className="w-auto overflow-hidden p-0" align="start">
-          <Calendar mode="single" selected={date} onSelect={handleSelect} />
-        </PopoverContent>
-      </Popover>
+      <Select defaultValue={value} onValueChange={handleValueChange}>
+        <SelectTrigger
+          className={cn(
+            "w-52",
+            error && "border-destructive focus:border-destructive"
+          )}
+        >
+          <SelectValue placeholder={placeholder} />
+        </SelectTrigger>
+        <SelectContent>
+          {options.map((option) => (
+            <SelectItem key={option} value={option}>
+              {option}
+            </SelectItem>
+          ))}
+        </SelectContent>
+      </Select>
       {helperText && (
         <p className="text-muted-foreground text-sm">{helperText}</p>
       )}
@@ -189,6 +188,8 @@ function PropertiesComponent({
 }) {
   const element = elementInstance as CustomInstance;
   const { updateElement } = useDesigner();
+  const [newOption, setNewOption] = useState("");
+  const [error, setError] = useState(false);
   const form = useForm<z.infer<typeof propertiesSchema>>({
     resolver: zodResolver(propertiesSchema),
     mode: "onBlur",
@@ -201,6 +202,27 @@ function PropertiesComponent({
 
   function handleEnterBlur(e: React.KeyboardEvent<HTMLInputElement>) {
     if (e.key === "Enter") e.currentTarget.blur();
+  }
+
+  function addOption(e: React.FormEvent<HTMLButtonElement>) {
+    e.preventDefault();
+    const option = newOption.trim();
+
+    if (option === "") {
+      setError(true);
+      return;
+    }
+
+    const options = form.getValues("options");
+
+    if (options.includes(option)) {
+      setError(true);
+      return;
+    }
+
+    form.setValue("options", [...options, option]);
+    setNewOption("");
+    setError(false);
   }
 
   function applyChanges(values: z.infer<typeof propertiesSchema>) {
@@ -251,6 +273,75 @@ function PropertiesComponent({
                 </FormControl>
               </div>
               <FormDescription>Whether the field is required.</FormDescription>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <Separator />
+        <FormField
+          control={form.control}
+          name="placeholder"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Placeholder</FormLabel>
+              <FormControl>
+                <Input {...field} onKeyDown={handleEnterBlur} />
+              </FormControl>
+              <FormDescription>
+                The placeholder text shown inside the input.
+              </FormDescription>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <Separator />
+        <FormField
+          control={form.control}
+          name="options"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Options</FormLabel>
+              <div className="flex items-center gap-2">
+                <Input
+                  value={newOption}
+                  onChange={(e) => {
+                    setNewOption(e.target.value);
+                    setError(false);
+                  }}
+                  placeholder="New option"
+                  className={cn(
+                    "transition-colors",
+                    error && "border-destructive focus:border-destructive"
+                  )}
+                />
+                <Button variant="outline" onClick={addOption}>
+                  <Plus />
+                </Button>
+              </div>
+              <div className="flex flex-col gap-2">
+                {form.watch("options").map((option, index) => (
+                  <div key={index} className="flex gap-2 items-center">
+                    <div className="w-full bg-accent py-1 px-3 rounded-md border flex justify-between items-center">
+                      <span className="break-all">{option}</span>
+                      <Button
+                        variant="ghost"
+                        onClick={() => {
+                          const updated = [...form.getValues("options")];
+                          updated.splice(index, 1);
+                          form.setValue("options", updated);
+                          applyChanges(form.getValues());
+                        }}
+                        className="!p-0 ml-3 h-fit"
+                      >
+                        <X />
+                      </Button>
+                    </div>
+                  </div>
+                ))}
+              </div>
+              <FormDescription>
+                The options shown inside the input.
+              </FormDescription>
               <FormMessage />
             </FormItem>
           )}
