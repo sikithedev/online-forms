@@ -7,44 +7,46 @@ import {
   CardHeader,
   CardTitle,
 } from "./ui/card";
-import { getFormStats } from "@/actions/forms";
 import { BookDashed } from "lucide-react";
-import { Skeleton } from "./ui/skeleton";
-
-type StatsCardProps = {
-  title: string;
-  value?: string;
-  description: string;
-  icon: ReactNode;
-  loading: boolean;
-  className?: string;
+type StatsCardsProps = {
+  visits: number;
+  submissions: number;
+  allForms?: boolean;
 };
 
-export default async function StatsCards() {
-  const stats = await getFormStats();
+export default async function StatsCards({
+  visits,
+  submissions,
+  allForms = false,
+}: StatsCardsProps) {
+  const completionRate = visits > 0 ? (submissions / visits) * 100 : 0;
+  const abandonRate = visits > 0 ? 100 - completionRate : 0;
+
   const cardsData = [
     {
-      title: "Total visits",
-      value: stats?.totalVisits,
-      description: "All time form visits",
+      title: "Form Views",
+      value: visits,
+      description: allForms
+        ? "Number of times the forms have been viewed"
+        : "Number of times this form has been viewed",
       icon: <BookDashed className="text-blue-500" />,
     },
     {
-      title: "Total submissions",
-      value: stats?.totalSubmissions,
-      description: "All time form submissions",
+      title: "Form Submissions",
+      value: submissions,
+      description: "Number of completed form submissions",
       icon: <BookDashed className="text-yellow-500" />,
     },
     {
-      title: "Submission rate",
-      value: `${stats?.submissionRate.toFixed(2)}%`,
-      description: "Visits that result in form submissions",
+      title: "Completion Rate",
+      value: `${completionRate.toFixed(2)}%`,
+      description: "Percentage of views that resulted in a submission",
       icon: <BookDashed className="text-green-500" />,
     },
     {
-      title: "Bounce rate",
-      value: `${stats?.bounceRate.toFixed(2)}%`,
-      description: "Visits that don't result in form submissions",
+      title: "Abandon Rate",
+      value: `${abandonRate.toFixed(2)}%`,
+      description: "Percentage of views that ended without a submission",
       icon: <BookDashed className="text-red-500" />,
     },
   ];
@@ -52,25 +54,25 @@ export default async function StatsCards() {
   return (
     <div className="w-full pt-4 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
       {cardsData.map((card) => (
-        <StatsCard
-          key={card.title}
-          title={card.title}
-          value={card.value.toLocaleString()}
-          description={card.description}
-          icon={card.icon}
-          loading={false}
-        />
+        <StatsCard key={card.title} {...card} />
       ))}
     </div>
   );
 }
+
+type StatsCardProps = {
+  title: string;
+  value: string | number;
+  description: string;
+  icon: ReactNode;
+  className?: string;
+};
 
 export function StatsCard({
   title,
   value,
   description,
   icon,
-  loading,
   className,
 }: StatsCardProps) {
   return (
@@ -80,21 +82,12 @@ export function StatsCard({
           <CardDescription className="text-lg text-slate-100">
             {title}
           </CardDescription>
-          <CardTitle className="text-2xl font-semibold">
-            {loading ? (
-              <Skeleton
-                className="h-6
-             w-full mt-2 bg-slate-700"
-              />
-            ) : (
-              <span>{value}</span>
-            )}
-          </CardTitle>
+          <CardTitle className="text-2xl font-semibold">{value}</CardTitle>
         </div>
         <CardAction>{icon}</CardAction>
       </CardHeader>
-      <CardFooter className="flex-col items-start gap-1.5 text-sm">
-        <div className="text-muted-foreground">{description}</div>
+      <CardFooter className="flex-col items-start gap-1.5 text-sm text-muted-foreground">
+        {description}
       </CardFooter>
     </Card>
   );

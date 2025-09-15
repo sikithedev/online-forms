@@ -33,13 +33,10 @@ export async function getFormStats() {
     }),
   ]);
 
-  const totalVisits = visitsCount._sum.visits ?? 0;
-  const totalSubmissions = submissionsCount;
-  const submissionRate =
-    totalVisits > 0 ? (totalSubmissions / totalVisits) * 100 : 0;
-  const bounceRate = totalVisits > 0 ? 100 - submissionRate : 0;
+  const visits = visitsCount._sum.visits ?? 0;
+  const submissions = submissionsCount;
 
-  return { totalVisits, totalSubmissions, submissionRate, bounceRate };
+  return { visits, submissions };
 }
 
 export async function createForm(data: z.infer<typeof formSchema>) {
