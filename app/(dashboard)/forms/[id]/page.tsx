@@ -1,4 +1,5 @@
 import { getFormById, getFormSubmissions } from "@/actions/forms";
+import DeleteFormButton from "@/components/DeleteFormButton";
 import FormLinkShare from "@/components/FormLinkShare";
 import StatsCards from "@/components/StatsCards";
 import SubmissionsTable from "@/components/SubmissionsTable";
@@ -21,11 +22,14 @@ export default async function Details(props: {
 
   return (
     <div className="container mx-auto px-4">
-      <div className="border-b border-muted py-4 flex justify-between items-center">
+      <div className="border-b border-muted py-4 flex justify-between items-center gap-2">
         <h1 className="text-2xl font-bold truncate">
           <span className="text-muted-foreground">Form:</span> {form.name}
         </h1>
-        <ViewFormButton shareUrl={form.shareUrl} />
+        <div className="flex gap-2">
+          <DeleteFormButton id={id} />
+          <ViewFormButton shareUrl={form.shareUrl} />
+        </div>
       </div>
       <div className="border-b border-muted py-4">
         <div className="ml-auto">

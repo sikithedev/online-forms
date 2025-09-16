@@ -17,6 +17,7 @@ import Link from "next/link";
 import FormLinkShare from "./FormLinkShare";
 import ArrowBackRoundedIcon from "@mui/icons-material/ArrowBackRounded";
 import InsertChartOutlinedRoundedIcon from "@mui/icons-material/InsertChartOutlinedRounded";
+import DeleteFormButton from "./DeleteFormButton";
 
 type FormBuilderProps = {
   form: Form;
@@ -93,6 +94,7 @@ export default function FormBuilder({ form }: FormBuilderProps) {
             {!form.published && (
               <>
                 <Separator orientation="vertical" />
+                <DeleteFormButton id={form.id.toString()} />
                 <SaveFormButton id={form.id} />
                 <PublishFormButton id={form.id} />
               </>

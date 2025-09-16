@@ -12,7 +12,7 @@ export default async function Home() {
       <StatsCards visits={visits} submissions={submissions} allForms />
       <Separator />
       <div className="flex justify-between items-center">
-        <h2 className="text-3xl font-bold">Your forms</h2>
+        <h2 className="text-3xl font-semibold tracking-tight">Your forms</h2>
         <CreateFormButton />
       </div>
       <div className="grid gap-4 grid-cols-1 md:grid-cols-2 lg:grid-cols-3">

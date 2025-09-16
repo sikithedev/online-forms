@@ -32,7 +32,7 @@ model Form {
 model Submissions {
   id        Int      @id @default(autoincrement())
   createdAt DateTime @default(now())
-  form      Form     @relation(fields: [formId], references: [id])
+  form      Form     @relation(fields: [formId], references: [id], onDelete: Cascade)
   formId    Int
   content   String
 }

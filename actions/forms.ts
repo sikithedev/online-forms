@@ -5,68 +5,47 @@ import * as z from "zod";
 import { formSchema } from "@/schemas/form";
 import { prisma } from "@/lib/prisma";
 
-class UserNotFoundError extends Error {
-  constructor(message = "User not found") {
-    super(message);
-    this.name = "UserNotFoundError";
-  }
-}
-
-async function getUserOrThrow() {
+async function requireUser() {
   const user = await currentUser();
-  if (!user) throw new UserNotFoundError();
+  if (!user) throw new Error("User not found");
   return user;
 }
 
 export async function getFormStats() {
-  const user = await getUserOrThrow();
+  const { id: userId } = await requireUser();
 
   const [visitsCount, submissionsCount] = await Promise.all([
     prisma.form.aggregate({
-      where: { userId: user.id },
+      where: { userId },
       _sum: { visits: true },
     }),
     prisma.submissions.count({
-      where: {
-        form: { userId: user.id },
-      },
+      where: { form: { userId } },
     }),
   ]);
 
-  const visits = visitsCount._sum.visits ?? 0;
-  const submissions = submissionsCount;
-
-  return { visits, submissions };
+  return {
+    visits: visitsCount._sum.visits ?? 0,
+    submissions: submissionsCount,
+  };
 }
 
 export async function createForm(data: z.infer<typeof formSchema>) {
-  const result = formSchema.safeParse(data);
-  if (!result.success) {
-    throw new Error("Form not valid");
-  }
+  const parsed = formSchema.parse(data);
+  const { id: userId } = await requireUser();
 
-  const user = await getUserOrThrow();
-  const { name, description } = data;
   const form = await prisma.form.create({
-    data: {
-      userId: user.id,
-      name,
-      description,
-    },
+    data: { ...parsed, userId },
   });
-
-  if (!form) {
-    throw new Error("Something went wrong, please try again later");
-  }
 
   return form.id;
 }
 
 export async function getForms() {
-  const user = await getUserOrThrow();
+  const { id: userId } = await requireUser();
 
   const forms = await prisma.form.findMany({
-    where: { userId: user.id },
+    where: { userId },
     orderBy: { createdAt: "desc" },
     include: {
       _count: { select: { submissions: true } },
@@ -80,13 +59,10 @@ export async function getForms() {
 }
 
 export async function getFormSubmissions(id: number) {
-  const user = await getUserOrThrow();
+  const { id: userId } = await requireUser();
 
   return await prisma.submissions.findMany({
-    where: {
-      formId: id,
-      form: { userId: user.id },
-    },
+    where: { formId: id, form: { userId } },
   });
 }
 
@@ -94,59 +70,54 @@ export async function getFormById(
   id: number,
   options?: { published?: boolean }
 ) {
-  const user = await getUserOrThrow();
+  const { id: userId } = await requireUser();
 
   return await prisma.form.findUnique({
-    where: {
-      id,
-      userId: user.id,
-      published: options?.published,
-    },
+    where: { id, userId, published: options?.published },
   });
 }
 
 export async function updateFormContent(id: number, content: string) {
-  const user = await getUserOrThrow();
+  const { id: userId } = await requireUser();
 
   return await prisma.form.update({
-    where: {
-      id,
-      userId: user.id,
-    },
+    where: { id, userId },
     data: { content },
   });
 }
 
 export async function publishFormById(id: number, content: string) {
-  const user = await getUserOrThrow();
+  const { id: userId } = await requireUser();
 
   return await prisma.form.update({
-    where: {
-      id,
-      userId: user.id,
-    },
-    data: {
-      content,
-      published: true,
-    },
+    where: { id, userId },
+    data: { content, published: true },
   });
 }
 
 export async function getFormContentByUrl(formUrl: string) {
   return await prisma.form.update({
-    data: { visits: { increment: 1 } },
     where: { shareUrl: formUrl, published: true },
+    data: { visits: { increment: 1 } },
     select: { content: true },
   });
 }
 
 export async function submitForm(formUrl: string, content: string) {
   return await prisma.form.update({
+    where: { shareUrl: formUrl, published: true },
     data: {
       submissions: {
         create: { content },
       },
     },
-    where: { shareUrl: formUrl, published: true },
+  });
+}
+
+export async function deleteFormById(id: number) {
+  const { id: userId } = await requireUser();
+
+  return await prisma.form.deleteMany({
+    where: { id, userId },
   });
 }
