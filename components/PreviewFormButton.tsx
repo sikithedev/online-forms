@@ -10,6 +10,7 @@ import {
 } from "./ui/dialog";
 import useDesigner from "@/hooks/useDesigner";
 import { formElements } from "./forms/formElements";
+import VisibilityRoundedIcon from "@mui/icons-material/VisibilityRounded";
 
 type PreviewFormButtonProps = {
   published: boolean;
@@ -22,7 +23,9 @@ export default function PreviewFormButton({
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <Button variant="outline">Preview</Button>
+        <Button variant="outline">
+          <VisibilityRoundedIcon className="!size-4" /> Preview
+        </Button>
       </DialogTrigger>
       <DialogContent>
         <DialogHeader className="mb-2">

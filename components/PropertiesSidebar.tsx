@@ -13,13 +13,13 @@ export default function PropertiesSidebar() {
     formElements[selectedElement?.type].propertiesComponent;
 
   return (
-    <div className="flex flex-col p-2">
+    <div className="space-y-4">
       <div className="flex justify-between items-center">
-        <p className="text-sm text-foreground/70">Element properties</p>
+        <p className="text-muted-foreground">Element properties</p>
         <Button
           variant="ghost"
-          size="icon"
           onClick={() => setSelectedElement(null)}
+          className="!p-0 h-fit"
         >
           <X />
         </Button>

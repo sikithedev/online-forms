@@ -3,7 +3,7 @@
 import React, { useEffect, useState } from "react";
 import { Button } from "./ui/button";
 import { Input } from "./ui/input";
-import { ClipboardCopy } from "lucide-react";
+import ContentCopyRoundedIcon from "@mui/icons-material/ContentCopyRounded";
 import { toast } from "sonner";
 
 type FormLinkShareProps = {
@@ -26,7 +26,7 @@ export default function FormLinkShare({ shareUrl }: FormLinkShareProps) {
     <div className="flex grow items-center gap-2">
       <Input readOnly value={shareLink} />
       <Button onClick={handleClick}>
-        <ClipboardCopy /> Copy link
+        <ContentCopyRoundedIcon className="!size-4" /> Copy link
       </Button>
     </div>
   );

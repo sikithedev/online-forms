@@ -28,7 +28,7 @@ export default async function StatsCards({
 
   const cardsData = [
     {
-      title: "Form Views",
+      title: "Form views",
       value: visits,
       description: allForms
         ? "Number of times the forms have been viewed"
@@ -36,19 +36,19 @@ export default async function StatsCards({
       icon: <SortRoundedIcon />,
     },
     {
-      title: "Form Submissions",
+      title: "Form submissions",
       value: submissions,
       description: "Number of completed form submissions",
       icon: <ArrowUpwardRoundedIcon />,
     },
     {
-      title: "Completion Rate",
+      title: "Completion rate",
       value: `${completionRate.toFixed(2)}%`,
       description: "Percentage of views that resulted in a submission",
       icon: <TaskAltRoundedIcon />,
     },
     {
-      title: "Abandon Rate",
+      title: "Abandon rate",
       value: `${abandonRate.toFixed(2)}%`,
       description: "Percentage of views that ended without a submission",
       icon: <HighlightOffRoundedIcon />,

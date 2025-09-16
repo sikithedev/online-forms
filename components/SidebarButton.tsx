@@ -8,16 +8,6 @@ type SidebarButtonProps = {
   formElement: FormElement;
 };
 
-function SidebarButtonContent({ formElement }: SidebarButtonProps) {
-  const { label, icon: Icon } = formElement.designerButtonElement;
-  return (
-    <>
-      <Icon className="size-6 text-primary" />
-      <p className="text-xs">{label}</p>
-    </>
-  );
-}
-
 export default function SidebarButton({ formElement }: SidebarButtonProps) {
   const { attributes, listeners, setNodeRef, isDragging } = useDraggable({
     id: `designer-btn-${formElement.type}`,
@@ -33,10 +23,7 @@ export default function SidebarButton({ formElement }: SidebarButtonProps) {
       {...listeners}
       {...attributes}
       variant="outline"
-      className={cn(
-        "h-24 flex flex-col gap-2 cursor-grab",
-        isDragging && "border-3"
-      )}
+      className={cn("w-full flex justify-between", isDragging && "border-3")}
     >
       <SidebarButtonContent formElement={formElement} />
     </Button>
@@ -45,8 +32,21 @@ export default function SidebarButton({ formElement }: SidebarButtonProps) {
 
 export function SidebarButtonDragOverlay({ formElement }: SidebarButtonProps) {
   return (
-    <Button variant="outline" className="h-24 flex flex-col gap-2 cursor-grab">
+    <Button
+      variant="outline"
+      className="w-full flex justify-between cursor-grab"
+    >
       <SidebarButtonContent formElement={formElement} />
     </Button>
+  );
+}
+
+function SidebarButtonContent({ formElement }: SidebarButtonProps) {
+  const { label, icon: Icon } = formElement.designerButtonElement;
+  return (
+    <>
+      <span className="text-sm">{label}</span>
+      <Icon className="!size-4 text-muted-foreground" />
+    </>
   );
 }

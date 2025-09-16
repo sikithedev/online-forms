@@ -16,6 +16,7 @@ import { toast } from "sonner";
 import { publishFormById } from "@/actions/forms";
 import { useRouter } from "next/navigation";
 import useDesigner from "@/hooks/useDesigner";
+import PublishRoundedIcon from "@mui/icons-material/PublishRounded";
 
 type PublishFormButtonProps = {
   id: number;
@@ -40,7 +41,9 @@ export default function PublishFormButton({ id }: PublishFormButtonProps) {
   return (
     <AlertDialog>
       <AlertDialogTrigger asChild>
-        <Button>Publish</Button>
+        <Button>
+          <PublishRoundedIcon className="!size-4" /> Publish
+        </Button>
       </AlertDialogTrigger>
       <AlertDialogContent>
         <AlertDialogHeader>

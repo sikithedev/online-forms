@@ -86,7 +86,7 @@ export default function FormBuilder({ form }: FormBuilderProps) {
     <main className="w-full flex flex-col break-words">
       <nav className="border-b px-4 py-2">
         <div className="flex justify-between items-center gap-2 h-full">
-          <h2 className="truncate">
+          <h2 className="text-xl font-semibold tracking-tight truncate">
             <span className="text-muted-foreground">Form:</span> {form.name}
           </h2>
           <div className="flex items-center gap-2 h-full">

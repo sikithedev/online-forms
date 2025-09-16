@@ -23,7 +23,7 @@ export default async function Details(props: {
   return (
     <div className="container mx-auto px-4">
       <div className="border-b border-muted py-4 flex justify-between items-center gap-2">
-        <h1 className="text-2xl font-bold truncate">
+        <h1 className="text-3xl font-semibold tracking-tight truncate">
           <span className="text-muted-foreground">Form:</span> {form.name}
         </h1>
         <div className="flex gap-2">

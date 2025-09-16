@@ -36,7 +36,7 @@ export default function DragOverlayWrapper() {
         formElements[element.type].designerComponent;
 
       node = (
-        <div className="w-full flex bg-accent border rounded-md p-4 opacity-40">
+        <div className="w-full flex bg-accent border rounded-md p-4 opacity-50">
           <DesignerElementComponent elementInstance={element} />;
         </div>
       );

@@ -111,22 +111,26 @@ export default function Designer() {
       <div onClick={() => setSelectedElement(null)} className="w-full p-4">
         <div
           ref={setNodeRef}
-          className="max-w-2xl h-full mx-auto bg-background rounded-xl flex flex-col justify-start items-center overflow-y-auto"
+          className="max-w-2xl mx-auto bg-background rounded-xl flex flex-col justify-start items-center overflow-y-auto min-h-[500px] pb-[100px]"
         >
           {elements.length === 0 ? (
             isOver ? (
-              <div className="w-full p-2">
-                <div className="h-[120px] rounded-md bg-primary/20"></div>
+              <div className="w-full p-4">
+                <div className="h-[80px] rounded-md bg-primary/10"></div>
               </div>
             ) : (
-              <p className="flex grow items-center font-bold text-xl text-muted-foreground">
+              <p className="flex grow items-center translate-y-[50px] text-xl font-semibold tracking-tight text-muted-foreground">
                 Drop here
               </p>
             )
           ) : (
-            <div className="w-full flex flex-col gap-2 p-4">
-              {elements.map((element) => (
-                <DesignerElement key={element.id} element={element} />
+            <div className="w-full flex flex-col gap-4 p-4">
+              {elements.map((element, index) => (
+                <DesignerElement
+                  key={element.id}
+                  element={element}
+                  isLast={index === elements.length - 1}
+                />
               ))}
             </div>
           )}
@@ -137,7 +141,13 @@ export default function Designer() {
   );
 }
 
-function DesignerElement({ element }: { element: FormElementInstance }) {
+function DesignerElement({
+  element,
+  isLast,
+}: {
+  element: FormElementInstance;
+  isLast: boolean;
+}) {
   const { removeElement, setSelectedElement } = useDesigner();
   const [isMouseOver, setIsMouseOver] = useState(false);
 
@@ -187,10 +197,18 @@ function DesignerElement({ element }: { element: FormElementInstance }) {
         ref={topHalf.setNodeRef}
         className="absolute w-full h-1/2 rounded-t-md"
       />
-      <div
-        ref={bottomHalf.setNodeRef}
-        className="absolute bottom-0 w-full h-1/2 rounded-b-md"
-      />
+
+      {isLast ? (
+        <div
+          ref={bottomHalf.setNodeRef}
+          className="absolute top-1/2 w-full h-[calc(50%+80px+1rem)] rounded-b-md"
+        />
+      ) : (
+        <div
+          ref={bottomHalf.setNodeRef}
+          className="absolute bottom-0 w-full h-1/2 rounded-b-md"
+        />
+      )}
 
       {isMouseOver && (
         <>
@@ -216,7 +234,7 @@ function DesignerElement({ element }: { element: FormElementInstance }) {
       )}
 
       {topHalf.isOver && (
-        <div className="absolute -top-2 w-full h-2 rounded-md bg-primary/20"></div>
+        <div className="absolute -top-3 w-full h-2 rounded-md bg-primary/10"></div>
       )}
 
       <div
@@ -228,9 +246,12 @@ function DesignerElement({ element }: { element: FormElementInstance }) {
         <DesignerComponent elementInstance={element} />
       </div>
 
-      {bottomHalf.isOver && (
-        <div className="absolute -bottom-2 w-full h-2 rounded-md bg-primary/20"></div>
-      )}
+      {bottomHalf.isOver &&
+        (isLast ? (
+          <div className="absolute -bottom-[calc(80px+1rem)] w-full h-[80px] rounded-md bg-primary/10"></div>
+        ) : (
+          <div className="absolute -bottom-3 w-full h-2 rounded-md bg-primary/10"></div>
+        ))}
     </div>
   );
 }

@@ -13,7 +13,8 @@ import { Badge } from "./ui/badge";
 import { formatDistance } from "date-fns";
 import { Button } from "./ui/button";
 import Link from "next/link";
-import { FilePen, MoveRight } from "lucide-react";
+import EditRoundedIcon from "@mui/icons-material/EditRounded";
+import ArrowForwardRoundedIcon from "@mui/icons-material/ArrowForwardRounded";
 
 type FormCardProps = {
   form: Form & { submissions: number };
@@ -35,7 +36,7 @@ function FormCard({ form }: FormCardProps) {
   return (
     <Card>
       <CardHeader>
-        <CardTitle className="truncate">{form.name}</CardTitle>
+        <CardTitle className="truncate leading-normal">{form.name}</CardTitle>
         <CardDescription>
           {formatDistance(form.createdAt, new Date(), {
             addSuffix: true,
@@ -43,37 +44,36 @@ function FormCard({ form }: FormCardProps) {
         </CardDescription>
         <CardAction className="flex flex-col items-end gap-2">
           {form.published ? (
-            <>
-              <Badge>Published</Badge>
-
-              <span className="text-muted-foreground text-xs">
-                Visits: {form.visits.toLocaleString()} • Submissions:{" "}
-                {form.submissions.toLocaleString()}
-              </span>
-            </>
+            <Badge variant="secondary">Published</Badge>
           ) : (
-            <Badge variant="secondary">Draft</Badge>
+            <Badge variant="outline">Draft</Badge>
           )}
         </CardAction>
       </CardHeader>
-      <CardContent className="grow">
+      <CardContent className="grow tracking-tight break-words">
         {form.description || "No description"}
       </CardContent>
-      <CardFooter>
-        {form.published ? (
-          <Button asChild className="w-full">
+      {form.published ? (
+        <CardFooter className="flex justify-between">
+          <div className="flex flex-col text-muted-foreground text-xs">
+            <span>Views: {form.visits.toLocaleString()}</span>
+            <span>Submissions: {form.submissions.toLocaleString()}</span>
+          </div>
+          <Button asChild>
             <Link href={`/forms/${form.id}`}>
-              <MoveRight /> View submissions
+              <ArrowForwardRoundedIcon className="!size-4" /> View submissions
             </Link>
           </Button>
-        ) : (
-          <Button asChild variant="secondary" className="w-full">
+        </CardFooter>
+      ) : (
+        <CardFooter className="flex justify-end">
+          <Button asChild variant="secondary">
             <Link href={`/builder/${form.id}`}>
-              <FilePen /> Edit form
+              <EditRoundedIcon className="!size-4" /> Edit form
             </Link>
           </Button>
-        )}
-      </CardFooter>
+        </CardFooter>
+      )}
     </Card>
   );
 }

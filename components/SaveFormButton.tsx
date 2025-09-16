@@ -4,6 +4,7 @@ import useDesigner from "@/hooks/useDesigner";
 import { updateFormContent } from "@/actions/forms";
 import { toast } from "sonner";
 import { Loader2 } from "lucide-react";
+import SaveRoundedIcon from "@mui/icons-material/SaveRounded";
 
 type SaveFormButtonProps = {
   id: number;
@@ -29,7 +30,12 @@ export default function SaveFormButton({ id }: SaveFormButtonProps) {
       disabled={isPending}
       onClick={() => startTransition(saveFormContent)}
     >
-      {isPending && <Loader2 className="animate-spin" />} Save
+      {isPending ? (
+        <Loader2 className="animate-spin" />
+      ) : (
+        <SaveRoundedIcon className="!size-4" />
+      )}{" "}
+      Save
     </Button>
   );
 }
