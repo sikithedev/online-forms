@@ -7,7 +7,11 @@ import {
   CardHeader,
   CardTitle,
 } from "./ui/card";
-import { BookDashed } from "lucide-react";
+import SortRoundedIcon from "@mui/icons-material/SortRounded";
+import ArrowUpwardRoundedIcon from "@mui/icons-material/ArrowUpwardRounded";
+import TaskAltRoundedIcon from "@mui/icons-material/TaskAltRounded";
+import HighlightOffRoundedIcon from "@mui/icons-material/HighlightOffRounded";
+
 type StatsCardsProps = {
   visits: number;
   submissions: number;
@@ -29,25 +33,25 @@ export default async function StatsCards({
       description: allForms
         ? "Number of times the forms have been viewed"
         : "Number of times this form has been viewed",
-      icon: <BookDashed className="text-blue-500" />,
+      icon: <SortRoundedIcon />,
     },
     {
       title: "Form Submissions",
       value: submissions,
       description: "Number of completed form submissions",
-      icon: <BookDashed className="text-yellow-500" />,
+      icon: <ArrowUpwardRoundedIcon />,
     },
     {
       title: "Completion Rate",
       value: `${completionRate.toFixed(2)}%`,
       description: "Percentage of views that resulted in a submission",
-      icon: <BookDashed className="text-green-500" />,
+      icon: <TaskAltRoundedIcon />,
     },
     {
       title: "Abandon Rate",
       value: `${abandonRate.toFixed(2)}%`,
       description: "Percentage of views that ended without a submission",
-      icon: <BookDashed className="text-red-500" />,
+      icon: <HighlightOffRoundedIcon />,
     },
   ];
 
@@ -79,14 +83,14 @@ export function StatsCard({
     <Card className={className}>
       <CardHeader className="flex justify-between items-center">
         <div>
-          <CardDescription className="text-lg text-slate-100">
+          <CardDescription className="text-lg tracking-tight">
             {title}
           </CardDescription>
           <CardTitle className="text-2xl font-semibold">{value}</CardTitle>
         </div>
-        <CardAction>{icon}</CardAction>
+        <CardAction className="text-muted-foreground">{icon}</CardAction>
       </CardHeader>
-      <CardFooter className="flex-col items-start gap-1.5 text-sm text-muted-foreground">
+      <CardFooter className="text-sm text-muted-foreground">
         {description}
       </CardFooter>
     </Card>
