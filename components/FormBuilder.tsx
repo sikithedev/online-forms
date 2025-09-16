@@ -11,11 +11,12 @@ import { DndContext } from "@dnd-kit/core";
 import DragOverlayWrapper from "./DragOverlayWrapper";
 import useDndSensors from "@/hooks/useDndSensors";
 import useDesigner from "@/hooks/useDesigner";
-import { LoaderCircle, MoveLeft, ReceiptText } from "lucide-react";
+import { LoaderCircle } from "lucide-react";
 import { Button } from "./ui/button";
 import Link from "next/link";
-import Confetti from "react-confetti";
 import FormLinkShare from "./FormLinkShare";
+import ArrowBackRoundedIcon from "@mui/icons-material/ArrowBackRounded";
+import InsertChartOutlinedRoundedIcon from "@mui/icons-material/InsertChartOutlinedRounded";
 
 type FormBuilderProps = {
   form: Form;
@@ -46,42 +47,44 @@ export default function FormBuilder({ form }: FormBuilderProps) {
 
   if (form.published) {
     return (
-      <>
-        <Confetti recycle={false} />
-        <div className="h-full w-full flex flex-col items-center justify-center">
-          <div className="max-w-md">
-            <h1 className="text-center text-4xl font-bold text-primary border-b pb-2 mb-10">
-              Form Published
-            </h1>
-            <h2 className="text-2xl">Share this form</h2>
-            <h3 className="text-xl text-muted-foreground">
-              Anyone with the link can view and submit the form
-            </h3>
-            <div className="w-full border-b pb-4 my-4">
-              <FormLinkShare shareUrl={form.shareUrl} />
-            </div>
-            <div className="flex justify-between">
-              <Button variant="link" asChild>
-                <Link href="/" className="gap-2">
-                  <MoveLeft /> Back to home
-                </Link>
-              </Button>
-              <Button variant="link" asChild>
-                <Link href={`/forms/${form.id}`} className="gap-2">
-                  <ReceiptText /> View details
-                </Link>
-              </Button>
-            </div>
+      <div className="h-full w-full flex justify-center items-center px-4 text-center">
+        <div className="max-w-md flex flex-col gap-4">
+          <h1 className="text-center text-4xl font-extrabold tracking-tight text-balance">
+            Form Published
+          </h1>
+          <Separator />
+          <h2 className="text-3xl font-semibold tracking-tight">
+            Share this form
+          </h2>
+          <p className="text-lg text-muted-foreground tracking-tight">
+            Anyone with the link can view and submit the form
+          </p>
+          <div className="w-full mb-2">
+            <FormLinkShare shareUrl={form.shareUrl} />
+          </div>
+          <Separator />
+          <div className="flex justify-between">
+            <Button variant="ghost" asChild>
+              <Link href="/">
+                <ArrowBackRoundedIcon className="!size-4" /> Back to home
+              </Link>
+            </Button>
+            <Button variant="ghost" asChild>
+              <Link href={`/forms/${form.id}`}>
+                <InsertChartOutlinedRoundedIcon className="!size-4" /> View
+                details
+              </Link>
+            </Button>
           </div>
         </div>
-      </>
+      </div>
     );
   }
 
   return (
     <main className="w-full flex flex-col break-words">
-      <nav className="border-b p-2">
-        <div className="container mx-auto flex justify-between items-center h-full">
+      <nav className="border-b px-4 py-2">
+        <div className="flex justify-between items-center gap-2 h-full">
           <h2 className="truncate">
             <span className="text-muted-foreground">Form:</span> {form.name}
           </h2>
