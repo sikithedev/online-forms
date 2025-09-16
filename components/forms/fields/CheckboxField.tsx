@@ -1,6 +1,6 @@
 "use client";
 
-import { TextCursor } from "lucide-react";
+import CheckBoxRoundedIcon from "@mui/icons-material/CheckBoxRounded";
 import {
   FormElement,
   FormElementCategory,
@@ -62,8 +62,8 @@ export const CheckboxFieldFormElement: FormElement = {
     additionalAttributes: defaultAttributes,
   }),
   designerButtonElement: {
-    label: "Checkbox Field",
-    icon: TextCursor,
+    label: "Checkbox",
+    icon: CheckBoxRoundedIcon,
   },
   designerComponent: DesignerComponent,
   formComponent: FormComponent,

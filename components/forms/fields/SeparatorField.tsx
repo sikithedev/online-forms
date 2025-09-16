@@ -1,6 +1,6 @@
 "use client";
 
-import { TextCursor } from "lucide-react";
+import HorizontalRuleRoundedIcon from "@mui/icons-material/HorizontalRuleRounded";
 import {
   FormElement,
   FormElementCategory,
@@ -21,8 +21,8 @@ export const SeparatorFieldFormElement: FormElement = {
     type,
   }),
   designerButtonElement: {
-    label: "Separator Field",
-    icon: TextCursor,
+    label: "Separator",
+    icon: HorizontalRuleRoundedIcon,
   },
   designerComponent: DesignerComponent,
   formComponent: FormComponent,

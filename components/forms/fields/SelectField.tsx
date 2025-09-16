@@ -1,6 +1,7 @@
 "use client";
 
-import { Plus, TextCursor, X } from "lucide-react";
+import { Plus, X } from "lucide-react";
+import ListRoundedIcon from "@mui/icons-material/ListRounded";
 import {
   FormElement,
   FormElementCategory,
@@ -75,8 +76,8 @@ export const SelectFieldFormElement: FormElement = {
     additionalAttributes: defaultAttributes,
   }),
   designerButtonElement: {
-    label: "Select Field",
-    icon: TextCursor,
+    label: "Select",
+    icon: ListRoundedIcon,
   },
   designerComponent: DesignerComponent,
   formComponent: FormComponent,

@@ -1,6 +1,6 @@
 "use client";
 
-import { TextCursor } from "lucide-react";
+import NotesRoundedIcon from "@mui/icons-material/NotesRounded";
 import {
   FormElement,
   FormElementCategory,
@@ -51,8 +51,8 @@ export const ParagraphFieldFormElement: FormElement = {
     additionalAttributes: defaultAttributes,
   }),
   designerButtonElement: {
-    label: "Paragraph Field",
-    icon: TextCursor,
+    label: "Paragraph",
+    icon: NotesRoundedIcon,
   },
   designerComponent: DesignerComponent,
   formComponent: FormComponent,

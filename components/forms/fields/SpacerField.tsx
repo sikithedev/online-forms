@@ -1,6 +1,6 @@
 "use client";
 
-import { TextCursor } from "lucide-react";
+import HeightRoundedIcon from "@mui/icons-material/HeightRounded";
 import {
   FormElement,
   FormElementCategory,
@@ -54,8 +54,8 @@ export const SpacerFieldFormElement: FormElement = {
     additionalAttributes: defaultAttributes,
   }),
   designerButtonElement: {
-    label: "Spacer Field",
-    icon: TextCursor,
+    label: "Spacer",
+    icon: HeightRoundedIcon,
   },
   designerComponent: DesignerComponent,
   formComponent: FormComponent,

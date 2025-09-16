@@ -1,6 +1,6 @@
 "use client";
 
-import { TextCursor } from "lucide-react";
+import PinRoundedIcon from "@mui/icons-material/PinRounded";
 import {
   FormElement,
   FormElementCategory,
@@ -60,8 +60,8 @@ export const NumberFieldFormElement: FormElement = {
     additionalAttributes: defaultAttributes,
   }),
   designerButtonElement: {
-    label: "Number Field",
-    icon: TextCursor,
+    label: "Number",
+    icon: PinRoundedIcon,
   },
   designerComponent: DesignerComponent,
   formComponent: FormComponent,

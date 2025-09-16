@@ -1,6 +1,6 @@
 "use client";
 
-import { TextCursor } from "lucide-react";
+import SubjectRoundedIcon from "@mui/icons-material/SubjectRounded";
 import {
   FormElement,
   FormElementCategory,
@@ -79,8 +79,8 @@ export const TextareaFieldFormElement: FormElement = {
     additionalAttributes: defaultAttributes,
   }),
   designerButtonElement: {
-    label: "Textarea Field",
-    icon: TextCursor,
+    label: "Textarea",
+    icon: SubjectRoundedIcon,
   },
   designerComponent: DesignerComponent,
   formComponent: FormComponent,

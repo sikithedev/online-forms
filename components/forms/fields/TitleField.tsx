@@ -1,6 +1,6 @@
 "use client";
 
-import { TextCursor } from "lucide-react";
+import TitleRoundedIcon from "@mui/icons-material/TitleRounded";
 import {
   FormElement,
   FormElementCategory,
@@ -51,8 +51,8 @@ export const TitleFieldFormElement: FormElement = {
     additionalAttributes: defaultAttributes,
   }),
   designerButtonElement: {
-    label: "Title Field",
-    icon: TextCursor,
+    label: "Title",
+    icon: TitleRoundedIcon,
   },
   designerComponent: DesignerComponent,
   formComponent: FormComponent,

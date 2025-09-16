@@ -1,6 +1,6 @@
 "use client";
 
-import { TextCursor } from "lucide-react";
+import ShortTextRoundedIcon from "@mui/icons-material/ShortTextRounded";
 import {
   FormElement,
   FormElementCategory,
@@ -51,8 +51,8 @@ export const SubtitleFieldFormElement: FormElement = {
     additionalAttributes: defaultAttributes,
   }),
   designerButtonElement: {
-    label: "Subtitle Field",
-    icon: TextCursor,
+    label: "Subtitle",
+    icon: ShortTextRoundedIcon,
   },
   designerComponent: DesignerComponent,
   formComponent: FormComponent,

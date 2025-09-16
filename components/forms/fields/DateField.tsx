@@ -1,6 +1,6 @@
 "use client";
 
-import { TextCursor } from "lucide-react";
+import CalendarTodayRoundedIcon from "@mui/icons-material/CalendarTodayRounded";
 import {
   FormElement,
   FormElementCategory,
@@ -70,8 +70,8 @@ export const DateFieldFormElement: FormElement = {
     additionalAttributes: defaultAttributes,
   }),
   designerButtonElement: {
-    label: "Date Field",
-    icon: TextCursor,
+    label: "Date",
+    icon: CalendarTodayRoundedIcon,
   },
   designerComponent: DesignerComponent,
   formComponent: FormComponent,

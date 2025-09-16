@@ -1,6 +1,6 @@
 "use client";
 
-import { TextCursor } from "lucide-react";
+import TextFieldsRoundedIcon from "@mui/icons-material/TextFieldsRounded";
 import {
   FormElement,
   FormElementCategory,
@@ -65,8 +65,8 @@ export const TextFieldFormElement: FormElement = {
     additionalAttributes: defaultAttributes,
   }),
   designerButtonElement: {
-    label: "Text Field",
-    icon: TextCursor,
+    label: "Text",
+    icon: TextFieldsRoundedIcon,
   },
   designerComponent: DesignerComponent,
   formComponent: FormComponent,
