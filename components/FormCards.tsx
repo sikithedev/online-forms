@@ -13,8 +13,6 @@ import { Badge } from "./ui/badge";
 import { formatDistance } from "date-fns";
 import { Button } from "./ui/button";
 import Link from "next/link";
-import EditRoundedIcon from "@mui/icons-material/EditRounded";
-import ArrowForwardRoundedIcon from "@mui/icons-material/ArrowForwardRounded";
 
 type FormCardProps = {
   form: Form & { submissions: number };
@@ -60,17 +58,13 @@ function FormCard({ form }: FormCardProps) {
             <span>Submissions: {form.submissions.toLocaleString()}</span>
           </div>
           <Button asChild>
-            <Link href={`/forms/${form.id}`}>
-              <ArrowForwardRoundedIcon className="!size-4" /> View submissions
-            </Link>
+            <Link href={`/forms/${form.id}`}>View submissions</Link>
           </Button>
         </CardFooter>
       ) : (
         <CardFooter className="flex justify-end">
           <Button asChild variant="secondary">
-            <Link href={`/builder/${form.id}`}>
-              <EditRoundedIcon className="!size-4" /> Edit form
-            </Link>
+            <Link href={`/builder/${form.id}`}>Edit form</Link>
           </Button>
         </CardFooter>
       )}

@@ -24,7 +24,6 @@ import {
 } from "./ui/form";
 import { Textarea } from "./ui/textarea";
 import { LoaderCircle } from "lucide-react";
-import AddRoundedIcon from "@mui/icons-material/AddRounded";
 import { toast } from "sonner";
 import { formSchema } from "@/schemas/form";
 import { createForm } from "@/actions/forms";
@@ -58,9 +57,7 @@ export default function CreateFormButton() {
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <Button>
-          <AddRoundedIcon className="!size-4" /> Create new form
-        </Button>
+        <Button>Create new form</Button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
@@ -102,11 +99,16 @@ export default function CreateFormButton() {
               )}
             />
             <DialogFooter>
-              <Button type="submit" disabled={form.formState.isSubmitting}>
-                {form.formState.isSubmitting && (
+              <Button
+                type="submit"
+                disabled={form.formState.isSubmitting}
+                className="min-w-17"
+              >
+                {form.formState.isSubmitting ? (
                   <LoaderCircle className="animate-spin" />
+                ) : (
+                  "Save"
                 )}
-                Save
               </Button>
             </DialogFooter>
           </form>

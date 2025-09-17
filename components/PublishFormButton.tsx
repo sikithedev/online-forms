@@ -11,12 +11,11 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "./ui/alert-dialog";
-import { Loader2 } from "lucide-react";
+import { LoaderCircle } from "lucide-react";
 import { toast } from "sonner";
 import { publishFormById } from "@/actions/forms";
 import { useRouter } from "next/navigation";
 import useDesigner from "@/hooks/useDesigner";
-import PublishRoundedIcon from "@mui/icons-material/PublishRounded";
 
 type PublishFormButtonProps = {
   id: number;
@@ -41,9 +40,7 @@ export default function PublishFormButton({ id }: PublishFormButtonProps) {
   return (
     <AlertDialog>
       <AlertDialogTrigger asChild>
-        <Button>
-          <PublishRoundedIcon className="!size-4" /> Publish
-        </Button>
+        <Button>Publish</Button>
       </AlertDialogTrigger>
       <AlertDialogContent>
         <AlertDialogHeader>
@@ -61,8 +58,9 @@ export default function PublishFormButton({ id }: PublishFormButtonProps) {
               startTransition(publishForm);
             }}
             disabled={isPending}
+            className="min-w-24"
           >
-            {isPending && <Loader2 className="animate-spin" />} Continue
+            {isPending ? <LoaderCircle className="animate-spin" /> : "Continue"}
           </AlertDialogAction>
         </AlertDialogFooter>
       </AlertDialogContent>

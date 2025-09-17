@@ -3,7 +3,6 @@
 import React, { useEffect, useState } from "react";
 import { Button } from "./ui/button";
 import { Input } from "./ui/input";
-import ContentCopyRoundedIcon from "@mui/icons-material/ContentCopyRounded";
 import { toast } from "sonner";
 
 type FormLinkShareProps = {
@@ -25,9 +24,7 @@ export default function FormLinkShare({ shareUrl }: FormLinkShareProps) {
   return (
     <div className="flex grow items-center gap-2">
       <Input readOnly value={shareLink} />
-      <Button onClick={handleClick}>
-        <ContentCopyRoundedIcon className="!size-4" /> Copy link
-      </Button>
+      <Button onClick={handleClick}>Copy link</Button>
     </div>
   );
 }

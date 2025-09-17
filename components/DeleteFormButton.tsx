@@ -13,11 +13,10 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "./ui/alert-dialog";
-import DeleteOutlineRoundedIcon from "@mui/icons-material/DeleteOutlineRounded";
 import { deleteFormById } from "@/actions/forms";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
-import { Loader2 } from "lucide-react";
+import { LoaderCircle } from "lucide-react";
 
 interface DeleteFormButtonProps {
   id: string;
@@ -40,9 +39,7 @@ export default function DeleteFormButton({ id }: DeleteFormButtonProps) {
   return (
     <AlertDialog>
       <AlertDialogTrigger asChild>
-        <Button variant="destructive">
-          <DeleteOutlineRoundedIcon className="!size-4" /> Delete
-        </Button>
+        <Button variant="destructive">Delete</Button>
       </AlertDialogTrigger>
       <AlertDialogContent>
         <AlertDialogHeader>
@@ -59,8 +56,9 @@ export default function DeleteFormButton({ id }: DeleteFormButtonProps) {
               startTransition(deleteForm);
             }}
             disabled={isPending}
+            className="min-w-24"
           >
-            {isPending && <Loader2 className="animate-spin" />} Continue
+            {isPending ? <LoaderCircle className="animate-spin" /> : "Continue"}
           </AlertDialogAction>
         </AlertDialogFooter>
       </AlertDialogContent>

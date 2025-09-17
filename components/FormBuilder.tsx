@@ -15,8 +15,6 @@ import { LoaderCircle } from "lucide-react";
 import { Button } from "./ui/button";
 import Link from "next/link";
 import FormLinkShare from "./FormLinkShare";
-import ArrowBackRoundedIcon from "@mui/icons-material/ArrowBackRounded";
-import InsertChartOutlinedRoundedIcon from "@mui/icons-material/InsertChartOutlinedRounded";
 import DeleteFormButton from "./DeleteFormButton";
 
 type FormBuilderProps = {
@@ -66,15 +64,10 @@ export default function FormBuilder({ form }: FormBuilderProps) {
           <Separator />
           <div className="flex justify-between">
             <Button variant="ghost" asChild>
-              <Link href="/">
-                <ArrowBackRoundedIcon className="!size-4" /> Back to home
-              </Link>
+              <Link href="/">Back to home</Link>
             </Button>
             <Button variant="ghost" asChild>
-              <Link href={`/forms/${form.id}`}>
-                <InsertChartOutlinedRoundedIcon className="!size-4" /> View
-                details
-              </Link>
+              <Link href={`/forms/${form.id}`}>View details</Link>
             </Button>
           </div>
         </div>
