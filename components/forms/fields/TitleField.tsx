@@ -23,23 +23,13 @@ import {
   FormLabel,
   FormMessage,
 } from "../../ui/form";
+import { titlePropertiesSchema as propertiesSchema } from "@/schemas/form";
 
 const type: FormElementType = "TitleField";
 const category: FormElementCategory = "layout";
 
-const propertiesSchema = z.object({
-  title: z
-    .string()
-    .min(4, {
-      message: "Title must be at least 4 characters.",
-    })
-    .max(64, {
-      message: "Title must be at most 64 characters.",
-    }),
-});
-
 const defaultAttributes = {
-  title: "Text here...",
+  title: "Text here",
 };
 
 export const TitleFieldFormElement: FormElement = {

@@ -23,6 +23,7 @@ import {
   FormMessage,
 } from "../../ui/form";
 import { Slider } from "@/components/ui/slider";
+import { spacerPropertiesSchema } from "@/schemas/form";
 
 const type: FormElementType = "SpacerField";
 const category: FormElementCategory = "layout";
@@ -30,16 +31,7 @@ const category: FormElementCategory = "layout";
 const minHeight = 5;
 const maxHeight = 200;
 
-const propertiesSchema = z.object({
-  height: z
-    .number()
-    .min(minHeight, {
-      message: `Height must be at least ${minHeight} pixels.`,
-    })
-    .max(maxHeight, {
-      message: `Height must be at most ${maxHeight} pixels.`,
-    }),
-});
+const propertiesSchema = spacerPropertiesSchema(minHeight, maxHeight);
 
 const defaultAttributes = {
   height: 20,

@@ -29,6 +29,7 @@ import { Separator } from "../../ui/separator";
 import { cn } from "@/lib/utils";
 import { Textarea } from "@/components/ui/textarea";
 import { Slider } from "@/components/ui/slider";
+import { textareaPropertiesSchema } from "@/schemas/form";
 
 const type: FormElementType = "TextareaField";
 const category: FormElementCategory = "input";
@@ -36,31 +37,7 @@ const category: FormElementCategory = "input";
 const minRows = 3;
 const maxRows = 10;
 
-const propertiesSchema = z.object({
-  label: z
-    .string()
-    .min(4, {
-      message: "Label must be at least 4 characters.",
-    })
-    .max(64, {
-      message: "Label must be at most 64 characters.",
-    }),
-  required: z.boolean(),
-  rows: z
-    .number()
-    .min(minRows, {
-      message: `Numer of rows must be at least ${minRows}.`,
-    })
-    .max(maxRows, {
-      message: `Numer of rows must be at most ${maxRows}.`,
-    }),
-  placeholder: z.string().max(64, {
-    message: "Placeholder must be at most 64 characters.",
-  }),
-  helperText: z.string().max(128, {
-    message: "Helper text must be at most 128 characters.",
-  }),
-});
+const propertiesSchema = textareaPropertiesSchema(minRows, maxRows);
 
 const defaultAttributes = {
   label: "Textarea field",

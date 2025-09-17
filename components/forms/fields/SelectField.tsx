@@ -36,28 +36,10 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Button } from "@/components/ui/button";
+import { selectPropertiesSchema as propertiesSchema } from "@/schemas/form";
 
 const type: FormElementType = "SelectField";
 const category: FormElementCategory = "input";
-
-const propertiesSchema = z.object({
-  label: z
-    .string()
-    .min(4, {
-      message: "Label must be at least 4 characters.",
-    })
-    .max(64, {
-      message: "Label must be at most 64 characters.",
-    }),
-  required: z.boolean(),
-  placeholder: z.string().max(64, {
-    message: "Placeholder must be at most 64 characters.",
-  }),
-  helperText: z.string().max(128, {
-    message: "Helper text must be at most 128 characters.",
-  }),
-  options: z.array(z.string()),
-});
 
 const defaultAttributes = {
   label: "Select field",

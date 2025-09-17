@@ -23,23 +23,13 @@ import {
   FormLabel,
   FormMessage,
 } from "../../ui/form";
+import { subtitlePropertiesSchema as propertiesSchema } from "@/schemas/form";
 
 const type: FormElementType = "SubtitleField";
 const category: FormElementCategory = "layout";
 
-const propertiesSchema = z.object({
-  subtitle: z
-    .string()
-    .min(4, {
-      message: "Subtitle must be at least 4 characters.",
-    })
-    .max(64, {
-      message: "Subtitle must be at most 64 characters.",
-    }),
-});
-
 const defaultAttributes = {
-  subtitle: "Text here...",
+  subtitle: "Text here",
 };
 
 export const SubtitleFieldFormElement: FormElement = {

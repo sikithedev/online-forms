@@ -23,23 +23,13 @@ import {
   FormLabel,
   FormMessage,
 } from "../../ui/form";
+import { paragraphPropertiesSchema as propertiesSchema } from "@/schemas/form";
 
 const type: FormElementType = "ParagraphField";
 const category: FormElementCategory = "layout";
 
-const propertiesSchema = z.object({
-  text: z
-    .string()
-    .min(4, {
-      message: "Paragraph must be at least 4 characters.",
-    })
-    .max(512, {
-      message: "Paragraph must be at most 512 characters.",
-    }),
-});
-
 const defaultAttributes = {
-  text: "Text here...",
+  text: "Text here",
 };
 
 export const ParagraphFieldFormElement: FormElement = {

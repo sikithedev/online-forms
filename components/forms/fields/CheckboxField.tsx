@@ -28,24 +28,10 @@ import { Switch } from "../../ui/switch";
 import { Separator } from "../../ui/separator";
 import { cn } from "@/lib/utils";
 import { Checkbox } from "@/components/ui/checkbox";
+import { checkboxPropertiesSchema as propertiesSchema } from "@/schemas/form";
 
 const type: FormElementType = "CheckboxField";
 const category: FormElementCategory = "input";
-
-const propertiesSchema = z.object({
-  label: z
-    .string()
-    .min(4, {
-      message: "Label must be at least 4 characters.",
-    })
-    .max(64, {
-      message: "Label must be at most 64 characters.",
-    }),
-  required: z.boolean(),
-  helperText: z.string().max(128, {
-    message: "Helper text must be at most 128 characters.",
-  }),
-});
 
 const defaultAttributes = {
   label: "Checkbox field",
