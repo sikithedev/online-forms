@@ -124,12 +124,14 @@ function FormComponent({
   defaultValue,
   isInvalid,
   className,
+  disabled,
 }: {
   elementInstance: FormElementInstance;
   onSubmit?: SubmitHandler;
   defaultValue?: string;
   isInvalid?: boolean;
   className?: string;
+  disabled?: boolean;
 }) {
   const [value, setValue] = useState(defaultValue || "");
   const [error, setError] = useState(false);
@@ -160,8 +162,9 @@ function FormComponent({
       </Label>
       <Select defaultValue={value} onValueChange={handleValueChange}>
         <SelectTrigger
+          disabled={disabled}
           className={cn(
-            "w-52",
+            "w-52 disabled:opacity-100 disabled:cursor-default",
             error && "border-destructive focus:border-destructive"
           )}
         >

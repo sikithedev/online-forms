@@ -108,12 +108,14 @@ function FormComponent({
   defaultValue,
   isInvalid,
   className,
+  disabled,
 }: {
   elementInstance: FormElementInstance;
   onSubmit?: SubmitHandler;
   defaultValue?: string;
   isInvalid?: boolean;
   className?: string;
+  disabled?: boolean;
 }) {
   const [value, setValue] = useState(defaultValue === "true");
   const [error, setError] = useState(false);
@@ -145,8 +147,9 @@ function FormComponent({
       <Checkbox
         id={id}
         checked={value}
+        disabled={disabled}
         onCheckedChange={handleCheckedChange}
-        className={cn(error && "border-destructive")}
+        className={cn("disabled:cursor-default", error && "border-destructive")}
       />
       <div className="grid gap-2 leading-none">
         <Label htmlFor={id}>

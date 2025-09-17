@@ -2,9 +2,8 @@ import { getFormById, getFormSubmissions } from "@/actions/forms";
 import DeleteFormButton from "@/components/DeleteFormButton";
 import FormLinkShare from "@/components/FormLinkShare";
 import StatsCards from "@/components/StatsCards";
-import SubmissionsTable from "@/components/SubmissionsTable";
+import SubmissionCards from "@/components/SubmissionCards";
 import ViewFormButton from "@/components/ViewFormButton";
-import { BookDashed } from "lucide-react";
 import { notFound } from "next/navigation";
 import React from "react";
 
@@ -41,7 +40,7 @@ export default async function Details(props: {
 
       <div className="py-8">
         <h1 className="text-2xl font-bold my-4">Submissions</h1>
-        <SubmissionsTable form={form} submissions={submissions} />
+        <SubmissionCards form={form} submissions={submissions} />
       </div>
     </div>
   );

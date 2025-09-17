@@ -104,12 +104,14 @@ function FormComponent({
   defaultValue,
   isInvalid,
   className,
+  disabled,
 }: {
   elementInstance: FormElementInstance;
   onSubmit?: SubmitHandler;
   defaultValue?: string;
   isInvalid?: boolean;
   className?: string;
+  disabled?: boolean;
 }) {
   const [value, setValue] = useState(defaultValue || "");
   const [error, setError] = useState(false);
@@ -139,10 +141,14 @@ function FormComponent({
       <Input
         type="number"
         placeholder={placeholder}
+        disabled={disabled}
         onChange={(e) => setValue(e.target.value)}
         onBlur={handleBlur}
         value={value}
-        className={cn(error && "border-destructive focus:border-destructive")}
+        className={cn(
+          "disabled:opacity-100",
+          error && "border-destructive focus:border-destructive"
+        )}
       />
       {helperText && (
         <p className="text-muted-foreground text-sm">{helperText}</p>
@@ -190,7 +196,7 @@ function PropertiesComponent({
             <FormItem>
               <FormLabel>Label</FormLabel>
               <FormControl>
-                <Input type="number" {...field} onKeyDown={handleEnterBlur} />
+                <Input {...field} onKeyDown={handleEnterBlur} />
               </FormControl>
               <FormDescription>
                 The label shown above the input field.

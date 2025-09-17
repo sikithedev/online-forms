@@ -43,6 +43,7 @@ export type FormElement = {
     defaultValue?: string;
     isInvalid?: boolean;
     className?: string;
+    disabled?: boolean;
   }>;
   propertiesComponent: React.FC<{
     elementInstance: FormElementInstance;
@@ -70,4 +71,24 @@ export const formElements: FormElements = {
   ParagraphField: ParagraphFieldFormElement,
   SeparatorField: SeparatorFieldFormElement,
   SpacerField: SpacerFieldFormElement,
+};
+
+type FormElementsByCategory = Record<FormElementCategory, FormElementType[]>;
+
+export const formElementsByCategory: FormElementsByCategory = {
+  input: [
+    "TextField",
+    "NumberField",
+    "TextareaField",
+    "DateField",
+    "SelectField",
+    "CheckboxField",
+  ],
+  layout: [
+    "TitleField",
+    "SubtitleField",
+    "ParagraphField",
+    "SeparatorField",
+    "SpacerField",
+  ],
 };

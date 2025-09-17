@@ -52,7 +52,7 @@ const propertiesSchema = z.object({
 const defaultAttributes = {
   label: "Text field",
   required: false,
-  placeholder: "Enter a value...",
+  placeholder: "Enter a value",
   helperText: "Additional information about this field.",
 };
 
@@ -109,12 +109,14 @@ function FormComponent({
   defaultValue,
   isInvalid,
   className,
+  disabled,
 }: {
   elementInstance: FormElementInstance;
   onSubmit?: SubmitHandler;
   defaultValue?: string;
   isInvalid?: boolean;
   className?: string;
+  disabled?: boolean;
 }) {
   const [value, setValue] = useState(defaultValue || "");
   const [error, setError] = useState(false);
@@ -143,10 +145,14 @@ function FormComponent({
       </Label>
       <Input
         placeholder={placeholder}
+        disabled={disabled}
         onChange={(e) => setValue(e.target.value)}
         onBlur={handleBlur}
         value={value}
-        className={cn(error && "border-destructive focus:border-destructive")}
+        className={cn(
+          "disabled:opacity-100",
+          error && "border-destructive focus:border-destructive"
+        )}
       />
       {helperText && (
         <p className="text-muted-foreground text-sm">{helperText}</p>

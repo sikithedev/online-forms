@@ -129,12 +129,14 @@ function FormComponent({
   defaultValue,
   isInvalid,
   className,
+  disabled,
 }: {
   elementInstance: FormElementInstance;
   onSubmit?: SubmitHandler;
   defaultValue?: string;
   isInvalid?: boolean;
   className?: string;
+  disabled?: boolean;
 }) {
   const [value, setValue] = useState(defaultValue || "");
   const [error, setError] = useState(false);
@@ -163,12 +165,13 @@ function FormComponent({
       </Label>
       <Textarea
         placeholder={placeholder}
+        disabled={disabled}
         onChange={(e) => setValue(e.target.value)}
         onBlur={handleBlur}
         value={value}
         rows={rows}
         className={cn(
-          "field-sizing-fixed",
+          "field-sizing-fixed disabled:opacity-100 disabled:cursor-default",
           error && "border-destructive focus:border-destructive"
         )}
       />

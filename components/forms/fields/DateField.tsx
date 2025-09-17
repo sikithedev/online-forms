@@ -120,12 +120,14 @@ function FormComponent({
   defaultValue,
   isInvalid,
   className,
+  disabled,
 }: {
   elementInstance: FormElementInstance;
   onSubmit?: SubmitHandler;
   defaultValue?: string;
   isInvalid?: boolean;
   className?: string;
+  disabled?: boolean;
 }) {
   const [open, setOpen] = useState(false);
   const [date, setDate] = useState<Date | undefined>(
@@ -161,9 +163,10 @@ function FormComponent({
       <Popover open={open} onOpenChange={setOpen}>
         <PopoverTrigger asChild>
           <Button
+            disabled
             variant="outline"
             className={cn(
-              "w-52 justify-between font-normal text-muted-foreground",
+              "w-52 justify-between font-normal text-muted-foreground disabled:opacity-100",
               error && "!border-destructive !focus:border-destructive"
             )}
           >
