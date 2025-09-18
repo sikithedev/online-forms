@@ -1,19 +1,5 @@
 "use client";
 
-import ShortTextRoundedIcon from "@mui/icons-material/ShortTextRounded";
-import {
-  FormElement,
-  FormElementCategory,
-  FormElementInstance,
-  FormElementType,
-} from "../formElements";
-import { Label } from "../../ui/label";
-import { Input } from "../../ui/input";
-import * as z from "zod";
-import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useEffect } from "react";
-import useDesigner from "@/hooks/useDesigner";
 import {
   Form,
   FormControl,
@@ -22,8 +8,22 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "../../ui/form";
+} from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import useDesigner from "@/hooks/useDesigner";
 import { subtitlePropertiesSchema as propertiesSchema } from "@/schemas/form";
+import {
+  FormElement,
+  FormElementCategory,
+  FormElementInstance,
+  FormElementType,
+} from "@/types/formElements";
+import { zodResolver } from "@hookform/resolvers/zod";
+import ShortTextRoundedIcon from "@mui/icons-material/ShortTextRounded";
+import { useEffect } from "react";
+import { useForm } from "react-hook-form";
+import * as z from "zod";
 
 const type: FormElementType = "SubtitleField";
 const category: FormElementCategory = "layout";

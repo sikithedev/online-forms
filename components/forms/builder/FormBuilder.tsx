@@ -1,21 +1,21 @@
 "use client";
 
 import { Form } from "@/app/generated/prisma";
-import React, { useEffect, useId, useState } from "react";
-import PreviewFormButton from "./PreviewFormButton";
-import SaveFormButton from "./SaveFormButton";
-import PublishFormButton from "./PublishFormButton";
-import { Separator } from "./ui/separator";
-import Designer from "./Designer";
-import { DndContext } from "@dnd-kit/core";
-import DragOverlayWrapper from "./DragOverlayWrapper";
-import useDndSensors from "@/hooks/useDndSensors";
+import Designer from "@/components/forms/builder/Designer";
+import DragOverlayWrapper from "@/components/forms/builder/DragOverlayWrapper";
+import DeleteFormButton from "@/components/forms/ui/DeleteFormButton";
+import FormLinkShare from "@/components/forms/ui/FormLinkShare";
+import PreviewFormButton from "@/components/forms/ui/PreviewFormButton";
+import PublishFormButton from "@/components/forms/ui/PublishFormButton";
+import SaveFormButton from "@/components/forms/ui/SaveFormButton";
+import { Button } from "@/components/ui/button";
+import { Separator } from "@/components/ui/separator";
 import useDesigner from "@/hooks/useDesigner";
+import useDndSensors from "@/hooks/useDndSensors";
+import { DndContext } from "@dnd-kit/core";
 import { LoaderCircle } from "lucide-react";
-import { Button } from "./ui/button";
 import Link from "next/link";
-import FormLinkShare from "./FormLinkShare";
-import DeleteFormButton from "./DeleteFormButton";
+import { useEffect, useId, useState } from "react";
 
 type FormBuilderProps = {
   form: Form;

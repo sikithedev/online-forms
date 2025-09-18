@@ -1,8 +1,7 @@
 import { getFormById } from "@/actions/forms";
 import DesignerContextProvider from "@/components/contexts/DesignerContext";
-import FormBuilder from "@/components/FormBuilder";
+import FormBuilder from "@/components/forms/builder/FormBuilder";
 import { notFound } from "next/navigation";
-import React from "react";
 
 export default async function Builder(props: {
   params: Promise<{ id: string }>;

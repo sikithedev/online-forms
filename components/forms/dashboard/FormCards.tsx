@@ -1,5 +1,7 @@
 import { getForms } from "@/actions/forms";
 import { Form } from "@/app/generated/prisma";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
 import {
   Card,
   CardAction,
@@ -8,10 +10,8 @@ import {
   CardFooter,
   CardHeader,
   CardTitle,
-} from "./ui/card";
-import { Badge } from "./ui/badge";
+} from "@/components/ui/card";
 import { formatDistance } from "date-fns";
-import { Button } from "./ui/button";
 import Link from "next/link";
 
 type FormCardProps = {

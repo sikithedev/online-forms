@@ -1,11 +1,11 @@
 "use client";
 
-import React, { useRef, useState, useTransition } from "react";
-import { FormElementInstance, formElements } from "./forms/formElements";
-import { Button } from "./ui/button";
-import { toast } from "sonner";
-import { Loader2 } from "lucide-react";
 import { submitForm } from "@/actions/forms";
+import { Button } from "@/components/ui/button";
+import { FormElementInstance, formElements } from "@/types/formElements";
+import { LoaderCircle } from "lucide-react";
+import { useRef, useState, useTransition } from "react";
+import { toast } from "sonner";
 
 type FormSubmitProps = {
   formUrl: string;
@@ -85,9 +85,9 @@ export default function FormSubmit({ formUrl, content }: FormSubmitProps) {
         <Button
           onClick={() => startTransition(handleClick)}
           disabled={isPending}
-          className="ml-auto"
+          className="ml-auto min-w-20"
         >
-          {isPending ? <Loader2 className="animate-spin" /> : "Submit"}
+          {isPending ? <LoaderCircle className="animate-spin" /> : "Submit"}
         </Button>
       </div>
     </div>

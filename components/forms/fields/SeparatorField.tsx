@@ -6,8 +6,8 @@ import {
   FormElementCategory,
   FormElementInstance,
   FormElementType,
-} from "../formElements";
-import { Label } from "../../ui/label";
+} from "@/types/formElements";
+import { Label } from "@/components/ui/label";
 import { Separator } from "@/components/ui/separator";
 
 const type: FormElementType = "SeparatorField";

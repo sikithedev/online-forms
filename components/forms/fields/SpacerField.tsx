@@ -1,18 +1,5 @@
 "use client";
 
-import HeightRoundedIcon from "@mui/icons-material/HeightRounded";
-import {
-  FormElement,
-  FormElementCategory,
-  FormElementInstance,
-  FormElementType,
-} from "../formElements";
-import { Label } from "../../ui/label";
-import * as z from "zod";
-import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useEffect } from "react";
-import useDesigner from "@/hooks/useDesigner";
 import {
   Form,
   FormControl,
@@ -21,9 +8,22 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "../../ui/form";
+} from "@/components/ui/form";
+import { Label } from "@/components/ui/label";
 import { Slider } from "@/components/ui/slider";
+import useDesigner from "@/hooks/useDesigner";
 import { spacerPropertiesSchema } from "@/schemas/form";
+import {
+  FormElement,
+  FormElementCategory,
+  FormElementInstance,
+  FormElementType,
+} from "@/types/formElements";
+import { zodResolver } from "@hookform/resolvers/zod";
+import HeightRoundedIcon from "@mui/icons-material/HeightRounded";
+import { useEffect } from "react";
+import { useForm } from "react-hook-form";
+import * as z from "zod";
 
 const type: FormElementType = "SpacerField";
 const category: FormElementCategory = "layout";

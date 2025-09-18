@@ -1,23 +1,23 @@
 "use client";
 
-import React, { useState } from "react";
-import DesignerSidebar from "./DesignerSidebar";
+import { DesignerContext } from "@/components/contexts/DesignerContext";
+import DesignerSidebar from "@/components/forms/builder/sidebar/DesignerSidebar";
+import { Button } from "@/components/ui/button";
+import useDesigner from "@/hooks/useDesigner";
+import { cn, generateId } from "@/lib/utils";
+import {
+  FormElementInstance,
+  formElements,
+  FormElementType,
+} from "@/types/formElements";
 import {
   DragEndEvent,
   useDndMonitor,
   useDraggable,
   useDroppable,
 } from "@dnd-kit/core";
-import { cn, generateId } from "@/lib/utils";
-import useDesigner from "@/hooks/useDesigner";
-import {
-  FormElementInstance,
-  formElements,
-  FormElementType,
-} from "./forms/formElements";
-import { Button } from "./ui/button";
 import { Trash2 } from "lucide-react";
-import { DesignerContext } from "./contexts/DesignerContext";
+import { useState } from "react";
 
 function handleDragEnd(
   event: DragEndEvent,

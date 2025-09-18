@@ -1,5 +1,6 @@
-import React, { useTransition } from "react";
-import { Button } from "./ui/button";
+"use client";
+
+import { deleteFormById } from "@/actions/forms";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -10,44 +11,41 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
   AlertDialogTrigger,
-} from "./ui/alert-dialog";
+} from "@/components/ui/alert-dialog";
+import { Button } from "@/components/ui/button";
 import { LoaderCircle } from "lucide-react";
-import { toast } from "sonner";
-import { publishFormById } from "@/actions/forms";
 import { useRouter } from "next/navigation";
-import useDesigner from "@/hooks/useDesigner";
+import { useTransition } from "react";
+import { toast } from "sonner";
 
-type PublishFormButtonProps = {
-  id: number;
-};
+interface DeleteFormButtonProps {
+  id: string;
+}
 
-export default function PublishFormButton({ id }: PublishFormButtonProps) {
+export default function DeleteFormButton({ id }: DeleteFormButtonProps) {
   const router = useRouter();
-  const { elements } = useDesigner();
   const [isPending, startTransition] = useTransition();
 
-  async function publishForm() {
+  async function deleteForm() {
     try {
-      const content = JSON.stringify(elements);
-      await publishFormById(id, content);
-      toast.success("Form published successfully");
-      router.refresh();
+      await deleteFormById(Number(id));
+      toast.success("Form deleted successfully");
+      router.push("/");
     } catch (error) {
-      toast.error("Failed to publish form. Please try again.");
+      toast.error("Failed to delete form. Please try again.");
     }
   }
 
   return (
     <AlertDialog>
       <AlertDialogTrigger asChild>
-        <Button>Publish</Button>
+        <Button variant="destructive">Delete</Button>
       </AlertDialogTrigger>
       <AlertDialogContent>
         <AlertDialogHeader>
           <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
           <AlertDialogDescription>
-            This action cannot be undone. Once published, you will not be able
-            to edit the form.
+            This action cannot be undone. This will permanently delete the form.
           </AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>
@@ -55,7 +53,7 @@ export default function PublishFormButton({ id }: PublishFormButtonProps) {
           <AlertDialogAction
             onClick={(e) => {
               e.preventDefault();
-              startTransition(publishForm);
+              startTransition(deleteForm);
             }}
             disabled={isPending}
             className="min-w-24"

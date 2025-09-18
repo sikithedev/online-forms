@@ -1,6 +1,5 @@
-import React from "react";
-import { formElements } from "./forms/formElements";
-import SidebarButton from "./SidebarButton";
+import SidebarButton from "@/components/forms/builder/sidebar/SidebarButton";
+import { formElements } from "@/types/formElements";
 
 export default function FormElementsSidebar() {
   return (

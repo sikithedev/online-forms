@@ -1,5 +1,5 @@
-import Logo from "@/components/Logo";
-import { ModeToggle } from "@/components/ModeToggle";
+import Logo from "@/components/nav/Logo";
+import { ModeToggle } from "@/components/nav/ModeToggle";
 import { UserButton } from "@clerk/nextjs";
 import { ReactNode } from "react";
 

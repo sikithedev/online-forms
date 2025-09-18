@@ -1,11 +1,10 @@
 import { getFormById, getFormSubmissions } from "@/actions/forms";
-import DeleteFormButton from "@/components/DeleteFormButton";
-import FormLinkShare from "@/components/FormLinkShare";
-import StatsCards from "@/components/StatsCards";
-import SubmissionCards from "@/components/SubmissionCards";
-import ViewFormButton from "@/components/ViewFormButton";
+import StatsCards from "@/components/forms/dashboard/StatsCards";
+import DeleteFormButton from "@/components/forms/ui/DeleteFormButton";
+import FormLinkShare from "@/components/forms/ui/FormLinkShare";
+import ViewFormButton from "@/components/forms/ui/ViewFormButton";
+import SubmissionCards from "@/components/submissions/SubmissionCards";
 import { notFound } from "next/navigation";
-import React from "react";
 
 export default async function Details(props: {
   params: Promise<{ id: string }>;

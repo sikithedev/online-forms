@@ -1,20 +1,5 @@
 "use client";
 
-import SubjectRoundedIcon from "@mui/icons-material/SubjectRounded";
-import {
-  FormElement,
-  FormElementCategory,
-  FormElementInstance,
-  FormElementType,
-  SubmitHandler,
-} from "../formElements";
-import { Label } from "../../ui/label";
-import { Input } from "../../ui/input";
-import * as z from "zod";
-import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useEffect, useState } from "react";
-import useDesigner from "@/hooks/useDesigner";
 import {
   Form,
   FormControl,
@@ -23,13 +8,28 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "../../ui/form";
-import { Switch } from "../../ui/switch";
-import { Separator } from "../../ui/separator";
-import { cn } from "@/lib/utils";
-import { Textarea } from "@/components/ui/textarea";
+} from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Separator } from "@/components/ui/separator";
 import { Slider } from "@/components/ui/slider";
+import { Switch } from "@/components/ui/switch";
+import { Textarea } from "@/components/ui/textarea";
+import useDesigner from "@/hooks/useDesigner";
+import { cn } from "@/lib/utils";
 import { textareaPropertiesSchema } from "@/schemas/form";
+import {
+  FormElement,
+  FormElementCategory,
+  FormElementInstance,
+  FormElementType,
+  SubmitHandler,
+} from "@/types/formElements";
+import { zodResolver } from "@hookform/resolvers/zod";
+import SubjectRoundedIcon from "@mui/icons-material/SubjectRounded";
+import { useEffect, useState } from "react";
+import { useForm } from "react-hook-form";
+import * as z from "zod";
 
 const type: FormElementType = "TextareaField";
 const category: FormElementCategory = "input";

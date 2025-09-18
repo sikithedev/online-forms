@@ -1,16 +1,15 @@
 "use client";
 
 import { getFormSubmissions } from "@/actions/forms";
-import React from "react";
 import { Form } from "@/app/generated/prisma";
-import { FormElementInstance, formElements } from "./forms/formElements";
+import { Button } from "@/components/ui/button";
 import {
   Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
-} from "./ui/card";
+} from "@/components/ui/card";
 import {
   Dialog,
   DialogContent,
@@ -18,8 +17,8 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from "./ui/dialog";
-import { Button } from "./ui/button";
+} from "@/components/ui/dialog";
+import { FormElementInstance, formElements } from "@/types/formElements";
 import { format } from "date-fns";
 
 type SubmissionsTableProps = {

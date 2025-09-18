@@ -1,7 +1,6 @@
+import { Button } from "@/components/ui/button";
 import useDesigner from "@/hooks/useDesigner";
-import React from "react";
-import { formElements } from "./forms/formElements";
-import { Button } from "./ui/button";
+import { formElements } from "@/types/formElements";
 import { X } from "lucide-react";
 
 export default function PropertiesSidebar() {

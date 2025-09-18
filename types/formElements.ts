@@ -1,14 +1,14 @@
-import { CheckboxFieldFormElement } from "./fields/CheckboxField";
-import { DateFieldFormElement } from "./fields/DateField";
-import { NumberFieldFormElement } from "./fields/NumberField";
-import { ParagraphFieldFormElement } from "./fields/ParagraphField";
-import { SelectFieldFormElement } from "./fields/SelectField";
-import { SeparatorFieldFormElement } from "./fields/SeparatorField";
-import { SpacerFieldFormElement } from "./fields/SpacerField";
-import { SubtitleFieldFormElement } from "./fields/SubtitleField";
-import { TextareaFieldFormElement } from "./fields/TextareaField";
-import { TextFieldFormElement } from "./fields/TextField";
-import { TitleFieldFormElement } from "./fields/TitleField";
+import { CheckboxFieldFormElement } from "../components/forms/fields/CheckboxField";
+import { DateFieldFormElement } from "../components/forms/fields/DateField";
+import { NumberFieldFormElement } from "../components/forms/fields/NumberField";
+import { ParagraphFieldFormElement } from "../components/forms/fields/ParagraphField";
+import { SelectFieldFormElement } from "../components/forms/fields/SelectField";
+import { SeparatorFieldFormElement } from "../components/forms/fields/SeparatorField";
+import { SpacerFieldFormElement } from "../components/forms/fields/SpacerField";
+import { SubtitleFieldFormElement } from "../components/forms/fields/SubtitleField";
+import { TextareaFieldFormElement } from "../components/forms/fields/TextareaField";
+import { TextFieldFormElement } from "../components/forms/fields/TextField";
+import { TitleFieldFormElement } from "../components/forms/fields/TitleField";
 
 export type FormElementType =
   | "TextField"

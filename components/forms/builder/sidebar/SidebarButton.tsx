@@ -1,8 +1,7 @@
-import React from "react";
-import { FormElement } from "./forms/formElements";
-import { Button } from "./ui/button";
-import { useDraggable } from "@dnd-kit/core";
+import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
+import { FormElement } from "@/types/formElements";
+import { useDraggable } from "@dnd-kit/core";
 
 type SidebarButtonProps = {
   formElement: FormElement;

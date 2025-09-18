@@ -1,5 +1,5 @@
-import Logo from "@/components/Logo";
-import { ModeToggle } from "@/components/ModeToggle";
+import Logo from "@/components/nav/Logo";
+import { ModeToggle } from "@/components/nav/ModeToggle";
 import { ReactNode } from "react";
 
 export default function Layout({ children }: { children: ReactNode }) {

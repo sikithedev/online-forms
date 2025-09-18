@@ -1,7 +1,7 @@
 import { getFormStats } from "@/actions/forms";
-import CreateFormButton from "@/components/CreateFormButton";
-import FormCards from "@/components/FormCards";
-import StatsCards from "@/components/StatsCards";
+import FormCards from "@/components/forms/dashboard/FormCards";
+import StatsCards from "@/components/forms/dashboard/StatsCards";
+import CreateFormButton from "@/components/forms/ui/CreateFormButton";
 import { Separator } from "@/components/ui/separator";
 
 export default async function Home() {

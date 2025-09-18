@@ -1,4 +1,3 @@
-import React, { ReactNode } from "react";
 import {
   Card,
   CardAction,
@@ -6,11 +5,12 @@ import {
   CardFooter,
   CardHeader,
   CardTitle,
-} from "./ui/card";
-import SortRoundedIcon from "@mui/icons-material/SortRounded";
+} from "@/components/ui/card";
 import ArrowUpwardRoundedIcon from "@mui/icons-material/ArrowUpwardRounded";
-import TaskAltRoundedIcon from "@mui/icons-material/TaskAltRounded";
 import HighlightOffRoundedIcon from "@mui/icons-material/HighlightOffRounded";
+import SortRoundedIcon from "@mui/icons-material/SortRounded";
+import TaskAltRoundedIcon from "@mui/icons-material/TaskAltRounded";
+import { ReactNode } from "react";
 
 type StatsCardsProps = {
   visits: number;

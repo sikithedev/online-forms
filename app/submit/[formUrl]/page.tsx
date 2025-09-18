@@ -1,8 +1,7 @@
 import { getFormContentByUrl } from "@/actions/forms";
-import { FormElementInstance } from "@/components/forms/formElements";
-import FormSubmit from "@/components/FormSubmit";
+import FormSubmit from "@/components/submissions/FormSubmit";
+import { FormElementInstance } from "@/types/formElements";
 import { notFound } from "next/navigation";
-import React from "react";
 
 export default async function Submit(props: {
   params: Promise<{ formUrl: string }>;

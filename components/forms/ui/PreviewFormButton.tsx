@@ -1,5 +1,4 @@
-import React from "react";
-import { Button } from "./ui/button";
+import { Button } from "@/components/ui/button";
 import {
   Dialog,
   DialogContent,
@@ -7,9 +6,9 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from "./ui/dialog";
+} from "@/components/ui/dialog";
 import useDesigner from "@/hooks/useDesigner";
-import { formElements } from "./forms/formElements";
+import { formElements } from "@/types/formElements";
 
 type PreviewFormButtonProps = {
   published: boolean;

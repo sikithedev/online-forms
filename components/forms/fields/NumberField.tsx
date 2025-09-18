@@ -1,20 +1,5 @@
 "use client";
 
-import PinRoundedIcon from "@mui/icons-material/PinRounded";
-import {
-  FormElement,
-  FormElementCategory,
-  FormElementInstance,
-  FormElementType,
-  SubmitHandler,
-} from "../formElements";
-import { Label } from "../../ui/label";
-import { Input } from "../../ui/input";
-import * as z from "zod";
-import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useEffect, useState } from "react";
-import useDesigner from "@/hooks/useDesigner";
 import {
   Form,
   FormControl,
@@ -23,11 +8,26 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "../../ui/form";
-import { Switch } from "../../ui/switch";
-import { Separator } from "../../ui/separator";
+} from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Separator } from "@/components/ui/separator";
+import { Switch } from "@/components/ui/switch";
+import useDesigner from "@/hooks/useDesigner";
 import { cn } from "@/lib/utils";
 import { numberPropertiesSchema as propertiesSchema } from "@/schemas/form";
+import {
+  FormElement,
+  FormElementCategory,
+  FormElementInstance,
+  FormElementType,
+  SubmitHandler,
+} from "@/types/formElements";
+import { zodResolver } from "@hookform/resolvers/zod";
+import PinRoundedIcon from "@mui/icons-material/PinRounded";
+import { useEffect, useState } from "react";
+import { useForm } from "react-hook-form";
+import * as z from "zod";
 
 const type: FormElementType = "NumberField";
 const category: FormElementCategory = "input";
