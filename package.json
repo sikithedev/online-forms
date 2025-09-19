@@ -1,6 +1,6 @@
 {
   "name": "online-forms",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "private": true,
   "scripts": {
     "dev": "next dev --turbopack",
@@ -48,8 +48,6 @@
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
-    "eslint": "^9.35.0",
-    "eslint-config-next": "15.5.3",
     "prisma": "^6.16.2",
     "tailwindcss": "^4",
     "tsx": "^4.20.5",
