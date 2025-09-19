@@ -2,7 +2,7 @@
 
 import { prisma } from "@/lib/prisma";
 import { formSchema } from "@/schemas/form";
-import { currentUser } from "@clerk/nextjs/server";
+import { clerkClient, currentUser } from "@clerk/nextjs/server";
 import * as z from "zod";
 
 async function requireUser() {
@@ -59,11 +59,28 @@ export async function getForms() {
 }
 
 export async function getFormSubmissions(id: number) {
-  const { id: userId } = await requireUser();
+  await requireUser();
 
-  return await prisma.submissions.findMany({
-    where: { formId: id, form: { userId } },
+  const submissions = await prisma.submissions.findMany({
+    where: { formId: id },
+    orderBy: { createdAt: "desc" },
   });
+
+  const userIds = submissions.map((s) => s.userId);
+  const users = await (
+    await clerkClient()
+  ).users.getUserList({ userId: userIds });
+
+  const submissionsWithUsers = submissions.map((s) => {
+    const user = users.data.find((u) => u.id === s.userId);
+    return {
+      ...s,
+      userName: user?.firstName ?? "Unknown",
+      userEmail: user?.emailAddresses[0].emailAddress ?? "Unknown",
+    };
+  });
+
+  return submissionsWithUsers;
 }
 
 export async function getFormById(
@@ -95,22 +112,31 @@ export async function publishFormById(id: number, content: string) {
   });
 }
 
-export async function getFormContentByUrl(formUrl: string) {
+export async function getFormByUrl(formUrl: string) {
   return await prisma.form.update({
     where: { shareUrl: formUrl, published: true },
     data: { visits: { increment: 1 } },
-    select: { content: true },
   });
 }
 
 export async function submitForm(formUrl: string, content: string) {
-  return await prisma.form.update({
+  const { id: userId } = await requireUser();
+
+  const form = await prisma.form.findUnique({
     where: { shareUrl: formUrl, published: true },
-    data: {
-      submissions: {
-        create: { content },
-      },
-    },
+  });
+  if (!form) throw new Error("Form not found");
+
+  const existingSubmission = await prisma.submissions.findFirst({
+    where: { formId: form.id, userId },
+  });
+
+  if (existingSubmission) {
+    throw new Error("You have already submitted this form");
+  }
+
+  return await prisma.submissions.create({
+    data: { formId: form.id, content, userId },
   });
 }
 
@@ -119,5 +145,13 @@ export async function deleteFormById(id: number) {
 
   return await prisma.form.deleteMany({
     where: { id, userId },
+  });
+}
+
+export async function getUserSubmissionForForm(formId: number) {
+  const { id: userId } = await requireUser();
+
+  return await prisma.submissions.findFirst({
+    where: { formId, userId },
   });
 }

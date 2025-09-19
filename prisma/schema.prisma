@@ -16,12 +16,12 @@ datasource db {
 
 model Form {
   id          Int           @id @default(autoincrement())
-  createdAt   DateTime      @default(now())
   userId      String
-  published   Boolean       @default(false)
+  createdAt   DateTime      @default(now())
   name        String
   description String        @default("")
   content     String        @default("[]")
+  published   Boolean       @default(false)
   visits      Int           @default(0)
   shareUrl    String        @unique @default(uuid())
   submissions Submissions[]
@@ -31,8 +31,9 @@ model Form {
 
 model Submissions {
   id        Int      @id @default(autoincrement())
+  userId    String
   createdAt DateTime @default(now())
-  form      Form     @relation(fields: [formId], references: [id], onDelete: Cascade)
-  formId    Int
   content   String
+  formId    Int
+  form      Form     @relation(fields: [formId], references: [id], onDelete: Cascade)
 }
