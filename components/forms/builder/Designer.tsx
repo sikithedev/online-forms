@@ -201,37 +201,40 @@ function DesignerElement({
       {isLast ? (
         <div
           ref={bottomHalf.setNodeRef}
-          className="absolute top-1/2 w-full h-[calc(50%+80px+1rem)] rounded-b-md"
+          className="absolute top-1/2 w-full h-[calc(50%+80px+1rem)] rounded-b-md pointer-events-none"
         />
       ) : (
         <div
           ref={bottomHalf.setNodeRef}
-          className="absolute bottom-0 w-full h-1/2 rounded-b-md"
+          className="absolute bottom-0 w-full h-1/2 rounded-b-md pointer-events-none"
         />
       )}
 
-      {isMouseOver && (
-        <>
-          <div className="absolute top-1/2 left-1/2 -translate-1/2 animate-pulse">
-            <p className="text-muted-foreground text-sm text-center">
-              Click to show properties or drag to move
-            </p>
-          </div>
-          <div className="absolute right-0 p-2">
-            <Button
-              onClick={(e) => {
-                e.stopPropagation();
-                setSelectedElement(null);
-                removeElement(element.id);
-              }}
-              variant="destructive"
-              className="cursor-pointer"
-            >
-              <Trash2 />
-            </Button>
-          </div>
-        </>
-      )}
+      <div
+        className={cn(
+          "transition-all",
+          isMouseOver ? "opacity-100" : "opacity-0"
+        )}
+      >
+        <div className="absolute top-1/2 left-1/2 -translate-1/2 animate-pulse">
+          <p className="text-muted-foreground text-sm text-center">
+            Click to show properties or drag to move
+          </p>
+        </div>
+        <div className="absolute right-0 p-2">
+          <Button
+            onClick={(e) => {
+              e.stopPropagation();
+              setSelectedElement(null);
+              removeElement(element.id);
+            }}
+            variant="destructive"
+            className="cursor-pointer"
+          >
+            <Trash2 />
+          </Button>
+        </div>
+      </div>
 
       {topHalf.isOver && (
         <div className="absolute -top-3 w-full h-2 rounded-md bg-primary/10"></div>
@@ -239,7 +242,7 @@ function DesignerElement({
 
       <div
         className={cn(
-          "w-full flex items-center rounded-md p-4 pointer-events-none bg-accent/40",
+          "w-full flex items-center rounded-md p-4 pointer-events-none bg-accent/40 transition-all",
           isMouseOver && "opacity-30"
         )}
       >
