@@ -13,7 +13,7 @@ import {
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
 import { Button } from "@/components/ui/button";
-import { LoaderCircle } from "lucide-react";
+import { LoaderCircle, Trash2 } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useTransition } from "react";
 import { toast } from "sonner";
@@ -39,7 +39,12 @@ export default function DeleteFormButton({ id }: DeleteFormButtonProps) {
   return (
     <AlertDialog>
       <AlertDialogTrigger asChild>
-        <Button variant="destructive">Delete</Button>
+        <Button
+          variant="outline"
+          className="hover:text-white hover:bg-destructive/90 hover:border-destructive/0 dark:hover:bg-destructive/60 dark:hover:border-destructive/0"
+        >
+          <Trash2 strokeWidth={1.75} />
+        </Button>
       </AlertDialogTrigger>
       <AlertDialogContent>
         <AlertDialogHeader>
