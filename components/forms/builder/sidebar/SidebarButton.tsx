@@ -22,7 +22,10 @@ export default function SidebarButton({ formElement }: SidebarButtonProps) {
       {...listeners}
       {...attributes}
       variant="outline"
-      className={cn("w-full flex justify-between", isDragging && "border-3")}
+      className={cn(
+        "w-full flex justify-between cursor-grab",
+        isDragging && "border-3"
+      )}
     >
       <SidebarButtonContent formElement={formElement} />
     </Button>
@@ -33,7 +36,7 @@ export function SidebarButtonDragOverlay({ formElement }: SidebarButtonProps) {
   return (
     <Button
       variant="outline"
-      className="w-full flex justify-between cursor-grab"
+      className="w-full flex justify-between cursor-grabbing"
     >
       <SidebarButtonContent formElement={formElement} />
     </Button>
