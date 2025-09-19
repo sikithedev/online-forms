@@ -18,7 +18,7 @@ type StatsCardsProps = {
   allForms?: boolean;
 };
 
-export default async function StatsCards({
+export default function StatsCards({
   visits,
   submissions,
   allForms = false,
