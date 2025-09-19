@@ -1,6 +1,6 @@
 import Logo from "@/components/nav/Logo";
 import { ModeToggle } from "@/components/nav/ModeToggle";
-import { UserButton } from "@clerk/nextjs";
+import UserProfileButton from "@/components/nav/UserProfileButton";
 import { ReactNode } from "react";
 
 export default function Layout({ children }: { children: ReactNode }) {
@@ -10,7 +10,7 @@ export default function Layout({ children }: { children: ReactNode }) {
         <Logo />
         <div className="flex gap-4 items-center">
           <ModeToggle />
-          <UserButton />
+          <UserProfileButton />
         </div>
       </nav>
       <main className="flex grow w-full">{children}</main>

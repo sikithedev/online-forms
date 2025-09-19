@@ -6,10 +6,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import ArrowUpwardRoundedIcon from "@mui/icons-material/ArrowUpwardRounded";
-import HighlightOffRoundedIcon from "@mui/icons-material/HighlightOffRounded";
-import SortRoundedIcon from "@mui/icons-material/SortRounded";
-import TaskAltRoundedIcon from "@mui/icons-material/TaskAltRounded";
+import { ArrowUp, CircleCheckBig, CircleX, SquareMenu } from "lucide-react";
 import { ReactNode } from "react";
 
 type StatsCardsProps = {
@@ -33,25 +30,25 @@ export default function StatsCards({
       description: allForms
         ? "Number of times the forms have been viewed"
         : "Number of times this form has been viewed",
-      icon: <SortRoundedIcon />,
+      icon: <SquareMenu strokeWidth={1.5} />,
     },
     {
       title: "Form submissions",
       value: submissions,
       description: "Number of completed form submissions",
-      icon: <ArrowUpwardRoundedIcon />,
+      icon: <ArrowUp strokeWidth={1.5} />,
     },
     {
       title: "Completion rate",
       value: `${completionRate.toFixed(2)}%`,
       description: "Percentage of views that resulted in a submission",
-      icon: <TaskAltRoundedIcon />,
+      icon: <CircleCheckBig strokeWidth={1.5} />,
     },
     {
       title: "Abandon rate",
       value: `${abandonRate.toFixed(2)}%`,
       description: "Percentage of views that ended without a submission",
-      icon: <HighlightOffRoundedIcon />,
+      icon: <CircleX strokeWidth={1.5} />,
     },
   ];
 

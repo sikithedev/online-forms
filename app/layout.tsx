@@ -29,7 +29,12 @@ export default function RootLayout({
             disableTransitionOnChange
           >
             {children}
-            <Toaster richColors />
+            <Toaster
+              richColors
+              toastOptions={{
+                className: inter.className,
+              }}
+            />
           </ThemeProvider>
         </body>
       </html>
