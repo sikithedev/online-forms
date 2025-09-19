@@ -34,6 +34,17 @@ export async function createForm(data: z.infer<typeof formSchema>) {
   const parsed = formSchema.parse(data);
   const { id: userId } = await requireUser();
 
+  const existingForm = await prisma.form.findFirst({
+    where: {
+      name: parsed.name,
+      userId,
+    },
+  });
+
+  if (existingForm) {
+    throw new Error(`You already have a form named "${parsed.name}"`);
+  }
+
   const form = await prisma.form.create({
     data: { ...parsed, userId },
   });
