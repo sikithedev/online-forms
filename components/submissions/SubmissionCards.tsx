@@ -33,30 +33,45 @@ export default function SubmissionCards({
   const elements = JSON.parse(form.content) as FormElementInstance[];
 
   return (
-    <div className="grid gap-4 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+    <div className="grid gap-4 grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
       {submissions.map((submission, index) => {
         const submissionContent = JSON.parse(submission.content);
 
         return (
-          <Card key={submission.id}>
+          <Card key={submission.id} className="w-full">
             <CardHeader>
               <CardTitle>Submission #{index + 1}</CardTitle>
-              <CardDescription>
-                Submitted:{" "}
-                {format(submission.createdAt, "MMM d, yyyy 'at' h:mm a")}
+              <CardDescription className="truncate">
+                <p>Name: {submission.userName}</p>
+                <p className="truncate">Email: {submission.userEmail}</p>
+                <p>
+                  Submitted:{" "}
+                  {format(submission.createdAt, "MMM d, yyyy 'at' h:mm a")}
+                </p>
               </CardDescription>
             </CardHeader>
             <CardContent>
               <Dialog>
-                <DialogTrigger asChild>
-                  <Button variant="outline">View submission</Button>
+                <DialogTrigger asChild className="flex">
+                  <Button variant="outline" className="ml-auto">
+                    View submission
+                  </Button>
                 </DialogTrigger>
                 <DialogContent>
                   <DialogHeader className="mb-2">
                     <DialogTitle>Submission #{index + 1}</DialogTitle>
-                    <DialogDescription>
-                      This is a preview of the form submission.
-                    </DialogDescription>
+
+                    <div className="text-muted-foreground text-sm break-all">
+                      <p>Name: {submission.userName}</p>
+                      <p>Email: {submission.userEmail}</p>
+                      <p>
+                        Submitted:{" "}
+                        {format(
+                          submission.createdAt,
+                          "MMM d, yyyy 'at' h:mm a"
+                        )}
+                      </p>
+                    </div>
                   </DialogHeader>
                   <div className="max-h-[400px] grid grid-cols-1 gap-4 overflow-y-auto">
                     {elements.map((element) => {

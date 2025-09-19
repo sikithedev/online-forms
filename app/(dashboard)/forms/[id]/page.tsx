@@ -4,6 +4,7 @@ import DeleteFormButton from "@/components/forms/ui/DeleteFormButton";
 import FormLinkShare from "@/components/forms/ui/FormLinkShare";
 import ViewFormButton from "@/components/forms/ui/ViewFormButton";
 import SubmissionCards from "@/components/submissions/SubmissionCards";
+import { Separator } from "@/components/ui/separator";
 import { notFound } from "next/navigation";
 
 export default async function Details(props: {
@@ -35,10 +36,10 @@ export default async function Details(props: {
         </div>
       </div>
 
-      <StatsCards visits={visits} submissions={submissions.length} />
-
-      <div className="py-8">
-        <h1 className="text-2xl font-bold my-4">Submissions</h1>
+      <div className="space-y-4">
+        <StatsCards visits={visits} submissions={submissions.length} />
+        <Separator />
+        <h3 className="text-2xl font-semibold tracking-tight">Submissions</h3>
         <SubmissionCards form={form} submissions={submissions} />
       </div>
     </div>

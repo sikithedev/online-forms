@@ -2,6 +2,7 @@
 
 import { submitForm } from "@/actions/forms";
 import { Button } from "@/components/ui/button";
+import { Separator } from "@/components/ui/separator";
 import { FormElementInstance, formElements } from "@/types/formElements";
 import { LoaderCircle } from "lucide-react";
 import { useRef, useState, useTransition } from "react";
@@ -58,8 +59,11 @@ export default function FormSubmit({ formUrl, content }: FormSubmitProps) {
     return (
       <div className="w-full h-full flex justify-center items-center p-4 text-center">
         <div className="w-full max-w-md space-y-4 p-8 border rounded-md">
-          <h2 className="text-3xl font-bold">Thank you!</h2>
-          <p>Your response has been recorded.</p>
+          <h2 className="text-3xl font-semibold tracking-tight">Thank you!</h2>
+          <Separator />
+          <p className="text-muted-foreground">
+            Your response has been successfully recorded.
+          </p>
         </div>
       </div>
     );
