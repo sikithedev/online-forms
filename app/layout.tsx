@@ -18,7 +18,12 @@ export default function RootLayout({
   return (
     <ClerkProvider
       afterSignOutUrl="/sign-in"
-      appearance={{ baseTheme: shadcn }}
+      appearance={{
+        baseTheme: shadcn,
+        layout: {
+          unsafe_disableDevelopmentModeWarnings: true,
+        },
+      }}
     >
       <html lang="en" suppressHydrationWarning>
         <body className={`${inter.className} antialiased`}>
