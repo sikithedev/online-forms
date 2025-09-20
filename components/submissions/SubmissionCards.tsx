@@ -57,7 +57,7 @@ export default function SubmissionCards({
                     View submission
                   </Button>
                 </DialogTrigger>
-                <DialogContent>
+                <DialogContent aria-describedby={undefined}>
                   <DialogHeader className="mb-2">
                     <DialogTitle>Submission #{index + 1}</DialogTitle>
 

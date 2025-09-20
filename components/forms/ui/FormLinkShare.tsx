@@ -6,15 +6,15 @@ import { Input } from "@/components/ui/input";
 import { toast } from "sonner";
 
 type FormLinkShareProps = {
-  shareUrl: string;
+  id: string;
 };
 
-export default function FormLinkShare({ shareUrl }: FormLinkShareProps) {
+export default function FormLinkShare({ id }: FormLinkShareProps) {
   const [shareLink, setShareLink] = useState("");
 
   useEffect(() => {
-    setShareLink(`${window.location.origin}/submit/${shareUrl}`);
-  }, [shareUrl]);
+    setShareLink(`${window.location.origin}/submit/${id}`);
+  }, [id]);
 
   function handleClick() {
     navigator.clipboard.writeText(shareLink);

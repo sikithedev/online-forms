@@ -1,18 +1,20 @@
-import { getFormByUrl, getUserSubmissionForForm } from "@/actions/forms";
+import {
+  incrementFormVisits,
+  getUserSubmissionForForm,
+  getForm,
+} from "@/actions/forms";
 import FormSubmit from "@/components/submissions/FormSubmit";
 import { Separator } from "@/components/ui/separator";
 import { FormElementInstance } from "@/types/formElements";
-
 import { notFound } from "next/navigation";
 
 export default async function Submit(props: {
-  params: Promise<{ formUrl: string }>;
+  params: Promise<{ id: string }>;
 }) {
-  const { formUrl } = await props.params;
-  let form;
-  try {
-    form = await getFormByUrl(formUrl);
-  } catch (e) {
+  const { id } = await props.params;
+  const form = await getForm(id, { published: true });
+
+  if (!form) {
     notFound();
   }
 
@@ -35,7 +37,9 @@ export default async function Submit(props: {
     );
   }
 
+  incrementFormVisits(id);
+
   const formContent = JSON.parse(form.content) as FormElementInstance[];
 
-  return <FormSubmit formUrl={formUrl} content={formContent} />;
+  return <FormSubmit id={id} content={formContent} />;
 }

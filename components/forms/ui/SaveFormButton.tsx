@@ -6,7 +6,7 @@ import { useTransition } from "react";
 import { toast } from "sonner";
 
 type SaveFormButtonProps = {
-  id: number;
+  id: string;
 };
 
 export default function SaveFormButton({ id }: SaveFormButtonProps) {

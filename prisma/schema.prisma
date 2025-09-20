@@ -15,25 +15,24 @@ datasource db {
 }
 
 model Form {
-  id          Int           @id @default(autoincrement())
+  id          String       @id @default(cuid(2))
   userId      String
-  createdAt   DateTime      @default(now())
+  createdAt   DateTime     @default(now())
   name        String
-  description String        @default("")
-  content     String        @default("[]")
-  published   Boolean       @default(false)
-  visits      Int           @default(0)
-  shareUrl    String        @unique @default(uuid())
-  submissions Submissions[]
+  description String       @default("")
+  content     String       @default("[]")
+  published   Boolean      @default(false)
+  visits      Int          @default(0)
+  submissions Submission[]
 
   @@unique([name, userId])
 }
 
-model Submissions {
-  id        Int      @id @default(autoincrement())
+model Submission {
+  id        String   @id @default(cuid(2))
   userId    String
   createdAt DateTime @default(now())
   content   String
-  formId    Int
+  formId    String
   form      Form     @relation(fields: [formId], references: [id], onDelete: Cascade)
 }

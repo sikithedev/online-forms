@@ -3,12 +3,12 @@
 import { Button } from "@/components/ui/button";
 
 type ViewFormButtonProps = {
-  shareUrl: string;
+  id: string;
 };
 
-export default function ViewFormButton({ shareUrl }: ViewFormButtonProps) {
+export default function ViewFormButton({ id }: ViewFormButtonProps) {
   const handleClick = () => {
-    const shareLink = `${window.location.origin}/submit/${shareUrl}`;
+    const shareLink = `${window.location.origin}/submit/${id}`;
     window.open(shareLink, "_blank");
   };
 

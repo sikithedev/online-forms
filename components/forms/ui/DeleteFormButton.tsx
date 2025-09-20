@@ -1,6 +1,6 @@
 "use client";
 
-import { deleteFormById } from "@/actions/forms";
+import { deleteForm } from "@/actions/forms";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -26,9 +26,9 @@ export default function DeleteFormButton({ id }: DeleteFormButtonProps) {
   const router = useRouter();
   const [isPending, startTransition] = useTransition();
 
-  async function deleteForm() {
+  async function handleDelete() {
     try {
-      await deleteFormById(Number(id));
+      await deleteForm(id);
       toast.success("Form deleted successfully");
       router.push("/");
     } catch (error) {
@@ -58,7 +58,7 @@ export default function DeleteFormButton({ id }: DeleteFormButtonProps) {
           <AlertDialogAction
             onClick={(e) => {
               e.preventDefault();
-              startTransition(deleteForm);
+              startTransition(handleDelete);
             }}
             disabled={isPending}
             className="min-w-24"

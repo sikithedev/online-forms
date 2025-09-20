@@ -38,6 +38,9 @@ export default function RootLayout({
               richColors
               toastOptions={{
                 className: inter.className,
+                style: {
+                  letterSpacing: "var(--tracking-tight)",
+                },
               }}
             />
           </ThemeProvider>

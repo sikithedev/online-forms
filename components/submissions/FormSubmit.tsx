@@ -9,11 +9,11 @@ import { useRef, useState, useTransition } from "react";
 import { toast } from "sonner";
 
 type FormSubmitProps = {
-  formUrl: string;
+  id: string;
   content: FormElementInstance[];
 };
 
-export default function FormSubmit({ formUrl, content }: FormSubmitProps) {
+export default function FormSubmit({ id, content }: FormSubmitProps) {
   const values = useRef<{ [key: string]: string }>({});
   const errors = useRef<{ [key: string]: boolean }>({});
   const [, setRerender] = useState(0); // State to force re-render
@@ -47,7 +47,7 @@ export default function FormSubmit({ formUrl, content }: FormSubmitProps) {
 
     try {
       const content = JSON.stringify(values.current);
-      await submitForm(formUrl, content);
+      await submitForm(id, content);
       setSubmitted(true);
       toast.success("Form submitted successfully!");
     } catch (error) {

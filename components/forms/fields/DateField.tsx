@@ -149,7 +149,7 @@ function FormComponent({
       <Popover open={open} onOpenChange={setOpen}>
         <PopoverTrigger asChild>
           <Button
-            disabled
+            disabled={disabled}
             variant="outline"
             className={cn(
               "w-52 justify-between font-normal text-muted-foreground disabled:opacity-100",

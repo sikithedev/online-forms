@@ -1,4 +1,4 @@
-import { getFormById, getFormSubmissions } from "@/actions/forms";
+import { getForm, getFormSubmissions } from "@/actions/forms";
 import StatsCards from "@/components/forms/dashboard/StatsCards";
 import DeleteFormButton from "@/components/forms/ui/DeleteFormButton";
 import FormLinkShare from "@/components/forms/ui/FormLinkShare";
@@ -11,13 +11,17 @@ export default async function Details(props: {
   params: Promise<{ id: string }>;
 }) {
   const { id } = await props.params;
-  const form = await getFormById(Number(id), { published: true });
+  const form = await getForm(id, {
+    currentUser: true,
+    published: true,
+  });
+
   if (!form) {
     notFound();
   }
 
   const { visits } = form;
-  const submissions = await getFormSubmissions(Number(id));
+  const submissions = await getFormSubmissions(id);
 
   return (
     <div className="container mx-auto px-4">
@@ -27,12 +31,12 @@ export default async function Details(props: {
         </h1>
         <div className="flex gap-2">
           <DeleteFormButton id={id} />
-          <ViewFormButton shareUrl={form.shareUrl} />
+          <ViewFormButton id={form.id} />
         </div>
       </div>
       <div className="border-b border-muted py-4">
         <div className="ml-auto">
-          <FormLinkShare shareUrl={form.shareUrl} />
+          <FormLinkShare id={form.id} />
         </div>
       </div>
 

@@ -1,4 +1,4 @@
-import { publishFormById } from "@/actions/forms";
+import { publishForm } from "@/actions/forms";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -19,7 +19,7 @@ import { useTransition } from "react";
 import { toast } from "sonner";
 
 type PublishFormButtonProps = {
-  id: number;
+  id: string;
 };
 
 export default function PublishFormButton({ id }: PublishFormButtonProps) {
@@ -27,7 +27,7 @@ export default function PublishFormButton({ id }: PublishFormButtonProps) {
   const { elements } = useDesigner();
   const [isPending, startTransition] = useTransition();
 
-  async function publishForm() {
+  async function handlePublish() {
     try {
       if (
         !elements.some((el) =>
@@ -42,7 +42,7 @@ export default function PublishFormButton({ id }: PublishFormButtonProps) {
 
       const content = JSON.stringify(elements);
 
-      await publishFormById(id, content);
+      await publishForm(id, content);
       toast.success("Form published successfully");
       router.refresh();
     } catch (error) {
@@ -68,7 +68,7 @@ export default function PublishFormButton({ id }: PublishFormButtonProps) {
           <AlertDialogAction
             onClick={(e) => {
               e.preventDefault();
-              startTransition(publishForm);
+              startTransition(handlePublish);
             }}
             disabled={isPending}
             className="min-w-24"

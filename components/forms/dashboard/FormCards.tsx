@@ -48,7 +48,7 @@ function FormCard({ form }: FormCardProps) {
           )}
         </CardAction>
       </CardHeader>
-      <CardContent className="grow tracking-tight break-words">
+      <CardContent className="grow tracking-tight text-primary break-words">
         {form.description || "No description"}
       </CardContent>
       {form.published ? (

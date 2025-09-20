@@ -59,7 +59,7 @@ export default function FormBuilder({ form }: FormBuilderProps) {
             Anyone with the link can view and submit the form
           </p>
           <div className="w-full mb-2">
-            <FormLinkShare shareUrl={form.shareUrl} />
+            <FormLinkShare id={form.id} />
           </div>
           <Separator />
           <div className="flex justify-between">
