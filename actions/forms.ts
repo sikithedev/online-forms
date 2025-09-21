@@ -30,28 +30,6 @@ export async function getFormStats() {
   };
 }
 
-export async function createForm(data: z.infer<typeof formSchema>) {
-  const parsed = formSchema.parse(data);
-  const { id: userId } = await requireUser();
-
-  const existingForm = await prisma.form.findFirst({
-    where: {
-      name: parsed.name,
-      userId,
-    },
-  });
-
-  if (existingForm) {
-    throw new Error(`You already have a form named "${parsed.name}"`);
-  }
-
-  const form = await prisma.form.create({
-    data: { ...parsed, userId },
-  });
-
-  return form.id;
-}
-
 export async function getForms() {
   const { id: userId } = await requireUser();
 
@@ -67,6 +45,24 @@ export async function getForms() {
     ...form,
     submissions: form._count.submissions,
   }));
+}
+
+export async function getForm(
+  formId: string,
+  options?: {
+    currentUser?: boolean;
+    published?: boolean;
+  }
+) {
+  const { id: userId } = await requireUser();
+
+  return await prisma.form.findUnique({
+    where: {
+      id: formId,
+      ...(options?.currentUser && { userId }),
+      published: options?.published,
+    },
+  });
 }
 
 export async function getFormSubmissions(formId: string) {
@@ -94,21 +90,66 @@ export async function getFormSubmissions(formId: string) {
   return submissionsWithUsers;
 }
 
-export async function getForm(
-  formId: string,
-  options?: {
-    currentUser?: boolean;
-    published?: boolean;
-  }
-) {
+export async function getUserSubmissionForForm(formId: string) {
   const { id: userId } = await requireUser();
 
-  return await prisma.form.findUnique({
+  return await prisma.submission.findFirst({
+    where: { formId, userId },
+  });
+}
+
+export async function createForm(
+  data: z.infer<typeof formSchema>,
+  limit: number = 10
+) {
+  const parsed = formSchema.parse(data);
+  const { id: userId } = await requireUser();
+
+  const formCount = await prisma.form.count({ where: { userId } });
+
+  if (formCount >= limit) {
+    throw new Error(`You have reached the maximum limit of ${limit} forms`);
+  }
+
+  const existingForm = await prisma.form.findFirst({
     where: {
-      id: formId,
-      ...(options?.currentUser && { userId }),
-      published: options?.published,
+      name: parsed.name,
+      userId,
     },
+  });
+
+  if (existingForm) {
+    throw new Error(`You already have a form named "${parsed.name}"`);
+  }
+
+  const form = await prisma.form.create({
+    data: { ...parsed, userId },
+  });
+
+  return form.id;
+}
+
+export async function submitForm(formId: string, content: string) {
+  const { id: userId } = await requireUser();
+
+  const form = await prisma.form.findUnique({
+    where: { id: formId, published: true },
+  });
+
+  if (!form) {
+    throw new Error("Form not found");
+  }
+
+  const existingSubmission = await prisma.submission.findFirst({
+    where: { formId: form.id, userId },
+  });
+
+  if (existingSubmission) {
+    throw new Error("You have already submitted this form");
+  }
+
+  return await prisma.submission.create({
+    data: { formId: form.id, userId, content },
   });
 }
 
@@ -137,30 +178,6 @@ export async function incrementFormVisits(formId: string) {
   });
 }
 
-export async function submitForm(formId: string, content: string) {
-  const { id: userId } = await requireUser();
-
-  const form = await prisma.form.findUnique({
-    where: { id: formId, published: true },
-  });
-
-  if (!form) {
-    throw new Error("Form not found");
-  }
-
-  const existingSubmission = await prisma.submission.findFirst({
-    where: { formId: form.id, userId },
-  });
-
-  if (existingSubmission) {
-    throw new Error("You have already submitted this form");
-  }
-
-  return await prisma.submission.create({
-    data: { formId: form.id, userId, content },
-  });
-}
-
 export async function deleteForm(formId: string) {
   const { id: userId } = await requireUser();
 
@@ -169,10 +186,8 @@ export async function deleteForm(formId: string) {
   });
 }
 
-export async function getUserSubmissionForForm(formId: string) {
-  const { id: userId } = await requireUser();
-
-  return await prisma.submission.findFirst({
-    where: { formId, userId },
+export async function deleteSubmission(submissionId: string) {
+  return await prisma.submission.delete({
+    where: { id: submissionId },
   });
 }
