@@ -25,20 +25,23 @@ export default async function Details(props: {
 
   return (
     <div className="container mx-auto px-4">
-      <div className="border-b border-muted py-4 flex justify-between items-center gap-2">
-        <h1 className="text-3xl font-semibold tracking-tight truncate">
-          <span className="text-muted-foreground">Form:</span> {form.name}
-        </h1>
-        <div className="flex gap-2">
-          <DeleteFormButton id={id} />
-          <ViewFormButton id={form.id} />
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 py-4">
+        <h2 className="text-2xl font-semibold tracking-tight truncate flex items-center gap-2">
+          <span className="text-muted-foreground">Form:</span>
+          {form.name}
+        </h2>
+
+        <div className="flex items-center gap-2 justify-between sm:justify-end">
+          <FormLinkShare id={form.id} variant="secondary" className="grow-0" />
+          <div className="flex items-center gap-2">
+            <div className="border-r h-6 hidden sm:block"></div>
+            <DeleteFormButton id={id} />
+            <ViewFormButton id={form.id} />
+          </div>
         </div>
       </div>
-      <div className="border-b border-muted py-4">
-        <div className="ml-auto">
-          <FormLinkShare id={form.id} />
-        </div>
-      </div>
+
+      <Separator />
 
       <div className="space-y-4">
         <StatsCards visits={visits} submissions={submissions.length} />

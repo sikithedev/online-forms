@@ -217,7 +217,7 @@ function DesignerElement({
         )}
       >
         <div className="absolute top-1/2 left-1/2 -translate-1/2 animate-pulse">
-          <p className="text-muted-foreground text-sm text-center">
+          <p className="text-muted-foreground text-xs sm:text-sm text-center">
             Click to show properties or drag to move
           </p>
         </div>

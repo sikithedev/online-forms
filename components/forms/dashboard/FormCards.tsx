@@ -14,13 +14,11 @@ import {
 import { formatDistance } from "date-fns";
 import Link from "next/link";
 
-type FormCardProps = {
-  form: Form & { submissions: number };
+type FormCardsProps = {
+  forms: (Form & { submissions: number })[];
 };
 
-export default async function FormCards() {
-  const forms = await getForms();
-
+export default async function FormCards({ forms }: FormCardsProps) {
   return (
     <>
       {forms.map((form) => (
@@ -29,6 +27,10 @@ export default async function FormCards() {
     </>
   );
 }
+
+type FormCardProps = {
+  form: Form & { submissions: number };
+};
 
 function FormCard({ form }: FormCardProps) {
   return (

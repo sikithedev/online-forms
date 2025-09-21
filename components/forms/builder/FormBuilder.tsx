@@ -59,7 +59,7 @@ export default function FormBuilder({ form }: FormBuilderProps) {
             Anyone with the link can view and submit the form
           </p>
           <div className="w-full mb-2">
-            <FormLinkShare id={form.id} />
+            <FormLinkShare id={form.id} showLink />
           </div>
           <Separator />
           <div className="flex justify-between">
@@ -86,7 +86,7 @@ export default function FormBuilder({ form }: FormBuilderProps) {
             <PreviewFormButton published={form.published} />
             {!form.published && (
               <>
-                <Separator orientation="vertical" />
+                <div className="border-r h-6"></div>
                 <DeleteFormButton id={form.id.toString()} />
                 <SaveFormButton id={form.id} />
                 <PublishFormButton id={form.id} />

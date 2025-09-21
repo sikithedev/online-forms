@@ -21,7 +21,7 @@ export default function PreviewFormButton({
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <Button variant="outline">Preview</Button>
+        <Button variant="secondary">Preview</Button>
       </DialogTrigger>
       <DialogContent>
         <DialogHeader className="mb-2">

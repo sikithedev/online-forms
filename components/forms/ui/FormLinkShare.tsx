@@ -1,15 +1,24 @@
 "use client";
 
-import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { cn } from "@/lib/utils";
+import { useEffect, useState } from "react";
 import { toast } from "sonner";
 
 type FormLinkShareProps = {
   id: string;
+  variant?: "default" | "secondary";
+  showLink?: boolean;
+  className?: string;
 };
 
-export default function FormLinkShare({ id }: FormLinkShareProps) {
+export default function FormLinkShare({
+  id,
+  variant = "default",
+  showLink,
+  className,
+}: FormLinkShareProps) {
   const [shareLink, setShareLink] = useState("");
 
   useEffect(() => {
@@ -22,9 +31,11 @@ export default function FormLinkShare({ id }: FormLinkShareProps) {
   }
 
   return (
-    <div className="flex grow items-center gap-2">
-      <Input readOnly value={shareLink} />
-      <Button onClick={handleClick}>Copy link</Button>
+    <div className={cn("flex grow items-center gap-2", className)}>
+      {showLink && <Input readOnly value={shareLink} />}
+      <Button variant={variant} onClick={handleClick}>
+        Copy link
+      </Button>
     </div>
   );
 }
