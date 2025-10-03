@@ -7,7 +7,8 @@ export default function Logo() {
       href="/"
       className="font-bold inline-flex items-center justify-center gap-2"
     >
-      <FileStack size={20} /> OnlineForms
+      <FileStack size={20} />{" "}
+      <span className="text-sm md:text-md">OnlineForms</span>
     </Link>
   );
 }

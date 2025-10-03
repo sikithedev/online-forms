@@ -1,10 +1,18 @@
 import { getForms, getFormStats } from "@/actions/forms";
 import FormCards from "@/components/forms/dashboard/FormCards";
+import Hero from "@/components/forms/dashboard/Hero";
 import StatsCards from "@/components/forms/dashboard/StatsCards";
 import CreateFormButton from "@/components/forms/ui/CreateFormButton";
 import { Separator } from "@/components/ui/separator";
+import { auth } from "@clerk/nextjs/server";
 
 export default async function Home() {
+  const { isAuthenticated } = await auth();
+
+  if (!isAuthenticated) {
+    return <Hero />;
+  }
+
   const { visits, submissions } = await getFormStats();
   const forms = await getForms();
 
