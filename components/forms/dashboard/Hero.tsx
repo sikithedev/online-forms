@@ -1,19 +1,22 @@
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { SignInButton, SignUpButton } from "@clerk/nextjs";
-import { ArrowUpRight } from "lucide-react";
 
 export default function Hero() {
   return (
     <div className="mx-auto flex items-center justify-center p-4">
       <div
-        className="absolute inset-0"
+        className="absolute inset-0 z-0"
         style={{
           backgroundImage: `
-        linear-gradient(45deg, transparent 49%, var(--accent) 49%, var(--accent) 51%, transparent 51%),
-        linear-gradient(-45deg, transparent 49%, var(--accent) 49%, var(--accent) 51%, transparent 51%)
+        linear-gradient(to right, var(--accent) 1px, transparent 1px),
+        linear-gradient(to bottom, var(--color-accent) 1px, transparent 1px)
       `,
-          backgroundSize: "40px 40px",
+          backgroundSize: "20px 30px",
+          WebkitMaskImage:
+            "radial-gradient(ellipse 70% 60% at 50% 0%, #000 60%, transparent 100%)",
+          maskImage:
+            "radial-gradient(ellipse 70% 60% at 50% 0%, #000 60%, transparent 100%)",
         }}
       />
       <div className="w-full relative">
